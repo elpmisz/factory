@@ -21,7 +21,7 @@ class AssetChecklist
 
   public function checklist_create($data)
   {
-    $sql = "INSERT INTO factory.checklist(uuid,name,type_id,reference_id) VALUES(UUID(),?,?,?)";
+    $sql = "INSERT INTO factory.asset_checklist(uuid,name,type_id,reference_id) VALUES(UUID(),?,?,?)";
     $stmt = $this->dbcon->prepare($sql);
     return $stmt->execute($data);
   }
@@ -29,7 +29,7 @@ class AssetChecklist
   public function checklist_count($data)
   {
     $sql = "SELECT COUNT(*) 
-    FROM factory.checklist
+    FROM factory.asset_checklist
     WHERE name = ?
     AND status = 1";
     $stmt = $this->dbcon->prepare($sql);
@@ -40,8 +40,8 @@ class AssetChecklist
   public function checklist_view($data)
   {
     $sql = "SELECT a.id,a.uuid,a.name,a.type_id,a.reference_id,b.name reference_name,a.status
-    FROM factory.checklist a
-    LEFT JOIN factory.checklist b
+    FROM factory.asset_checklist a
+    LEFT JOIN factory.asset_checklist b
     ON a.reference_id = b.id
     WHERE a.uuid = ?";
     $stmt = $this->dbcon->prepare($sql);
@@ -51,7 +51,7 @@ class AssetChecklist
 
   public function checklist_update($data)
   {
-    $sql = "UPDATE factory.checklist SET
+    $sql = "UPDATE factory.asset_checklist SET
     name = ?,
     type_id = ?,
     reference_id = ?,
@@ -64,7 +64,7 @@ class AssetChecklist
 
   public function checklist_delete($data)
   {
-    $sql = "UPDATE factory.checklist SET
+    $sql = "UPDATE factory.asset_checklist SET
     status = 0,
     updated = NOW()
     WHERE uuid = ?";
@@ -74,7 +74,7 @@ class AssetChecklist
 
   public function checklist_data($checklist = null)
   {
-    $sql = "SELECT COUNT(*) FROM factory.checklist WHERE status IN (1,2)";
+    $sql = "SELECT COUNT(*) FROM factory.asset_checklist WHERE status IN (1,2)";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute();
     $total = $stmt->fetchColumn();
@@ -104,8 +104,8 @@ class AssetChecklist
         ELSE NULL
       END
     ) status_color
-    FROM factory.checklist a
-    LEFT JOIN factory.checklist b
+    FROM factory.asset_checklist a
+    LEFT JOIN factory.asset_checklist b
     ON a.reference_id = b.id
     WHERE a.status IN (1,2) ";
 
@@ -158,7 +158,7 @@ class AssetChecklist
   public function checklist_select($keyword)
   {
     $sql = "SELECT a.id,a.name `text` 
-    FROM factory.checklist a
+    FROM factory.asset_checklist a
     WHERE a.type_id = 1
     AND a.status = 1";
     if (!empty($keyword)) {

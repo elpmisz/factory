@@ -21,7 +21,7 @@ class AssetDepartment
 
   public function department_create($data)
   {
-    $sql = "INSERT INTO factory.department(uuid,name) VALUES(UUID(),?)";
+    $sql = "INSERT INTO factory.asset_department(uuid,name) VALUES(UUID(),?)";
     $stmt = $this->dbcon->prepare($sql);
     return $stmt->execute($data);
   }
@@ -29,7 +29,7 @@ class AssetDepartment
   public function department_count($data)
   {
     $sql = "SELECT COUNT(*) 
-    FROM factory.department
+    FROM factory.asset_department
     WHERE name = ?
     AND status = 1";
     $stmt = $this->dbcon->prepare($sql);
@@ -39,7 +39,7 @@ class AssetDepartment
 
   public function department_view($data)
   {
-    $sql = "SELECT * FROM factory.department WHERE uuid = ?";
+    $sql = "SELECT * FROM factory.asset_department WHERE uuid = ?";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute($data);
     return $stmt->fetch();
@@ -47,7 +47,7 @@ class AssetDepartment
 
   public function department_update($data)
   {
-    $sql = "UPDATE factory.department SET
+    $sql = "UPDATE factory.asset_department SET
     name = ?,
     status = ?,
     updated = NOW()
@@ -58,7 +58,7 @@ class AssetDepartment
 
   public function department_delete($data)
   {
-    $sql = "UPDATE factory.department SET
+    $sql = "UPDATE factory.asset_department SET
     status = 0,
     updated = NOW()
     WHERE uuid = ?";
@@ -68,7 +68,7 @@ class AssetDepartment
 
   public function department_data()
   {
-    $sql = "SELECT COUNT(*) FROM factory.department a WHERE a.status IN (1,2)";
+    $sql = "SELECT COUNT(*) FROM factory.asset_department a WHERE a.status IN (1,2)";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute();
     $total = $stmt->fetchColumn();
@@ -98,7 +98,7 @@ class AssetDepartment
         ELSE NULL
       END
     ) status_color
-    FROM factory.department a
+    FROM factory.asset_department a
     WHERE a.status IN (1,2) ";
 
     if ($keyword) {

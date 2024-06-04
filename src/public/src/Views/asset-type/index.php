@@ -14,7 +14,7 @@ include_once(__DIR__ . "/../layout/header.php");
 
         <div class="row justify-content-end mb-2">
           <div class="col-xl-3 mb-2">
-            <a href="/asset/location/excel" class="btn btn-sm btn-success btn-block">
+            <a href="/asset/type/excel" class="btn btn-sm btn-success btn-block">
               <i class="fa fa-download pr-2"></i>นำข้อมูลออก
             </a>
           </div>
@@ -32,8 +32,9 @@ include_once(__DIR__ . "/../layout/header.php");
                 <thead>
                   <tr>
                     <th width="10%">#</th>
-                    <th width="50%">ชื่อ</th>
-                    <th width="40%">ยี่ห้อ</th>
+                    <th width="30%">ประเภท</th>
+                    <th width="30%">รายการตรวจสอบ</th>
+                    <th width="30%">ผู้รับผิดชอบ</th>
                   </tr>
                 </thead>
               </table>
@@ -54,23 +55,11 @@ include_once(__DIR__ . "/../layout/header.php");
   </div>
 </div>
 
-
 <?php include_once(__DIR__ . "/../layout/footer.php"); ?>
 <script>
   filter_datatable();
 
-  $(document).on("change", ".type-select", function() {
-    let type = ($(this).val() ? $(this).val() : "");
-    if (type) {
-      $(".data").DataTable().destroy();
-      filter_datatable(type);
-    } else {
-      $(".data").DataTable().destroy();
-      filter_datatable();
-    }
-  });
-
-  function filter_datatable(type) {
+  function filter_datatable(checklist) {
     $(".data").DataTable({
       serverSide: true,
       searching: true,
@@ -79,9 +68,6 @@ include_once(__DIR__ . "/../layout/header.php");
       ajax: {
         url: "/asset/type/data",
         type: "POST",
-        data: {
-          type: type
-        }
       },
       columnDefs: [{
         targets: [0],
@@ -105,20 +91,20 @@ include_once(__DIR__ . "/../layout/header.php");
   };
 
   $(document).on("click", ".btn-delete", function(e) {
-    let uuid = $(this).prop("id");
+    let id = ($(this).prop("id") ? $(this).prop("id") : "");
     e.preventDefault();
     Swal.fire({
-      title: "ยืนยันที่จะทำรายการ?",
+      title: "CONFIRM?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "ยืนยัน",
-      cancelButtonText: "ปิด",
+      confirmButtonText: "SUBMIT",
+      cancelButtonText: "CLOSE",
     }).then((result) => {
       if (result.value) {
-        axios.post("/asset/type/delete", {
-          uuid: uuid
+        axios.post("/factory/asset/type/delete", {
+          id: id
         }).then((res) => {
           let result = parseInt(res.data);
           if (result === 200) {
@@ -133,23 +119,5 @@ include_once(__DIR__ . "/../layout/header.php");
         return false;
       }
     })
-  });
-
-  $(".type-select").select2({
-    placeholder: "-- ยี่ห้อ --",
-    allowClear: true,
-    width: "100%",
-    ajax: {
-      url: "/asset/type/type-select",
-      method: "POST",
-      dataType: "json",
-      delay: 100,
-      processResults: function(data) {
-        return {
-          results: data
-        };
-      },
-      cache: true
-    }
   });
 </script>

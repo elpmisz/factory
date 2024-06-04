@@ -15,16 +15,23 @@ $ROUTER->map("POST", "/dashboard-machine/[**:params]", function ($params) {
 $ROUTER->map("GET", "/dashboard-counter", function () {
   require(__DIR__ . "/src/Views/dashboard/counter.php");
 });
-$ROUTER->map("POST", "/dashboard-counter/[**:params]", function ($params) {
-  require(__DIR__ . "/src/Views/helpdesk/counter-action.php");
+$ROUTER->map("GET", "/dashboard-counter/update", function () {
+  require(__DIR__ . "/src/Views/dashboard/counter-update.php");
 });
+$ROUTER->map("POST", "/dashboard-counter/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/dashboard/counter-data.php");
+});
+
 
 ##################### DASHBOARD-ENERGY #####################
 $ROUTER->map("GET", "/dashboard-energy", function () {
   require(__DIR__ . "/src/Views/dashboard/energy.php");
 });
+$ROUTER->map("GET", "/dashboard-energy/update", function () {
+  require(__DIR__ . "/src/Views/dashboard/energy-update.php");
+});
 $ROUTER->map("POST", "/dashboard-energy/[**:params]", function ($params) {
-  require(__DIR__ . "/src/Views/helpdesk/energy-action.php");
+  require(__DIR__ . "/src/Views/dashboard/energy-data.php");
 });
 
 ##################### SERVICE-HELPDESK #####################
@@ -43,24 +50,18 @@ $ROUTER->map("POST", "/preventive/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/preventive/action.php");
 });
 
-##################### SERVICE-ASSET #####################
-$ROUTER->map("GET", "/asset", function () {
-  require(__DIR__ . "/src/Views/asset/index.php");
+##################### ASSET-TYPE #####################
+$ROUTER->map("GET", "/asset/authorize", function () {
+  require(__DIR__ . "/src/Views/asset-authorize/index.php");
 });
-$ROUTER->map("GET", "/asset/create", function () {
-  require(__DIR__ . "/src/Views/asset/create.php");
+$ROUTER->map("GET", "/asset/authorize/create", function () {
+  require(__DIR__ . "/src/Views/asset-authorize/create.php");
 });
-$ROUTER->map("GET", "/asset/report/[**:params]", function ($params) {
-  require(__DIR__ . "/src/Views/asset/excel.php");
+$ROUTER->map("GET", "/asset/authorize/edit/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/asset-authorize/edit.php");
 });
-$ROUTER->map("GET", "/asset/edit/[**:params]", function ($params) {
-  require(__DIR__ . "/src/Views/asset/edit.php");
-});
-$ROUTER->map("GET", "/asset/detail/[**:params]", function ($params) {
-  require(__DIR__ . "/src/Views/asset/detail.php");
-});
-$ROUTER->map("POST", "/asset/[**:params]", function ($params) {
-  require(__DIR__ . "/src/Views/asset/action.php");
+$ROUTER->map("POST", "/asset/authorize/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/asset-authorize/action.php");
 });
 
 ##################### ASSET-TYPE #####################
@@ -131,6 +132,26 @@ $ROUTER->map("GET", "/asset/department/edit/[**:params]", function ($params) {
 });
 $ROUTER->map("POST", "/asset/department/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/asset-department/action.php");
+});
+
+##################### SERVICE-ASSET #####################
+$ROUTER->map("GET", "/asset", function () {
+  require(__DIR__ . "/src/Views/asset/index.php");
+});
+$ROUTER->map("GET", "/asset/create", function () {
+  require(__DIR__ . "/src/Views/asset/create.php");
+});
+$ROUTER->map("GET", "/asset/report/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/asset/excel.php");
+});
+$ROUTER->map("GET", "/asset/edit/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/asset/edit.php");
+});
+$ROUTER->map("GET", "/asset/detail/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/asset/detail.php");
+});
+$ROUTER->map("POST", "/asset/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/asset/action.php");
 });
 
 ##################### SYSTEM #####################

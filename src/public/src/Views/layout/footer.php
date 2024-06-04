@@ -29,6 +29,7 @@ unset($_SESSION['alert'], $_SESSION['text']);
 <script src="/vendor/pnikolov/bootstrap-daterangepicker/js/daterangepicker.min.js"></script>
 <script src="/styles/js/sweetalert2.all.min.js"></script>
 <script src="/styles/js/main.js"></script>
+<script src="/styles/js/axios.min.js"></script>
 <script src="/styles/js/apexcharts.min.js"></script>
 <script>
   $(".toast").toast("show");

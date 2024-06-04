@@ -71,7 +71,7 @@ class Validation
 
   public function month_th()
   {
-    $data = ["", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
+    $data = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
     return $data;
   }
 
@@ -81,15 +81,51 @@ class Validation
     return $data[$month];
   }
 
-  public function input_type()
+  public function input_en()
+  {
+    $data = ["TEXT", "NUMBER", "SELECT", "DATE"];
+    return $data;
+  }
+
+  public function input_en_name($type)
+  {
+    $data = ["", "TEXT", "NUMBER", "SELECT", "DATE"];
+    return $data[$type];
+  }
+
+  public function input_th()
   {
     $data = ["ตัวหนังสือ", "ตัวเลข", "ตัวเลือก", "วันที่"];
     return $data;
   }
 
-  public function input_type_name($type)
+  public function input_th_name($type)
   {
     $data = ["", "ตัวหนังสือ", "ตัวเลข", "ตัวเลือก", "วันที่"];
+    return $data[$type];
+  }
+
+  public function require_en()
+  {
+    $data = ["REQUIRED", "NOT REQUIRED"];
+    return $data;
+  }
+
+  public function require_en_name($type)
+  {
+    $data = ["", "REQUIRED", "NOT REQUIRED"];
+    return $data[$type];
+  }
+
+  public function require_th()
+  {
+    $data = ["จำเป็น", "ไม่จำเป็น"];
+    return $data;
+  }
+
+  public function require_th_name($type)
+  {
+    $data = ["", "จำเป็น", "ไม่จำเป็น"];
     return $data[$type];
   }
 

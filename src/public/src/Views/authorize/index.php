@@ -16,7 +16,7 @@ $users = $USER->user_read();
         <div class="row mb-2">
           <div class="col-xl-12">
             <div class="table-responsive">
-              <table class="table table-bordered table-hover unit-data">
+              <table class="table table-bordered table-hover">
                 <thead>
                   <tr>
                     <th width="10%">#</th>

@@ -14,10 +14,10 @@ include_once(__DIR__ . "/../layout/header.php");
 
         <div class="row justify-content-end mb-2">
           <div class="col-xl-12">
-            <form action="/asset/type/create" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+            <form action="/asset/type/add" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
 
               <div class="row mb-2">
-                <label class="col-xl-2 offset-xl-2 col-form-label">ชื่อ</label>
+                <label class="col-xl-4 text-xl-right">ชื่อ</label>
                 <div class="col-xl-4">
                   <input type="text" class="form-control form-control-sm" name="name" required>
                   <div class="invalid-feedback">
@@ -26,21 +26,21 @@ include_once(__DIR__ . "/../layout/header.php");
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-2 offset-xl-2 col-form-label">รายการตรวจสอบ</label>
+                <label class="col-xl-4 text-xl-right">รายการตรวจสอบ</label>
                 <div class="col-xl-6">
                   <select class="form-control form-control-sm checklist-select" name="checklist[]" multiple></select>
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-2 offset-xl-2 col-form-label">ผู้ปฏิบัติงาน</label>
+                <label class="col-xl-4 text-xl-right">ผู้รับผิดชอบ</label>
                 <div class="col-xl-6">
                   <select class="form-control form-control-sm worker-select" name="worker[]" multiple></select>
                 </div>
               </div>
 
-              <h5 class="col-xl-4 text-xl-right mb-3">แผนบำรุงรักษา</h5>
+              <h5 class="col-xl-5 text-xl-right mt-3">แผนการบำรุงรักษา</h5>
               <div class="row mb-2">
-                <label class="col-xl-2 offset-xl-2 col-form-label">ทุกสัปดาห์</label>
+                <label class="col-xl-4 text-xl-right">รายสัปดาห์</label>
                 <div class="col-xl-8">
                   <div class="row pb-2">
                     <div class="col-xl-3">
@@ -52,14 +52,14 @@ include_once(__DIR__ . "/../layout/header.php");
                     <div class="col-xl-3">
                       <label class="form-check-label px-3">
                         <input class="form-check-input" type="radio" name="weekly" value="2" required>
-                        <span class="text-danger">ไม่</span>
+                        <span class="text-danger">ไม่ใช่</span>
                       </label>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-2 offset-xl-2 col-form-label">ทุกเดือน</label>
+                <label class="col-xl-4 text-xl-right">รายเดือน</label>
                 <div class="col-xl-8">
                   <div class="row pb-2">
                     <div class="col-xl-3">
@@ -71,29 +71,30 @@ include_once(__DIR__ . "/../layout/header.php");
                     <div class="col-xl-3">
                       <label class="form-check-label px-3">
                         <input class="form-check-input" type="radio" name="monthly" value="2" required>
-                        <span class="text-danger">ไม่</span>
+                        <span class="text-danger">ไม่ใช่</span>
                       </label>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-2 offset-xl-2 col-form-label">เดือน (ระบุ)</label>
+                <label class="col-xl-4 text-xl-right">ระบุเดือน</label>
                 <div class="col-xl-6">
                   <select class="form-control form-control-sm month-select" name="month[]" multiple></select>
                 </div>
               </div>
 
-              <h5>รายการเพิ่มเติม</h5>
+              <h5>ข้อมูลเพิ่มเติม</h5>
               <div class="row mb-2">
                 <div class="table-responsive">
                   <table class="table table-sm table-bordered">
                     <thead>
                       <tr>
-                        <th width="10%">#</th>
+                        <th width="5%">#</th>
                         <th width="20%">ชื่อ</th>
                         <th width="20%">ประเภท</th>
                         <th width="30%">ตัวเลือก</th>
+                        <th width="15%">ความจำเป็น</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -117,6 +118,12 @@ include_once(__DIR__ . "/../layout/header.php");
                             กรุณากรอกข้อมูล!
                           </div>
                         </td>
+                        <td>
+                          <select class="form-control form-control-sm input-require-select" name="item_required[]"></select>
+                          <div class="invalid-feedback">
+                            กรุณากรอกข้อมูล!
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -130,7 +137,7 @@ include_once(__DIR__ . "/../layout/header.php");
                   </button>
                 </div>
                 <div class="col-xl-3 mb-2">
-                  <a href="/factory/asset/type" class="btn btn-sm btn-danger btn-block">
+                  <a href="/asset/type" class="btn btn-sm btn-danger btn-block">
                     <i class="fa fa-arrow-left pr-2"></i>กลับ
                   </a>
                 </div>
@@ -145,11 +152,12 @@ include_once(__DIR__ . "/../layout/header.php");
   </div>
 </div>
 
+
 <?php include_once(__DIR__ . "/../layout/footer.php"); ?>
 <script>
   $(".decrease-btn").hide();
   $(document).on("click", ".increase-btn", function() {
-    $(".input-type-select").select2("destroy");
+    $(".input-type-select, .input-require-select").select2("destroy");
     let row = $(".tr-input:last");
     let clone = row.clone();
     clone.find("input, select").val("");
@@ -162,11 +170,29 @@ include_once(__DIR__ . "/../layout/header.php");
     clone.show();
 
     $(".input-type-select").select2({
-      placeholder: "-- ประเภทรายการ --",
+      placeholder: "-- ประเภท --",
       allowClear: true,
       width: "100%",
       ajax: {
         url: "/asset/type/input-type-select",
+        method: "POST",
+        dataType: "json",
+        delay: 100,
+        processResults: function(data) {
+          return {
+            results: data
+          };
+        },
+        cache: true
+      }
+    });
+
+    $(".input-require-select").select2({
+      placeholder: "-- ความจำเป็น --",
+      allowClear: true,
+      width: "100%",
+      ajax: {
+        url: "/asset/type/input-require-select",
         method: "POST",
         dataType: "json",
         delay: 100,
@@ -192,7 +218,6 @@ include_once(__DIR__ . "/../layout/header.php");
 
   $(document).on("change", ".input-type-select", function() {
     let type = parseInt($(this).val());
-    console.log(type)
     let row = $(this).closest("tr");
     if (type === 3) {
       row.find("input[name='item_text[]']").prop("required", true);
@@ -202,7 +227,7 @@ include_once(__DIR__ . "/../layout/header.php");
   });
 
   $(".checklist-select").select2({
-    placeholder: "-- รายการตรวจสอบ --",
+    placeholder: "-- หัวข้อ --",
     allowClear: true,
     width: "100%",
     ajax: {
@@ -220,7 +245,7 @@ include_once(__DIR__ . "/../layout/header.php");
   });
 
   $(".worker-select").select2({
-    placeholder: "-- ผู้ปฏิบัติงาน --",
+    placeholder: "-- รายชื่อ --",
     allowClear: true,
     width: "100%",
     ajax: {
@@ -256,11 +281,29 @@ include_once(__DIR__ . "/../layout/header.php");
   });
 
   $(".input-type-select").select2({
-    placeholder: "-- ประเภทรายการ --",
+    placeholder: "-- ประเภท --",
     allowClear: true,
     width: "100%",
     ajax: {
       url: "/asset/type/input-type-select",
+      method: "POST",
+      dataType: "json",
+      delay: 100,
+      processResults: function(data) {
+        return {
+          results: data
+        };
+      },
+      cache: true
+    }
+  });
+
+  $(".input-require-select").select2({
+    placeholder: "-- ความจำเป็น --",
+    allowClear: true,
+    width: "100%",
+    ajax: {
+      url: "/asset/type/input-require-select",
       method: "POST",
       dataType: "json",
       delay: 100,

@@ -21,7 +21,7 @@ class AssetType
 
   public function type_create($data)
   {
-    $sql = "INSERT INTO factory.type(uuid,name,type_id,reference_id) VALUES(UUID(),?,?,?)";
+    $sql = "INSERT INTO factory.asset_type(`uuid`, `name`, `checklist`, `worker`, `weekly`, `monthly`, `month`) VALUES(UUID(),?,?,?,?,?,?)";
     $stmt = $this->dbcon->prepare($sql);
     return $stmt->execute($data);
   }
@@ -29,7 +29,7 @@ class AssetType
   public function type_count($data)
   {
     $sql = "SELECT COUNT(*) 
-    FROM factory.type
+    FROM factory.asset_type
     WHERE name = ?
     AND status = 1";
     $stmt = $this->dbcon->prepare($sql);
@@ -39,11 +39,7 @@ class AssetType
 
   public function type_view($data)
   {
-    $sql = "SELECT a.id,a.uuid,a.name,a.type_id,a.reference_id,b.name reference_name,a.status
-    FROM factory.type a
-    LEFT JOIN factory.type b
-    ON a.reference_id = b.id
-    WHERE a.uuid = ?";
+    $sql = "SELECT * FROM factory.asset_type WHERE uuid = ?";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute($data);
     return $stmt->fetch();
@@ -51,10 +47,13 @@ class AssetType
 
   public function type_update($data)
   {
-    $sql = "UPDATE factory.type SET
+    $sql = "UPDATE factory.asset_type SET
     name = ?,
-    type_id = ?,
-    reference_id = ?,
+    checklist = ?,
+    worker = ?,
+    weekly = ?,
+    monthly = ?,
+    month = ?,
     status = ?,
     updated = NOW()
     WHERE uuid = ?";
@@ -64,7 +63,7 @@ class AssetType
 
   public function type_delete($data)
   {
-    $sql = "UPDATE factory.type SET
+    $sql = "UPDATE factory.asset_type SET
     status = 0,
     updated = NOW()
     WHERE uuid = ?";
@@ -72,9 +71,86 @@ class AssetType
     return $stmt->execute($data);
   }
 
+  public function item_count($data)
+  {
+    $sql = "SELECT COUNT(*) 
+    FROM factory.asset_type_item
+    WHERE type_id = ?
+    AND name = ?
+    AND status = 1";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute($data);
+    return $stmt->fetchColumn();
+  }
+
+  public function item_add($data)
+  {
+    $sql = "INSERT INTO factory.asset_type_item(type_id,name,type,text,required) VALUES(?,?,?,?,?)";
+    $stmt = $this->dbcon->prepare($sql);
+    return $stmt->execute($data);
+  }
+
+  public function item_view($data)
+  {
+    $sql = "SELECT b.*
+    FROM factory.asset_type a
+    LEFT JOIN factory.asset_type_item b
+    ON a.id = b.type_id
+    WHERE a.uuid =  ?
+    AND b.status = 1";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute($data);
+    return $stmt->fetchAll();
+  }
+
+  public function item_update($data)
+  {
+    $sql = "UPDATE factory.asset_type_item SET
+    name = ?,
+    type = ?,
+    text = ?,
+    required = ?
+    WHERE id = ?";
+    $stmt = $this->dbcon->prepare($sql);
+    return $stmt->execute($data);
+  }
+
+  public function item_delete($data)
+  {
+    $sql = "UPDATE factory.asset_type_item SET
+    status = 0
+    WHERE id = ?";
+    $stmt = $this->dbcon->prepare($sql);
+    return $stmt->execute($data);
+  }
+
+  public function checklist_view($data)
+  {
+    $sql = "SELECT b.id,b.`name`
+    FROM factory.asset_type a
+    LEFT JOIN factory.asset_checklist b
+    ON FIND_IN_SET(b.id, a.checklist)
+    WHERE a.uuid = ?";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute($data);
+    return $stmt->fetchAll();
+  }
+
+  public function worker_view($data)
+  {
+    $sql = "SELECT a.worker,CONCAT(b.firstname,' ',b.lastname) username
+    FROM factory.asset_type a
+    LEFT JOIN factory.user b
+    ON FIND_IN_SET(b.id, a.worker)
+    WHERE a.uuid = ?";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute($data);
+    return $stmt->fetchAll();
+  }
+
   public function type_data($type = null)
   {
-    $sql = "SELECT COUNT(*) FROM factory.type WHERE status IN (1,2)";
+    $sql = "SELECT COUNT(*) FROM factory.asset_type WHERE status IN (1,2)";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute();
     $total = $stmt->fetchColumn();
@@ -89,7 +165,8 @@ class AssetType
     $limit_length = (isset($_POST['length']) ? $_POST['length'] : '');
     $draw = (isset($_POST['draw']) ? $_POST['draw'] : '');
 
-    $sql = "SELECT a.id,a.uuid,a.name,b.name reference_name,
+    $sql = "SELECT a.id,a.uuid,a.name,GROUP_CONCAT(b.name) checklist_name,
+    GROUP_CONCAT(c.firstname,' ',c.lastname) worker,
     (
       CASE
         WHEN a.status = 1 THEN 'รายละเอียด'
@@ -104,9 +181,11 @@ class AssetType
         ELSE NULL
       END
     ) status_color
-    FROM factory.type a
-    LEFT JOIN factory.type b
-    ON a.reference_id = b.id
+    FROM factory.asset_type a
+    LEFT JOIN factory.asset_checklist b
+    ON FIND_IN_SET(b.id, a.checklist)
+    LEFT JOIN factory.user c
+    ON FIND_IN_SET(c.id, a.worker) 
     WHERE a.status IN (1,2) ";
 
     if (!empty($type)) {
@@ -117,10 +196,12 @@ class AssetType
       $sql .= " AND (a.name LIKE '%{$keyword}%' OR b.name LIKE '%{$keyword}%') ";
     }
 
+    $sql .= " GROUP BY a.id ";
+
     if ($filter_order) {
       $sql .= " ORDER BY {$column[$order_column]} {$order_dir} ";
     } else {
-      $sql .= " ORDER BY a.status ASC, a.type_id ASC, a.name ASC ";
+      $sql .= " ORDER BY a.status ASC, a.name ASC ";
     }
 
     $sql2 = '';
@@ -141,7 +222,8 @@ class AssetType
       $data[] = [
         $action,
         $row['name'],
-        $row['reference_name']
+        str_replace(",", ",<br>", $row['checklist_name']),
+        str_replace(",", ",<br>", $row['worker']),
       ];
     }
 
@@ -158,7 +240,7 @@ class AssetType
   public function checklist_select($keyword)
   {
     $sql = "SELECT a.id,a.name text
-    FROM factory.checklist a
+    FROM factory.asset_checklist a
     WHERE a.type_id = 1
     AND a.status = 1 ";
     if (!empty($keyword)) {
@@ -184,5 +266,10 @@ class AssetType
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll();
+  }
+
+  public function last_insert_id()
+  {
+    return $this->dbcon->lastInsertId();
   }
 }

@@ -21,7 +21,7 @@ class AssetBrand
 
   public function brand_create($data)
   {
-    $sql = "INSERT INTO factory.brand(uuid,name,type_id,reference_id) VALUES(UUID(),?,?,?)";
+    $sql = "INSERT INTO factory.asset_brand(uuid,name,type_id,reference_id) VALUES(UUID(),?,?,?)";
     $stmt = $this->dbcon->prepare($sql);
     return $stmt->execute($data);
   }
@@ -29,7 +29,7 @@ class AssetBrand
   public function brand_count($data)
   {
     $sql = "SELECT COUNT(*) 
-    FROM factory.brand
+    FROM factory.asset_brand
     WHERE name = ?
     AND status = 1";
     $stmt = $this->dbcon->prepare($sql);
@@ -40,8 +40,8 @@ class AssetBrand
   public function brand_view($data)
   {
     $sql = "SELECT a.id,a.uuid,a.name,a.type_id,a.reference_id,b.name reference_name,a.status
-    FROM factory.brand a
-    LEFT JOIN factory.brand b
+    FROM factory.asset_brand a
+    LEFT JOIN factory.asset_brand b
     ON a.reference_id = b.id
     WHERE a.uuid = ?";
     $stmt = $this->dbcon->prepare($sql);
@@ -51,7 +51,7 @@ class AssetBrand
 
   public function brand_update($data)
   {
-    $sql = "UPDATE factory.brand SET
+    $sql = "UPDATE factory.asset_brand SET
     name = ?,
     type_id = ?,
     reference_id = ?,
@@ -64,7 +64,7 @@ class AssetBrand
 
   public function brand_delete($data)
   {
-    $sql = "UPDATE factory.brand SET
+    $sql = "UPDATE factory.asset_brand SET
     status = 0,
     updated = NOW()
     WHERE uuid = ?";
@@ -74,7 +74,7 @@ class AssetBrand
 
   public function brand_data($brand = null)
   {
-    $sql = "SELECT COUNT(*) FROM factory.brand WHERE status IN (1,2)";
+    $sql = "SELECT COUNT(*) FROM factory.asset_brand WHERE status IN (1,2)";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute();
     $total = $stmt->fetchColumn();
@@ -104,8 +104,8 @@ class AssetBrand
         ELSE NULL
       END
     ) status_color
-    FROM factory.brand a
-    LEFT JOIN factory.brand b
+    FROM factory.asset_brand a
+    LEFT JOIN factory.asset_brand b
     ON a.reference_id = b.id
     WHERE a.status IN (1,2) ";
 
@@ -158,7 +158,7 @@ class AssetBrand
   public function brand_select($keyword)
   {
     $sql = "SELECT a.id,a.name `text` 
-    FROM factory.brand a
+    FROM factory.asset_brand a
     WHERE a.type_id = 1
     AND a.status = 1";
     if (!empty($keyword)) {

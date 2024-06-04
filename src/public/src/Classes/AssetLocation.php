@@ -21,7 +21,7 @@ class AssetLocation
 
   public function location_create($data)
   {
-    $sql = "INSERT INTO factory.location(uuid,name) VALUES(UUID(),?)";
+    $sql = "INSERT INTO factory.asset_location(uuid,name) VALUES(UUID(),?)";
     $stmt = $this->dbcon->prepare($sql);
     return $stmt->execute($data);
   }
@@ -29,7 +29,7 @@ class AssetLocation
   public function location_count($data)
   {
     $sql = "SELECT COUNT(*) 
-    FROM factory.location
+    FROM factory.asset_location
     WHERE name = ?
     AND status = 1";
     $stmt = $this->dbcon->prepare($sql);
@@ -39,7 +39,7 @@ class AssetLocation
 
   public function location_view($data)
   {
-    $sql = "SELECT * FROM factory.location WHERE uuid = ?";
+    $sql = "SELECT * FROM factory.asset_location WHERE uuid = ?";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute($data);
     return $stmt->fetch();
@@ -47,7 +47,7 @@ class AssetLocation
 
   public function location_update($data)
   {
-    $sql = "UPDATE factory.location SET
+    $sql = "UPDATE factory.asset_location SET
     name = ?,
     status = ?,
     updated = NOW()
@@ -58,7 +58,7 @@ class AssetLocation
 
   public function location_delete($data)
   {
-    $sql = "UPDATE factory.location SET
+    $sql = "UPDATE factory.asset_location SET
     status = 0,
     updated = NOW()
     WHERE uuid = ?";
@@ -68,7 +68,7 @@ class AssetLocation
 
   public function location_data()
   {
-    $sql = "SELECT COUNT(*) FROM factory.location a WHERE a.status IN (1,2)";
+    $sql = "SELECT COUNT(*) FROM factory.asset_location a WHERE a.status IN (1,2)";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute();
     $total = $stmt->fetchColumn();
@@ -98,7 +98,7 @@ class AssetLocation
         ELSE NULL
       END
     ) status_color
-    FROM factory.location a
+    FROM factory.asset_location a
     WHERE a.status IN (1,2) ";
 
     if ($keyword) {

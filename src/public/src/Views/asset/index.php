@@ -40,7 +40,7 @@ include_once(__DIR__ . "/../layout/header.php");
           </div>
           <div class="col-xl-3 mb-2">
             <a href="/asset/authorize" class="btn btn-sm btn-warning btn-block">
-              <i class="fa fa-file-lines pr-2"></i>สิทธิ์
+              <i class="fa fa-file-lines pr-2"></i>สิทธิ์การจัดการ
             </a>
           </div>
 
@@ -77,12 +77,12 @@ include_once(__DIR__ . "/../layout/header.php");
                 <thead>
                   <tr>
                     <th width="10%">#</th>
-                    <th width="10%">รหัสอุปกรณ์</th>
-                    <th width="10%">รหัสทรัพย์สิน</th>
                     <th width="20%">ชื่อ</th>
+                    <th width="10%">เลขที่ทรัพย์สิน</th>
+                    <th width="10%">รหัสอุปกรณ์</th>
                     <th width="10%">ประเภท</th>
                     <th width="10%">ฝ่าย/แผนก</th>
-                    <th width="15%">สถานที่</th>
+                    <th width="10%">สถานที่</th>
                   </tr>
                 </thead>
               </table>
@@ -97,3 +97,51 @@ include_once(__DIR__ . "/../layout/header.php");
 
 
 <?php include_once(__DIR__ . "/../layout/footer.php"); ?>
+<script>
+  filter_datatable();
+
+  // $(document).on("change", ".checklist-select", function() {
+  //   let checklist = ($(this).val() ? $(this).val() : "");
+  //   if (checklist) {
+  //     $(".data").DataTable().destroy();
+  //     filter_datatable(checklist);
+  //   } else {
+  //     $(".data").DataTable().destroy();
+  //     filter_datatable();
+  //   }
+  // });
+
+  function filter_datatable(checklist) {
+    $(".data").DataTable({
+      serverSide: true,
+      searching: true,
+      scrollX: true,
+      order: [],
+      ajax: {
+        url: "/asset/data",
+        type: "POST",
+        data: {
+          checklist: checklist
+        }
+      },
+      columnDefs: [{
+        targets: [0],
+        className: "text-center",
+      }],
+      "oLanguage": {
+        "sLengthMenu": "แสดง _MENU_ ลำดับ ต่อหน้า",
+        "sZeroRecords": "ไม่พบข้อมูลที่ค้นหา",
+        "sInfo": "แสดง _START_ ถึง _END_ ของ _TOTAL_ ลำดับ",
+        "sInfoEmpty": "แสดง 0 ถึง 0 ของ 0 ลำดับ",
+        "sInfoFiltered": "",
+        "sSearch": "ค้นหา :",
+        "oPaginate": {
+          "sFirst": "หน้าแรก",
+          "sLast": "หน้าสุดท้าย",
+          "sNext": "ถัดไป",
+          "sPrevious": "ก่อนหน้า"
+        }
+      },
+    });
+  };
+</script>

@@ -8,16 +8,16 @@ include_once(__DIR__ . "/../layout/header.php");
   <div class="col-xl-12">
     <div class="card shadow">
       <div class="card-header">
-        <h4 class="text-center">ASSET</h4>
+        <h4 class="text-center">ทรัพย์สิน</h4>
       </div>
       <div class="card-body">
 
         <div class="row justify-content-end mb-2">
           <div class="col-xl-12">
-            <form action="/factory/asset/machine/add" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+            <form action="/asset/create" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
 
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">ASSET IMAGE</label>
+                <label class="col-xl-4 col-form-label text-xl-right">รูปทรัพย์สิน</label>
                 <div class="col-xl-6">
                   <table class="table table-borderless">
                     <tr class="tr-file">
@@ -33,29 +33,29 @@ include_once(__DIR__ . "/../layout/header.php");
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">NAME</label>
+                <label class="col-xl-4 col-form-label text-xl-right">ชื่อ</label>
                 <div class="col-xl-6">
                   <input type="text" class="form-control form-control-sm" name="name" required>
                   <div class="invalid-feedback">
-                    REQUIRED!
+                    กรุณากรอกข้อมูล!
                   </div>
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">ASSET NO.</label>
+                <label class="col-xl-4 col-form-label text-xl-right">เลขที่ทรัพย์สิน</label>
                 <div class="col-xl-4">
-                  <input type="text" class="form-control form-control-sm" name="code" required>
+                  <input type="text" class="form-control form-control-sm" name="asset_code" required>
                   <div class="invalid-feedback">
-                    REQUIRED!
+                    กรุณากรอกข้อมูล!
                   </div>
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">TYPE</label>
+                <label class="col-xl-4 col-form-label text-xl-right">ประเภท</label>
                 <div class="col-sm-4">
                   <select class="form-control form-control-sm type-select" name="type_id" required></select>
                   <div class="invalid-feedback">
-                    REQUIRED!
+                    กรุณากรอกข้อมูล!
                   </div>
                 </div>
               </div>
@@ -63,47 +63,47 @@ include_once(__DIR__ . "/../layout/header.php");
               <div class="row mb-2">
                 <div class="col-xl-6">
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">DEPARTMENT</label>
+                    <label class="col-xl-4 col-form-label text-xl-right">ฝ่าย/แผนก</label>
                     <div class="col-xl-8">
                       <select class="form-control form-control-sm department-select" name="department_id"></select>
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">LOCATION</label>
+                    <label class="col-xl-4 col-form-label text-xl-right">สถานที่</label>
                     <div class="col-xl-8">
                       <select class="form-control form-control-sm location-select" name="location_id"></select>
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">SERIAL NUMBER</label>
+                    <label class="col-xl-4 col-form-label text-xl-right">หมายเลขอุปกรณ์</label>
                     <div class="col-xl-8">
                       <input type="text" class="form-control form-control-sm" name="serial_number" required>
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">ASSET CODE</label>
+                    <label class="col-xl-4 col-form-label text-xl-right">รหัสอุปกรณ์</label>
                     <div class="col-xl-8">
-                      <input type="text" class="form-control form-control-sm" name="asset_code" required>
+                      <input type="text" class="form-control form-control-sm" name="code" required>
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">kW</label>
+                    <label class="col-xl-4 col-form-label text-xl-right">กำลังไฟ (kW)</label>
                     <div class="col-xl-8">
                       <input type="number" class="form-control form-control-sm" name="kw" step="0.01">
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
@@ -111,38 +111,38 @@ include_once(__DIR__ . "/../layout/header.php");
 
                 <div class="col-xl-6">
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">BRAND</label>
+                    <label class="col-xl-4 col-form-label text-xl-right">ยี่ห้อ</label>
                     <div class="col-xl-8">
                       <select class="form-control form-control-sm brand-select" name="brand_id" required></select>
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">MODEL</label>
+                    <label class="col-xl-4 col-form-label text-xl-right">รุ่น</label>
                     <div class="col-xl-8">
                       <select class="form-control form-control-sm model-select" name="model_id" disabled></select>
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">PURCHASE</label>
+                    <label class="col-xl-4 col-form-label text-xl-right">วันที่ซื้อ</label>
                     <div class="col-xl-8">
                       <input type="text" class="form-control form-control-sm date-select" name="purchase_date">
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">EXPIRE</label>
+                    <label class="col-xl-4 col-form-label text-xl-right">วันที่หมดประกัน</label>
                     <div class="col-xl-8">
                       <input type="text" class="form-control form-control-sm date-select" name="expire_date">
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
@@ -152,7 +152,7 @@ include_once(__DIR__ . "/../layout/header.php");
               <div class="row mb-2 div-specific-field"></div>
 
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">REMARK</label>
+                <label class="col-xl-4 col-form-label text-xl-right">หมายเหตุ</label>
                 <div class="col-xl-6">
                   <textarea class="form-control form-control-sm" name="text" rows="4"></textarea>
                 </div>
@@ -161,16 +161,15 @@ include_once(__DIR__ . "/../layout/header.php");
               <div class="row justify-content-center mb-2">
                 <div class="col-xl-3 mb-2">
                   <button type="submit" class="btn btn-sm btn-success btn-block">
-                    <i class="fas fa-check pr-2"></i>SUBMIT
+                    <i class="fas fa-check pr-2"></i>ยืนยัน
                   </button>
                 </div>
                 <div class="col-xl-3 mb-2">
                   <a href="/asset" class="btn btn-sm btn-danger btn-block">
-                    <i class="fa fa-arrow-left pr-2"></i>BACK TO HOME
+                    <i class="fa fa-arrow-left pr-2"></i>กลับ
                   </a>
                 </div>
               </div>
-
 
             </form>
           </div>
@@ -205,7 +204,7 @@ include_once(__DIR__ . "/../layout/header.php");
     if (size > 1) {
       Swal.fire({
         icon: "error",
-        title: "No more than 5 Mb!",
+        title: "ไฟล์รูปไม่เกิน 5 Mb!",
       })
       $(this).val("");
     }
@@ -213,7 +212,7 @@ include_once(__DIR__ . "/../layout/header.php");
     if ($.inArray(extension, allow) === -1) {
       Swal.fire({
         icon: "error",
-        title: "Only Image files JPG and PNG",
+        title: "เฉพาะไฟล์นามสกุล JPG และ PNG เท่านั้น",
       })
       $(this).val("");
     }
@@ -222,7 +221,7 @@ include_once(__DIR__ . "/../layout/header.php");
   $(document).on("change", ".type-select", function() {
     let type = $(this).val();
 
-    axios.post("/factory/asset/machine/type-item", {
+    axios.post("/asset/type-item", {
         type: type
       })
       .then((res) => {
@@ -248,7 +247,7 @@ include_once(__DIR__ . "/../layout/header.php");
               let text = v.text;
               let option = text.split(",");
               div += '<select class="form-control form-control-sm option-select" name="item_value[]" ' + v.required_name + '>';
-              div += '<option value="">-- SELECT --</option>';
+              div += '<option value="">-- เลือก --</option>';
               option.forEach((value, index) => {
                 div += '<option value="' + index + '">' + value + '</option>';
               });
@@ -257,7 +256,7 @@ include_once(__DIR__ . "/../layout/header.php");
             if (type === 4) {
               div += '<input type="text" class="form-control form-control-sm date-select" name="item_value[]" ' + v.required_name + '>';
             }
-            div += '<div class="invalid-feedback">REQUIRED!</div>';
+            div += '<div class="invalid-feedback">กรุณากรอกข้อมูล!</div>';
             div += '</div>';
             div += '</div>';
             div += '</div>';
@@ -299,11 +298,11 @@ include_once(__DIR__ . "/../layout/header.php");
   });
 
   $(".type-select").select2({
-    placeholder: "-- TYPE --",
+    placeholder: "-- ประเภท --",
     allowClear: true,
     width: "100%",
     ajax: {
-      url: "/factory/asset/machine/type-select",
+      url: "/asset/type-select",
       method: "POST",
       dataType: "json",
       delay: 100,
@@ -317,11 +316,11 @@ include_once(__DIR__ . "/../layout/header.php");
   });
 
   $(".department-select").select2({
-    placeholder: "-- DEPARTMENT --",
+    placeholder: "-- ฝ่าย --",
     allowClear: true,
     width: "100%",
     ajax: {
-      url: "/factory/asset/machine/department-select",
+      url: "/asset/department-select",
       method: "POST",
       dataType: "json",
       delay: 100,
@@ -335,11 +334,11 @@ include_once(__DIR__ . "/../layout/header.php");
   });
 
   $(".location-select").select2({
-    placeholder: "-- LOCATION --",
+    placeholder: "-- สถานที่ --",
     allowClear: true,
     width: "100%",
     ajax: {
-      url: "/factory/asset/machine/location-select",
+      url: "/asset/location-select",
       method: "POST",
       dataType: "json",
       delay: 100,
@@ -353,11 +352,11 @@ include_once(__DIR__ . "/../layout/header.php");
   });
 
   $(".brand-select").select2({
-    placeholder: "-- BRAND --",
+    placeholder: "-- ยี่ห้อ --",
     allowClear: true,
     width: "100%",
     ajax: {
-      url: "/factory/asset/machine/brand-select",
+      url: "/asset/brand-select",
       method: "POST",
       dataType: "json",
       delay: 100,
@@ -377,11 +376,11 @@ include_once(__DIR__ . "/../layout/header.php");
       $(".model-select").prop("disabled", false);
       $(".model-select").prop("required", true);
       $(".model-select").select2({
-        placeholder: "-- MODEL --",
+        placeholder: "-- รุ่น --",
         width: "100%",
         allowClear: true,
         ajax: {
-          url: "/factory/asset/machine/model-select",
+          url: "/asset/model-select",
           method: 'POST',
           dataType: 'json',
           delay: 100,
@@ -411,6 +410,15 @@ include_once(__DIR__ . "/../layout/header.php");
     showDropdowns: true,
     locale: {
       "format": "DD/MM/YYYY",
+      "applyLabel": "ยืนยัน",
+      "cancelLabel": "ยกเลิก",
+      "daysOfWeek": [
+        "อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"
+      ],
+      "monthNames": [
+        "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+        "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+      ]
     },
     "applyButtonClasses": "btn-success",
     "cancelClass": "btn-danger"
