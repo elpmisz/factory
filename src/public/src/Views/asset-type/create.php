@@ -17,7 +17,7 @@ include_once(__DIR__ . "/../layout/header.php");
             <form action="/asset/type/add" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
 
               <div class="row mb-2">
-                <label class="col-xl-4 text-xl-right">ชื่อ</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">ชื่อ</label>
                 <div class="col-xl-4">
                   <input type="text" class="form-control form-control-sm" name="name" required>
                   <div class="invalid-feedback">
@@ -26,21 +26,21 @@ include_once(__DIR__ . "/../layout/header.php");
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 text-xl-right">รายการตรวจสอบ</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">รายการตรวจสอบ</label>
                 <div class="col-xl-6">
                   <select class="form-control form-control-sm checklist-select" name="checklist[]" multiple></select>
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 text-xl-right">ผู้รับผิดชอบ</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">ผู้รับผิดชอบ</label>
                 <div class="col-xl-6">
                   <select class="form-control form-control-sm worker-select" name="worker[]" multiple></select>
                 </div>
               </div>
 
-              <h5 class="col-xl-5 text-xl-right mt-3">แผนการบำรุงรักษา</h5>
+              <h5 class="col-xl-4 offset-xl-2 mb-2">แผนการบำรุงรักษา</h5>
               <div class="row mb-2">
-                <label class="col-xl-4 text-xl-right">รายสัปดาห์</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">รายสัปดาห์</label>
                 <div class="col-xl-8">
                   <div class="row pb-2">
                     <div class="col-xl-3">
@@ -59,7 +59,7 @@ include_once(__DIR__ . "/../layout/header.php");
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 text-xl-right">รายเดือน</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">รายเดือน</label>
                 <div class="col-xl-8">
                   <div class="row pb-2">
                     <div class="col-xl-3">
@@ -78,7 +78,7 @@ include_once(__DIR__ . "/../layout/header.php");
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 text-xl-right">ระบุเดือน</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">ระบุเดือน</label>
                 <div class="col-xl-6">
                   <select class="form-control form-control-sm month-select" name="month[]" multiple></select>
                 </div>

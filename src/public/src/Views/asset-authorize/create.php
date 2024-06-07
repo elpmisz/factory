@@ -17,7 +17,7 @@ include_once(__DIR__ . "/../layout/header.php");
             <form action="/asset/authorize/create" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
 
               <div class="row mb-2">
-                <label class="col-xl-4 text-xl-right">รายชื่อ</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">รายชื่อ</label>
                 <div class="col-xl-4">
                   <select class="form-control form-control-sm user-select" name="user" required></select>
                 </div>
@@ -26,7 +26,7 @@ include_once(__DIR__ . "/../layout/header.php");
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 text-xl-right">สิทธิ์</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">สิทธิ์</label>
                 <div class="col-xl-8">
                   <div class="row pb-2">
                     <div class="col-xl-3">

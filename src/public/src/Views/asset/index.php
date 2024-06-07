@@ -14,32 +14,32 @@ include_once(__DIR__ . "/../layout/header.php");
 
         <div class="row mb-2">
           <div class="col-xl-3 mb-2">
-            <a href="/asset/department" class="btn btn-sm btn-warning btn-block">
+            <a href="/asset/department" class="btn btn-sm btn-info btn-block">
               <i class="fa fa-file-lines pr-2"></i>แผนก/ฝ่าย
             </a>
           </div>
           <div class="col-xl-3 mb-2">
-            <a href="/asset/location" class="btn btn-sm btn-warning btn-block">
+            <a href="/asset/location" class="btn btn-sm btn-info btn-block">
               <i class="fa fa-file-lines pr-2"></i>สถานที่
             </a>
           </div>
           <div class="col-xl-3 mb-2">
-            <a href="/asset/brand" class="btn btn-sm btn-warning btn-block">
+            <a href="/asset/brand" class="btn btn-sm btn-info btn-block">
               <i class="fa fa-file-lines pr-2"></i>ยี่ห้อ
             </a>
           </div>
           <div class="col-xl-3 mb-2">
-            <a href="/asset/checklist" class="btn btn-sm btn-warning btn-block">
+            <a href="/asset/checklist" class="btn btn-sm btn-info btn-block">
               <i class="fa fa-file-lines pr-2"></i>รายการตรวจสอบ
             </a>
           </div>
           <div class="col-xl-3 mb-2">
-            <a href="/asset/type" class="btn btn-sm btn-warning btn-block">
+            <a href="/asset/type" class="btn btn-sm btn-info btn-block">
               <i class="fa fa-file-lines pr-2"></i>ประเภท
             </a>
           </div>
           <div class="col-xl-3 mb-2">
-            <a href="/asset/authorize" class="btn btn-sm btn-warning btn-block">
+            <a href="/asset/authorize" class="btn btn-sm btn-info btn-block">
               <i class="fa fa-file-lines pr-2"></i>สิทธิ์การจัดการ
             </a>
           </div>
@@ -100,18 +100,75 @@ include_once(__DIR__ . "/../layout/header.php");
 <script>
   filter_datatable();
 
-  // $(document).on("change", ".checklist-select", function() {
-  //   let checklist = ($(this).val() ? $(this).val() : "");
-  //   if (checklist) {
-  //     $(".data").DataTable().destroy();
-  //     filter_datatable(checklist);
-  //   } else {
-  //     $(".data").DataTable().destroy();
-  //     filter_datatable();
-  //   }
-  // });
+  $(document).on("change", ".type-select, .department-select, .location-select", function() {
+    let type = ($(".type-select").val() ? $(".type-select").val() : "");
+    let department = ($(".department-select").val() ? $(".department-select").val() : "");
+    let location = ($(".location-select").val() ? $(".location-select").val() : "");
 
-  function filter_datatable(checklist) {
+    if (type || department || location) {
+      $(".data").DataTable().destroy();
+      filter_datatable(type, department, location);
+    } else {
+      $(".data").DataTable().destroy();
+      filter_datatable();
+    }
+  });
+
+  $(".type-select").select2({
+    placeholder: "-- ประเภท --",
+    allowClear: true,
+    width: "100%",
+    ajax: {
+      url: "/asset/type-select",
+      method: "POST",
+      dataType: "json",
+      delay: 100,
+      processResults: function(data) {
+        return {
+          results: data
+        };
+      },
+      cache: true
+    }
+  });
+
+  $(".department-select").select2({
+    placeholder: "-- ฝ่าย/แผนก --",
+    allowClear: true,
+    width: "100%",
+    ajax: {
+      url: "/asset/department-select",
+      method: "POST",
+      dataType: "json",
+      delay: 100,
+      processResults: function(data) {
+        return {
+          results: data
+        };
+      },
+      cache: true
+    }
+  });
+
+  $(".location-select").select2({
+    placeholder: "-- สถานที่ --",
+    allowClear: true,
+    width: "100%",
+    ajax: {
+      url: "/asset/location-select",
+      method: "POST",
+      dataType: "json",
+      delay: 100,
+      processResults: function(data) {
+        return {
+          results: data
+        };
+      },
+      cache: true
+    }
+  });
+
+  function filter_datatable(type, department, location) {
     $(".data").DataTable({
       serverSide: true,
       searching: true,
@@ -121,7 +178,9 @@ include_once(__DIR__ . "/../layout/header.php");
         url: "/asset/data",
         type: "POST",
         data: {
-          checklist: checklist
+          type: type,
+          department: department,
+          location: location,
         }
       },
       columnDefs: [{
@@ -144,4 +203,35 @@ include_once(__DIR__ . "/../layout/header.php");
       },
     });
   };
+
+  $(document).on("click", ".btn-delete", function(e) {
+    let uuid = $(this).prop("id");
+    e.preventDefault();
+    Swal.fire({
+      title: "ยืนยันที่จะลบ?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ปิด",
+    }).then((result) => {
+      if (result.value) {
+        axios.post("/asset/asset-delete", {
+          uuid: uuid
+        }).then((res) => {
+          let result = res.data;
+          if (result === 200) {
+            location.reload()
+          } else {
+            location.reload()
+          }
+        }).catch((error) => {
+          console.log(error);
+        });
+      } else {
+        return false;
+      }
+    })
+  });
 </script>

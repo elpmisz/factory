@@ -8,7 +8,7 @@ include_once(__DIR__ . "/../layout/header.php");
   <div class="col-xl-12">
     <div class="card shadow">
       <div class="card-header">
-        <h4 class="text-center">ทรัพย์สิน</h4>
+        <h4 class="text-center">ข้อมูลทรัพย์สิน</h4>
       </div>
       <div class="card-body">
 
@@ -17,7 +17,7 @@ include_once(__DIR__ . "/../layout/header.php");
             <form action="/asset/create" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
 
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">รูปทรัพย์สิน</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">รูปทรัพย์สิน</label>
                 <div class="col-xl-6">
                   <table class="table table-borderless">
                     <tr class="tr-file">
@@ -33,7 +33,7 @@ include_once(__DIR__ . "/../layout/header.php");
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">ชื่อ</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">ชื่อ</label>
                 <div class="col-xl-6">
                   <input type="text" class="form-control form-control-sm" name="name" required>
                   <div class="invalid-feedback">
@@ -42,7 +42,7 @@ include_once(__DIR__ . "/../layout/header.php");
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">เลขที่ทรัพย์สิน</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">เลขที่ทรัพย์สิน</label>
                 <div class="col-xl-4">
                   <input type="text" class="form-control form-control-sm" name="asset_code" required>
                   <div class="invalid-feedback">
@@ -51,7 +51,7 @@ include_once(__DIR__ . "/../layout/header.php");
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">ประเภท</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">ประเภท</label>
                 <div class="col-sm-4">
                   <select class="form-control form-control-sm type-select" name="type_id" required></select>
                   <div class="invalid-feedback">
@@ -63,7 +63,7 @@ include_once(__DIR__ . "/../layout/header.php");
               <div class="row mb-2">
                 <div class="col-xl-6">
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">ฝ่าย/แผนก</label>
+                    <label class="col-xl-4 col-form-label">ฝ่าย/แผนก</label>
                     <div class="col-xl-8">
                       <select class="form-control form-control-sm department-select" name="department_id"></select>
                       <div class="invalid-feedback">
@@ -72,7 +72,7 @@ include_once(__DIR__ . "/../layout/header.php");
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">สถานที่</label>
+                    <label class="col-xl-4 col-form-label">สถานที่</label>
                     <div class="col-xl-8">
                       <select class="form-control form-control-sm location-select" name="location_id"></select>
                       <div class="invalid-feedback">
@@ -81,7 +81,7 @@ include_once(__DIR__ . "/../layout/header.php");
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">หมายเลขอุปกรณ์</label>
+                    <label class="col-xl-4 col-form-label">หมายเลขอุปกรณ์</label>
                     <div class="col-xl-8">
                       <input type="text" class="form-control form-control-sm" name="serial_number" required>
                       <div class="invalid-feedback">
@@ -90,7 +90,7 @@ include_once(__DIR__ . "/../layout/header.php");
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">รหัสอุปกรณ์</label>
+                    <label class="col-xl-4 col-form-label">รหัสอุปกรณ์</label>
                     <div class="col-xl-8">
                       <input type="text" class="form-control form-control-sm" name="code" required>
                       <div class="invalid-feedback">
@@ -99,7 +99,7 @@ include_once(__DIR__ . "/../layout/header.php");
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">กำลังไฟ (kW)</label>
+                    <label class="col-xl-4 col-form-label">กำลังไฟ (kW)</label>
                     <div class="col-xl-8">
                       <input type="number" class="form-control form-control-sm" name="kw" step="0.01">
                       <div class="invalid-feedback">
@@ -111,7 +111,7 @@ include_once(__DIR__ . "/../layout/header.php");
 
                 <div class="col-xl-6">
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">ยี่ห้อ</label>
+                    <label class="col-xl-4 col-form-label">ยี่ห้อ</label>
                     <div class="col-xl-8">
                       <select class="form-control form-control-sm brand-select" name="brand_id" required></select>
                       <div class="invalid-feedback">
@@ -120,7 +120,7 @@ include_once(__DIR__ . "/../layout/header.php");
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">รุ่น</label>
+                    <label class="col-xl-4 col-form-label">รุ่น</label>
                     <div class="col-xl-8">
                       <select class="form-control form-control-sm model-select" name="model_id" disabled></select>
                       <div class="invalid-feedback">
@@ -129,7 +129,7 @@ include_once(__DIR__ . "/../layout/header.php");
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">วันที่ซื้อ</label>
+                    <label class="col-xl-4 col-form-label">วันที่ซื้อ</label>
                     <div class="col-xl-8">
                       <input type="text" class="form-control form-control-sm date-select" name="purchase_date">
                       <div class="invalid-feedback">
@@ -138,7 +138,7 @@ include_once(__DIR__ . "/../layout/header.php");
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">วันที่หมดประกัน</label>
+                    <label class="col-xl-4 col-form-label">วันที่หมดประกัน</label>
                     <div class="col-xl-8">
                       <input type="text" class="form-control form-control-sm date-select" name="expire_date">
                       <div class="invalid-feedback">
@@ -152,7 +152,7 @@ include_once(__DIR__ . "/../layout/header.php");
               <div class="row mb-2 div-specific-field"></div>
 
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">หมายเหตุ</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">หมายเหตุ</label>
                 <div class="col-xl-6">
                   <textarea class="form-control form-control-sm" name="text" rows="4"></textarea>
                 </div>
@@ -233,7 +233,7 @@ include_once(__DIR__ . "/../layout/header.php");
             let type = parseInt(v.type);
             div += '<div class="col-xl-6">';
             div += '<div class="row mb-2">';
-            div += '<label class="col-xl-4 col-form-label text-xl-right">' + v.name + '</label>';
+            div += '<label class="col-xl-4 col-form-label">' + v.name + '</label>';
             div += '<div class="col-xl-8">';
             div += '<input type="hidden" name="item_id[]" value="' + v.id + '" readonly>';
             div += '<input type="hidden" name="item_type[]" value="' + v.type + '" readonly>';

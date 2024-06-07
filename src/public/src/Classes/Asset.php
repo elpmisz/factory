@@ -57,6 +57,38 @@ class Asset
     return $stmt->fetch();
   }
 
+  public function asset_update($data)
+  {
+    $sql = "UPDATE factory.asset SET 
+    name = ?,
+    asset_code = ?,
+    department_id = ?,
+    location_id = ?,
+    brand_id = ?,
+    model_id = ?,
+    serial_number = ?,
+    code = ?,
+    kw = ?,
+    purchase = ?,
+    expire = ?,
+    text = ?,
+    status = ?,
+    updated = NOW()
+    WHERE uuid = ?";
+    $stmt = $this->dbcon->prepare($sql);
+    return $stmt->execute($data);
+  }
+
+  public function asset_delete($data)
+  {
+    $sql = "UPDATE factory.asset SET 
+    status = 0,
+    updated = NOW()
+    WHERE uuid = ?";
+    $stmt = $this->dbcon->prepare($sql);
+    return $stmt->execute($data);
+  }
+
   public function item_create($data)
   {
     $sql = "INSERT INTO factory.asset_item(`asset_id`, `type_item_id`, `item_value`) VALUES(?,?,?)";
@@ -66,33 +98,33 @@ class Asset
 
   public function item_view($data)
   {
-    $sql = "SELECT a.id,IF(b.`type` = 4,DATE_FORMAT(a.item_value,'%d/%m/%Y'),a.item_value) item_value,
-    b.name item_name,b.type item_type,b.text item_text,
+    $sql = "SELECT c.id,b.id type_item_id,b.`name` type_item_name,b.type type_item_type,b.text type_item_text,
     (
       CASE
         WHEN b.required = 1 THEN 'required'
         WHEN b.required = 2 THEN ''
-        WHEN b.required = 3 THEN 'readonly'
         ELSE NULL
       END
-    ) item_required
-    FROM factory.asset_item a
+    ) item_required,
+    IF(b.`type` = 4,DATE_FORMAT(c.item_value,'%d/%m/%Y'),c.item_value) item_value
+    FROM factory.asset a
     LEFT JOIN factory.asset_type_item b
-    ON a.type_item_id = b.id
-    WHERE a.asset_id = ?
+    ON a.type_id = b.type_id
+    LEFT JOIN factory.asset_item c
+    ON b.id = c.type_item_id
+    WHERE a.id = ?
     ORDER BY b.created ASC";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute($data);
     return $stmt->fetchAll();
   }
 
-  public function item_delete($data)
+  public function item_update($data)
   {
-    $sql = "DELETE a FROM factory.asset_item a
-    LEFT JOIN factory.asset_type_item b
-    ON a.item_id = b.id
-    WHERE a.machine_id = ?
-    AND b.type_id != ?";
+    $sql = "UPDATE factory.asset_item SET 
+    item_value = ?,
+    updated = NOW()
+    WHERE id = ?";
     $stmt = $this->dbcon->prepare($sql);
     return $stmt->execute($data);
   }
@@ -115,68 +147,9 @@ class Asset
     return $stmt->fetchAll();
   }
 
-  public function machine_id()
+  public function file_delete($data)
   {
-    $sql = "SELECT id 
-    FROM factory.asset 
-    ORDER BY created DESC 
-    LIMIT 1";
-    $stmt = $this->dbcon->prepare($sql);
-    $stmt->execute();
-    $row = $stmt->fetch();
-    return (!empty($row['id']) ? $row['id'] : "");
-  }
-
-  public function asset_update($data)
-  {
-    $sql = "UPDATE factory.asset SET 
-    code = ?,
-    name = ?,
-    type_id = ?,
-    department_id = ?,
-    location_id = ?,
-    brand_id = ?,
-    model_id = ?,
-    serial_number = ?,
-    asset_code = ?,
-    kw = ?,
-    purchase = ?,
-    expire = ?,
-    text = ?,
-    user = ?,
-    status = ?,
-    updated = NOW()
-    WHERE id = ?";
-    $stmt = $this->dbcon->prepare($sql);
-    return $stmt->execute($data);
-  }
-
-  public function item_update($data)
-  {
-    $sql = "UPDATE factory.asset_item SET 
-    item_value = ?,
-    user = ?,
-    updated = NOW()
-    WHERE id = ?";
-    $stmt = $this->dbcon->prepare($sql);
-    return $stmt->execute($data);
-  }
-
-  public function delete($data)
-  {
-    $sql = "UPDATE factory.asset SET 
-    user = ?,
-    status = 0,
-    updated = NOW()
-    WHERE id = ?";
-    $stmt = $this->dbcon->prepare($sql);
-    return $stmt->execute($data);
-  }
-
-  public function image_delete($data)
-  {
-    $sql = "UPDATE factory.asset_image SET 
-    user = ?,
+    $sql = "UPDATE factory.asset_file SET
     status = 0,
     updated = NOW()
     WHERE id = ?";
@@ -214,7 +187,7 @@ class Asset
 
   public function location_select($keyword)
   {
-    $sql = "SELECT id id, name text
+    $sql = "SELECT id, name text
     FROM factory.asset_location
     WHERE status = 1 ";
     if (!empty($keyword)) {
@@ -242,8 +215,6 @@ class Asset
     $stmt->execute();
     return $stmt->fetchAll();
   }
-
-
 
   public function brand_select($keyword)
   {

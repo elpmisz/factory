@@ -19,13 +19,13 @@ $files = $ASSET->file_view([$asset_id]);
   <div class="col-xl-12">
     <div class="card shadow">
       <div class="card-header">
-        <h4 class="text-center">ทรัพย์สิน</h4>
+        <h4 class="text-center">ข้อมูลทรัพย์สิน</h4>
       </div>
       <div class="card-body">
 
         <div class="row justify-content-end mb-2">
           <div class="col-xl-12">
-            <form action="/factory/asset/machine/update" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+            <form action="/asset/update" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
 
               <?php if (COUNT($files) !== 0) : ?>
                 <div class="row mb-2 justify-content-center">
@@ -46,7 +46,7 @@ $files = $ASSET->file_view([$asset_id]);
                   </div>
                 </div>
                 <div class="row mb-2">
-                  <label class="col-xl-4 col-form-label text-xl-right">รูปทรัพย์สิน</label>
+                  <label class="col-xl-2 offset-xl-2 col-form-label"></label>
                   <div class="col-xl-8">
                     <table class="table table-sm table-borderless">
                       <?php
@@ -55,7 +55,7 @@ $files = $ASSET->file_view([$asset_id]);
                       ?>
                         <tr>
                           <td width="10%">
-                            <a href="javascript:void(0)" class="badge badge-danger font-weight-light asset-delete" id="<?php echo $file['id'] ?>">ลบ</a>
+                            <a href="javascript:void(0)" class="badge badge-danger font-weight-light file-delete" id="<?php echo $file['id'] ?>">ลบ</a>
                           </td>
                           <td width="90%">
                             <a href="/src/Publics/asset/<?php echo $file['name'] ?>" target="_blank">
@@ -69,7 +69,7 @@ $files = $ASSET->file_view([$asset_id]);
                 </div>
               <?php endif; ?>
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right"></label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">รูปทรัพย์สิน</label>
                 <div class="col-xl-6">
                   <table class="table table-borderless">
                     <tr class="tr-file">
@@ -85,37 +85,43 @@ $files = $ASSET->file_view([$asset_id]);
                 </div>
               </div>
               <div class="row mb-2" style="display: none;">
-                <label class="col-xl-4 col-form-label text-xl-right">ID</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">ID</label>
                 <div class="col-xl-4">
                   <input type="text" class="form-control form-control-sm" name="id" value="<?php echo $row['id'] ?>" readonly>
                 </div>
               </div>
+              <div class="row mb-2" style="display: none;">
+                <label class="col-xl-2 offset-xl-2 col-form-label">UUID</label>
+                <div class="col-xl-4">
+                  <input type="text" class="form-control form-control-sm" name="uuid" value="<?php echo $row['uuid'] ?>" readonly>
+                </div>
+              </div>
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">ชื่อ</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">ชื่อ</label>
                 <div class="col-xl-6">
                   <input type="text" class="form-control form-control-sm" name="name" value="<?php echo $row['name'] ?>" required>
                   <div class="invalid-feedback">
-                    REQUIRED!
+                    กรุณากรอกข้อมูล!
                   </div>
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">เลขที่ทรัพย์สิน</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">เลขที่ทรัพย์สิน</label>
                 <div class="col-xl-4">
                   <input type="text" class="form-control form-control-sm" name="asset_code" value="<?php echo $row['asset_code'] ?>" required>
                   <div class="invalid-feedback">
-                    REQUIRED!
+                    กรุณากรอกข้อมูล!
                   </div>
                 </div>
               </div>
               <div class="row mb-2" style="display: none;">
-                <label class="col-xl-4 col-form-label text-xl-right">TYPE ID</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">TYPE ID</label>
                 <div class="col-xl-4">
                   <input type="text" class="form-control form-control-sm type_id" value="<?php echo $row['type_id'] ?>" readonly>
                 </div>
               </div>
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">ประเภท</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">ประเภท</label>
                 <div class="col-xl-4 text-underline">
                   <?php echo $row['type_name'] ?>
                 </div>
@@ -124,7 +130,7 @@ $files = $ASSET->file_view([$asset_id]);
               <div class="row mb-2">
                 <div class="col-xl-6">
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">ฝ่าย/แผนก</label>
+                    <label class="col-xl-4 col-form-label">ฝ่าย/แผนก</label>
                     <div class="col-xl-8">
                       <select class="form-control form-control-sm department-select" name="department_id">
                         <?php
@@ -134,12 +140,12 @@ $files = $ASSET->file_view([$asset_id]);
                         ?>
                       </select>
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">สถานที่</label>
+                    <label class="col-xl-4 col-form-label">สถานที่</label>
                     <div class="col-xl-8">
                       <select class="form-control form-control-sm location-select" name="location_id">
                         <?php
@@ -149,34 +155,34 @@ $files = $ASSET->file_view([$asset_id]);
                         ?>
                       </select>
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">หมายเลขอุปกรณ์</label>
+                    <label class="col-xl-4 col-form-label">หมายเลขอุปกรณ์</label>
                     <div class="col-xl-8">
                       <input type="text" class="form-control form-control-sm" name="serial_number" value="<?php echo $row['serial_number'] ?>" required>
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">รหัสอุปกรณ์</label>
+                    <label class="col-xl-4 col-form-label">รหัสอุปกรณ์</label>
                     <div class="col-xl-8">
                       <input type="text" class="form-control form-control-sm" name="code" value="<?php echo $row['code'] ?>" required>
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">กำลังไฟ (kW)</label>
+                    <label class="col-xl-4 col-form-label">กำลังไฟ (kW)</label>
                     <div class="col-xl-8">
                       <input type="number" class="form-control form-control-sm" name="kw" value="<?php echo $row['kw'] ?>" step="0.01">
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
@@ -184,7 +190,7 @@ $files = $ASSET->file_view([$asset_id]);
 
                 <div class="col-xl-6">
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">ยี่ห้อ</label>
+                    <label class="col-xl-4 col-form-label">ยี่ห้อ</label>
                     <div class="col-xl-8">
                       <select class="form-control form-control-sm brand-select" name="brand_id" required>
                         <?php
@@ -194,12 +200,12 @@ $files = $ASSET->file_view([$asset_id]);
                         ?>
                       </select>
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">รุ่น</label>
+                    <label class="col-xl-4 col-form-label">รุ่น</label>
                     <div class="col-xl-8">
                       <select class="form-control form-control-sm model-select" name="model_id">
                         <?php
@@ -209,25 +215,25 @@ $files = $ASSET->file_view([$asset_id]);
                         ?>
                       </select>
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">วันที่ซื้อ</label>
+                    <label class="col-xl-4 col-form-label">วันที่ซื้อ</label>
                     <div class="col-xl-8">
                       <input type="text" class="form-control form-control-sm date-select" name="purchase_date" value="<?php echo $row['purchase'] ?>">
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label class="col-xl-4 col-form-label text-xl-right">วันที่หมดประกัน</label>
+                    <label class="col-xl-4 col-form-label">วันที่หมดประกัน</label>
                     <div class="col-xl-8">
                       <input type="text" class="form-control form-control-sm date-select" name="expire_date" value="<?php echo $row['expire'] ?>">
                       <div class="invalid-feedback">
-                        REQUIRED!
+                        กรุณากรอกข้อมูล!
                       </div>
                     </div>
                   </div>
@@ -238,19 +244,19 @@ $files = $ASSET->file_view([$asset_id]);
                 <?php foreach ($items as $key => $item) : ?>
                   <div class="col-xl-6">
                     <div class="row">
-                      <label class="col-xl-4 col-md-4 col-form-label text-xl-right"><?php echo $item['item_name'] ?></label>
-                      <div class="col-xl-8 col-md-8">
+                      <label class="col-xl-4 col-form-label"><?php echo $item['type_item_name'] ?></label>
+                      <div class="col-xl-8">
                         <input type="hidden" class="form-control form-control-sm" name="item__id[]" value="<?php echo $item['id'] ?>" readonly>
-                        <input type="hidden" class="form-control form-control-sm" name="item__type[]" value="<?php echo $item['item_type'] ?>" readonly>
-                        <?php if (intval($item['item_type']) === 1) : ?>
+                        <input type="hidden" class="form-control form-control-sm" name="item__type[]" value="<?php echo $item['type_item_id'] ?>" readonly>
+                        <?php if (intval($item['type_item_type']) === 1) : ?>
                           <input type="text" class="form-control form-control-sm" name="item__value[]" value="<?php echo $item['item_value'] ?>" <?php echo $item['item_required'] ?>>
                         <?php endif; ?>
-                        <?php if (intval($item['item_type']) === 2) : ?>
+                        <?php if (intval($item['type_item_type']) === 2) : ?>
                           <input type="number" class="form-control form-control-sm" name="item__value[]" step="0.01" value="<?php echo $item['item_value'] ?>" <?php echo $item['item_required'] ?>>
                         <?php endif; ?>
                         <?php
-                        if (intval($item['item_type']) === 3) :
-                          $selects = explode(",", $item['item_text']);
+                        if (intval($item['type_item_type']) === 3) :
+                          $selects = explode(",", $item['type_item_text']);
                         ?>
                           <select class="form-control form-control-sm option-select" name="item__value[]" <?php echo $item['item_required'] ?>>
                             <option value="">-- SELECT --</option>
@@ -261,11 +267,11 @@ $files = $ASSET->file_view([$asset_id]);
                             ?>
                           </select>
                         <?php endif; ?>
-                        <?php if (intval($item['item_type']) === 4) : ?>
+                        <?php if (intval($item['type_item_type']) === 4) : ?>
                           <input type="text" class="form-control form-control-sm date-select" name="item__value[]" value="<?php echo $item['item_value'] ?>" <?php echo $item['item_required'] ?>>
                         <?php endif; ?>
                         <div class="invalid-feedback">
-                          REQUIRED!
+                          กรุณากรอกข้อมูล!
                         </div>
                       </div>
                     </div>
@@ -276,7 +282,7 @@ $files = $ASSET->file_view([$asset_id]);
               <div class="row mb-2 div-specific-field"></div>
 
               <div class="row mb-2">
-                <label class="col-xl-4 col-form-label text-xl-right">หมายเหตุ</label>
+                <label class="col-xl-2 offset-xl-2 col-form-label">หมายเหตุ</label>
                 <div class="col-xl-6">
                   <textarea class="form-control form-control-sm" name="text" rows="4"><?php echo $row['text'] ?></textarea>
                 </div>
@@ -469,6 +475,12 @@ $files = $ASSET->file_view([$asset_id]);
     }
   });
 
+  $(".option-select").select2({
+    placeholder: "-- เลือก --",
+    allowClear: true,
+    width: "100%",
+  });
+
   $(".date-select").daterangepicker({
     autoUpdateInput: false,
     singleDatePicker: true,
@@ -495,5 +507,36 @@ $files = $ASSET->file_view([$asset_id]);
 
   $(".date-select").on("keydown paste", function(e) {
     e.preventDefault();
+  });
+
+  $(document).on("click", ".file-delete", function(e) {
+    let id = $(this).prop("id");
+    e.preventDefault();
+    Swal.fire({
+      title: "ยืนยันที่จะลบ?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ปิด",
+    }).then((result) => {
+      if (result.value) {
+        axios.post("/asset/file-delete", {
+          id: id
+        }).then((res) => {
+          let result = res.data;
+          if (result === 200) {
+            location.reload()
+          } else {
+            location.reload()
+          }
+        }).catch((error) => {
+          console.log(error);
+        });
+      } else {
+        return false;
+      }
+    })
   });
 </script>

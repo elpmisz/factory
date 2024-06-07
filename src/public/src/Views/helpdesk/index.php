@@ -12,6 +12,18 @@ include_once(__DIR__ . "/../layout/header.php");
       </div>
       <div class="card-body">
 
+        <div class="row justify-content-end mb-2">
+          <div class="col-xl-3 mb-2">
+            <a href="/helpdesk/manage" class="btn btn-sm btn-info btn-block">
+              <i class="fa fa-file-lines pr-2"></i>จัดการระบบ
+            </a>
+          </div>
+          <div class="col-xl-3 mb-2">
+            <a href="/helpdesk/create" class="btn btn-sm btn-primary btn-block">
+              <i class="fa fa-plus pr-2"></i>เพิ่ม
+            </a>
+          </div>
+        </div>
 
       </div>
     </div>

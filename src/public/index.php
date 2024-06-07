@@ -34,9 +34,37 @@ $ROUTER->map("POST", "/dashboard-energy/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/dashboard/energy-data.php");
 });
 
+##################### HELPDESK-SERVICE #####################
+$ROUTER->map("GET", "/helpdesk/service", function () {
+  require(__DIR__ . "/src/Views/helpdesk-service/index.php");
+});
+$ROUTER->map("GET", "/helpdesk/service/create", function () {
+  require(__DIR__ . "/src/Views/helpdesk-service/create.php");
+});
+$ROUTER->map("GET", "/helpdesk/service/edit/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/helpdesk-service/edit.php");
+});
+$ROUTER->map("POST", "/helpdesk/service/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/helpdesk-service/action.php");
+});
+
+##################### HELPDESK-AUTHORIZE #####################
+$ROUTER->map("GET", "/helpdesk/authorize", function () {
+  require(__DIR__ . "/src/Views/helpdesk-authorize/index.php");
+});
+$ROUTER->map("GET", "/helpdesk/authorize/create", function () {
+  require(__DIR__ . "/src/Views/helpdesk-authorize/create.php");
+});
+$ROUTER->map("POST", "/helpdesk/authorize/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/helpdesk-authorize/action.php");
+});
+
 ##################### SERVICE-HELPDESK #####################
 $ROUTER->map("GET", "/helpdesk", function () {
   require(__DIR__ . "/src/Views/helpdesk/index.php");
+});
+$ROUTER->map("GET", "/helpdesk/manage", function () {
+  require(__DIR__ . "/src/Views/helpdesk/manage.php");
 });
 $ROUTER->map("POST", "/helpdesk/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/helpdesk/action.php");
@@ -50,7 +78,7 @@ $ROUTER->map("POST", "/preventive/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/preventive/action.php");
 });
 
-##################### ASSET-TYPE #####################
+##################### ASSET-AUTHORIZE #####################
 $ROUTER->map("GET", "/asset/authorize", function () {
   require(__DIR__ . "/src/Views/asset-authorize/index.php");
 });
