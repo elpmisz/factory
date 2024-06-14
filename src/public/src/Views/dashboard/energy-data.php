@@ -37,7 +37,8 @@ if ($action === "data") {
 
     $sql = "SELECT a.machine_number,a.machine_name,DATE_FORMAT(a.date_start, '%d/%m/%Y') start,a.kwh_diff
     FROM factory.energy_data a
-    WHERE a.date_start != '' ";
+    WHERE a.date_start != ''
+    AND YEAR(a.date_start) = YEAR(NOW()) ";
 
     if (!empty($machine)) {
       $sql .= " AND (a.machine_number = '{$machine}') ";

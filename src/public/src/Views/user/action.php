@@ -91,64 +91,64 @@ if ($action === "profile") {
   }
 }
 
-if ($action === "upload") {
-  try {
-    $file_name = (isset($_FILES['file']['name']) ? $_FILES['file']['name'] : '');
-    $file_tmp = (isset($_FILES['file']['tmp_name']) ? $_FILES['file']['tmp_name'] : '');
-    $file_allow = ["xls", "xlsx", "csv"];
-    $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
+// if ($action === "upload") {
+//   try {
+//     $file_name = (isset($_FILES['file']['name']) ? $_FILES['file']['name'] : '');
+//     $file_tmp = (isset($_FILES['file']['tmp_name']) ? $_FILES['file']['tmp_name'] : '');
+//     $file_allow = ["xls", "xlsx", "csv"];
+//     $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
 
-    if (!in_array($file_extension, $file_allow)) :
-      $VALIDATION->alert("danger", "เฉพาะเอกสาร XLS XLSX CSV!", "/unit");
-    endif;
+//     if (!in_array($file_extension, $file_allow)) :
+//       $VALIDATION->alert("danger", "เฉพาะเอกสาร XLS XLSX CSV!", "/unit");
+//     endif;
 
-    if ($file_extension === "xls") {
-      $READER = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-    } elseif ($file_extension === "xlsx") {
-      $READER = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-    } else {
-      $READER = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
-    }
+//     if ($file_extension === "xls") {
+//       $READER = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+//     } elseif ($file_extension === "xlsx") {
+//       $READER = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+//     } else {
+//       $READER = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+//     }
 
-    $READ = $READER->load($file_tmp);
-    $result = $READ->getActiveSheet()->toArray();
+//     $READ = $READER->load($file_tmp);
+//     $result = $READ->getActiveSheet()->toArray();
 
-    $data = [];
-    foreach ($result as $value) {
-      $data[] = array_map("trim", $value);
-    }
+//     $data = [];
+//     foreach ($result as $value) {
+//       $data[] = array_map("trim", $value);
+//     }
 
-    foreach ($data as $key => $value) {
-      if (!in_array($key, [0])) {
-        $uuid = (isset($value[0]) ? $value[0] : "");
-        $email = (isset($value[1]) ? $value[1] : "");
-        $firstname = (isset($value[2]) ? $value[2] : "");
-        $lastname = (isset($value[3]) ? $value[3] : "");
-        $contact = (isset($value[4]) ? $value[4] : "");
-        $level = (isset($value[5]) ? $value[5] : "");
-        $level = ($level === "ผู้ใช้งาน" ? 1 : 9);
-        $status = (isset($value[6]) ? $value[6] : "");
-        $status = ($status === "ใช้งาน" ? 1 : 2);
+//     foreach ($data as $key => $value) {
+//       if (!in_array($key, [0])) {
+//         $uuid = (isset($value[0]) ? $value[0] : "");
+//         $email = (isset($value[1]) ? $value[1] : "");
+//         $firstname = (isset($value[2]) ? $value[2] : "");
+//         $lastname = (isset($value[3]) ? $value[3] : "");
+//         $contact = (isset($value[4]) ? $value[4] : "");
+//         $level = (isset($value[5]) ? $value[5] : "");
+//         $level = ($level === "ผู้ใช้งาน" ? 1 : 9);
+//         $status = (isset($value[6]) ? $value[6] : "");
+//         $status = ($status === "ใช้งาน" ? 1 : 2);
 
-        $default_password = $USER->default_password();
-        $hash_password = password_hash($default_password, PASSWORD_DEFAULT);
+//         $default_password = $USER->default_password();
+//         $hash_password = password_hash($default_password, PASSWORD_DEFAULT);
 
-        $count = $USER->user_count([$email]);
-        if (intval($count) > 0) {
-          $USER->admin_update([$email, $level, $status, $firstname, $lastname, $contact, $uuid]);
-        } else {
-          $USER->admin_insert([$email, $hash_password, $level, $status]);
-          $login = $USER->last_insert_id();
-          $USER->user_insert([$login, $firstname, $lastname, $contact]);
-        }
-      }
-    }
+//         $count = $USER->user_count([$email]);
+//         if (intval($count) > 0) {
+//           $USER->admin_update([$email, $level, $status, $firstname, $lastname, $contact, $uuid]);
+//         } else {
+//           $USER->admin_insert([$email, $hash_password, $level, $status]);
+//           $login = $USER->last_insert_id();
+//           $USER->user_insert([$login, $firstname, $lastname, $contact]);
+//         }
+//       }
+//     }
 
-    $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!", "/user");
-  } catch (PDOException $e) {
-    die($e->getMessage());
-  }
-}
+//     $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!", "/user");
+//   } catch (PDOException $e) {
+//     die($e->getMessage());
+//   }
+// }
 
 if ($action === "user-data") {
   try {

@@ -259,7 +259,7 @@ $files = $ASSET->file_view([$asset_id]);
                           $selects = explode(",", $item['type_item_text']);
                         ?>
                           <select class="form-control form-control-sm option-select" name="item__value[]" <?php echo $item['item_required'] ?>>
-                            <option value="">-- SELECT --</option>
+                            <option value="">-- เลือก --</option>
                             <?php
                             foreach ($selects as $k => $v) {
                               echo "<option value='{$k}' " . ($k === intval($item['item_value']) ? "selected" : "") . ">{$v}</option>";
@@ -278,8 +278,6 @@ $files = $ASSET->file_view([$asset_id]);
                   </div>
                 <?php endforeach; ?>
               </div>
-
-              <div class="row mb-2 div-specific-field"></div>
 
               <div class="row mb-2">
                 <label class="col-xl-2 offset-xl-2 col-form-label">หมายเหตุ</label>

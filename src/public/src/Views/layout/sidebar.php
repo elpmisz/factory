@@ -12,6 +12,7 @@ $user_change = ($page === "user-change" ? 'class="active"' : "");
 
 $setting_menu = (isset($menu) && ($menu === "setting") ? "show" : "");
 $setting_system = ($page === "setting-system" ? 'class="active"' : "");
+$setting_line = ($page === "setting-line-token" ? 'class="active"' : "");
 $setting_user = ($page === "setting-user" ? 'class="active"' : "");
 $setting_service = ($page === "setting-service" ? 'class="active"' : "");
 $setting_auth = ($page === "setting-auth" ? 'class="active"' : "");
@@ -102,6 +103,12 @@ $setting_auth = ($page === "setting-auth" ? 'class="active"' : "");
             <a href="/system">
               <i class="fa fa-gear pr-2"></i>
               ระบบ
+            </a>
+          </li>
+          <li <?php echo $setting_line ?>>
+            <a href="/line-token">
+              <i class="fa fa-gear pr-2"></i>
+              LINE Token
             </a>
           </li>
           <li <?php echo $setting_user ?>>

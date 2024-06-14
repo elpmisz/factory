@@ -35,7 +35,8 @@ class DashboardCounter
   {
     $sql = "SELECT DATE_FORMAT(a.open, '%d/%m/%Y') `date`,SUM(a.actual) total
     FROM factory.counter_data a
-    WHERE a.actual != '' ";
+    WHERE a.actual != ''
+    AND YEAR(a.open) = YEAR(NOW()) ";
     if (!empty($machine)) {
       $sql .= " AND (a.machine = '{$machine}') ";
     }
@@ -57,27 +58,36 @@ class DashboardCounter
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function machine_daily($machine, $job, $shift, $start, $end)
+  public function job_monthly()
   {
-    $sql = "SELECT a.machine,DATE(a.open) open,SUM(a.actual) total
+    $sql = "SELECT a.machine,CONCAT(
+    SUM(IF(MONTH(a.open) = 1,a.actual,0)),',',
+    SUM(IF(MONTH(a.open) = 2,a.actual,0)),',',
+    SUM(IF(MONTH(a.open) = 3,a.actual,0)),',',
+    SUM(IF(MONTH(a.open) = 4,a.actual,0)),',',
+    SUM(IF(MONTH(a.open) = 5,a.actual,0)),',',
+    SUM(IF(MONTH(a.open) = 6,a.actual,0)),',',
+    SUM(IF(MONTH(a.open) = 7,a.actual,0)),',',
+    SUM(IF(MONTH(a.open) = 8,a.actual,0)),',',
+    SUM(IF(MONTH(a.open) = 9,a.actual,0)),',',
+    SUM(IF(MONTH(a.open) = 10,a.actual,0)),',',
+    SUM(IF(MONTH(a.open) = 11,a.actual,0)),',',
+    SUM(IF(MONTH(a.open) = 12,a.actual,0))
+    ) total
     FROM factory.counter_data a
-    WHERE a.actual != '' ";
-    if (!empty($machine)) {
-      $sql .= " AND (a.machine = '{$machine}') ";
-    }
-    if (!empty($job)) {
-      $sql .= " AND (a.job = '{$job}') ";
-    }
-    if (!empty($shift)) {
-      $sql .= " AND (a.shift = '{$shift}') ";
-    }
-    if (!empty($start) && !empty($end)) {
-      $sql .= " AND (DATE(a.open) BETWEEN STR_TO_DATE('{$start}', '%d/%m/%Y') AND STR_TO_DATE('{$end}', '%d/%m/%Y')) ";
-    }
-    if (!empty($start) && empty($end)) {
-      $sql .= " AND (DATE(a.open) = STR_TO_DATE('{$start}', '%d/%m/%Y')) ";
-    }
-    $sql .= "GROUP BY a.machine";
+    WHERE YEAR(a.`open`) = YEAR(NOW())
+    GROUP BY a.machine";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function machine_all()
+  {
+    $sql = "SELECT a.machine,SUM(a.actual) total
+    FROM factory.counter_data a
+    WHERE YEAR(a.`open`) = YEAR(NOW())
+    GROUP BY a.machine ";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -99,9 +109,10 @@ class DashboardCounter
   public function job_select($keyword)
   {
     $sql = "SELECT a.job id, CONCAT('[',a.job,'] ',a.bom) text
-    FROM factory.counter_data a ";
+    FROM factory.counter_data a
+    WHERE YEAR(a.open) = YEAR(NOW()) ";
     if (!empty($keyword)) {
-      $sql .= " WHERE a.job LIKE '%{$keyword}%' ";
+      $sql .= " AND a.job LIKE '%{$keyword}%' ";
     }
     $sql .= "GROUP BY a.job";
     $stmt = $this->dbcon->prepare($sql);

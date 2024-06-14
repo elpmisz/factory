@@ -14,6 +14,18 @@ class Asset
     $this->dbcon = $db->getConnection();
   }
 
+  public function asset_card()
+  {
+    $sql = "SELECT COUNT(*) asset_total,
+    (SELECT COUNT(*) FROM factory.asset_type) asset_type,
+    (SELECT COUNT(*) FROM factory.asset_department) asset_department,
+    (SELECT COUNT(*) FROM factory.asset_location) asset_location
+    FROM factory.asset a";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetch();
+  }
+
   public function asset_count($data)
   {
     $sql = "SELECT COUNT(*) 

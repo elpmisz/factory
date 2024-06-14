@@ -18,8 +18,6 @@ $action = (isset($param[0]) ? $param[0] : die(header("Location: /error")));
 $param1 = (isset($param[1]) ? $param[1] : "");
 $param2 = (isset($param[2]) ? $param[2] : "");
 
-$user__login = (isset($_SESSION['Mem_id']) ? $_SESSION['Mem_id'] : "");
-
 if ($action === "add") {
   try {
     $name = (isset($_POST['name']) ? $VALIDATION->input($_POST['name']) : "");
@@ -66,7 +64,6 @@ if ($action === "update") {
     $monthly = (isset($_POST['monthly']) ? $VALIDATION->input($_POST['monthly']) : "");
     $month = (isset($_POST['month']) ? implode(",", $_POST['month']) : "");
     $status = (isset($_POST['status']) ? $VALIDATION->input($_POST['status']) : "");
-    $item___id = (isset($_POST['item___id']) ? implode(",", $_POST['item___id']) : "");
 
     $TYPE->type_update([$name, $checklist, $worker, $weekly, $monthly, $month, $status, $uuid]);
 
@@ -111,10 +108,10 @@ if ($action === "update") {
 if ($action === "delete") {
   try {
     $data = json_decode(file_get_contents("php://input"), true);
-    $id = $data['id'];
+    $uuid = $data['uuid'];
 
-    if (!empty($id)) {
-      $TYPE->delete([$user__login, $id]);
+    if (!empty($uuid)) {
+      $TYPE->type_delete([$uuid]);
       $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!");
       echo json_encode(200);
     } else {

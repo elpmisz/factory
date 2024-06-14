@@ -54,7 +54,7 @@ class User
 
   public function user_view($data)
   {
-    $sql = "SELECT a.id login_id,a.uuid,a.email,a.password,a.level,a.auth,a.status,
+    $sql = "SELECT a.id login_id,b.id user_id,a.uuid,a.email,a.password,a.level,a.auth,a.status,
     b.firstname,b.lastname,b.contact,CONCAT(b.firstname,' ',b.lastname) fullname
     FROM factory.login a
     LEFT JOIN factory.user b

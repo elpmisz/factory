@@ -16,8 +16,6 @@ $action = (isset($param[0]) ? $param[0] : die(header("Location: /error")));
 $param1 = (isset($param[1]) ? $param[1] : "");
 $param2 = (isset($param[2]) ? $param[2] : "");
 
-$user__login = (isset($_SESSION['Mem_id']) ? $_SESSION['Mem_id'] : "");
-
 if ($action === "create") {
   try {
     $name = (isset($_POST['name']) ? $VALIDATION->input($_POST['name']) : "");

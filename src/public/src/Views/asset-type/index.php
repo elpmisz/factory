@@ -91,20 +91,20 @@ include_once(__DIR__ . "/../layout/header.php");
   };
 
   $(document).on("click", ".btn-delete", function(e) {
-    let id = ($(this).prop("id") ? $(this).prop("id") : "");
+    let uuid = $(this).prop("id");
     e.preventDefault();
     Swal.fire({
-      title: "CONFIRM?",
+      title: "ยืนยันที่จะทำรายการ?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "SUBMIT",
-      cancelButtonText: "CLOSE",
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ปิด",
     }).then((result) => {
       if (result.value) {
-        axios.post("/factory/asset/type/delete", {
-          id: id
+        axios.post("/asset/type/delete", {
+          uuid: uuid
         }).then((res) => {
           let result = parseInt(res.data);
           if (result === 200) {

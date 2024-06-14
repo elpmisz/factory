@@ -61,17 +61,15 @@ class HelpdeskAuthorize
     $sql = "SELECT a.id,CONCAT(b.firstname,' ',b.lastname) username,
     (
     CASE
-      WHEN a.type = 1 THEN 'ผู้อนุมัติ'
-      WHEN a.type = 2 THEN 'ผู้ตรวจสอบ'
-      WHEN a.type = 3 THEN 'ผู้จัดการระบบ'
+      WHEN a.type = 1 THEN 'ผู้อนุมัติ / ผู้ตรวจสอบ'
+      WHEN a.type = 2 THEN 'ผู้จัดการระบบ'
       ELSE NULL
     END
     ) type_name,
     (
     CASE
       WHEN a.type = 1 THEN 'success'
-      WHEN a.type = 2 THEN 'danger'
-      WHEN a.type = 3 THEN 'primary'
+      WHEN a.type = 2 THEN 'primary'
       ELSE NULL
     END
     ) type_color

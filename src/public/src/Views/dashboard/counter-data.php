@@ -11,7 +11,7 @@ use App\Classes\Validation;
 $DASHBOARD = new DashboardCounter();
 $VALIDATION = new Validation();
 
-if ($action === "data") {
+if ($action === "job-daily-data") {
   try {
     $sql = "SELECT COUNT(*) FROM factory.counter_data";
     $stmt = $dbcon->prepare($sql);
@@ -40,7 +40,8 @@ if ($action === "data") {
     $sql = "SELECT a.machine,CONCAT('[',a.job,'] ',a.bom) job,a.shift,a.target,a.actual,a.energy_diff,
     DATE_FORMAT(a.`open`, '%d/%m/%Y, %H:%i น.') open,DATE_FORMAT(a.`close`, '%d/%m/%Y, %H:%i น.') close
     FROM factory.counter_data a
-    WHERE a.actual != '' ";
+    WHERE a.actual != ''
+    AND YEAR(a.open) = YEAR(NOW()) ";
 
     if (!empty($machine)) {
       $sql .= " AND (a.machine = '{$machine}') ";
@@ -104,6 +105,28 @@ if ($action === "job-daily") {
     $end = ($start === $end ? "" : $end);
 
     $result = $DASHBOARD->job_daily($machine, $job, $shift, $start, $end);
+    echo json_encode($result);
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  }
+}
+
+if ($action === "monthly-daily") {
+  try {
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $result = $DASHBOARD->job_monthly();
+    echo json_encode($result);
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  }
+}
+
+if ($action === "machine-all") {
+  try {
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $result = $DASHBOARD->machine_all();
     echo json_encode($result);
   } catch (PDOException $e) {
     die($e->getMessage());

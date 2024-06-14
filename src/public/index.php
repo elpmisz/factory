@@ -63,8 +63,23 @@ $ROUTER->map("POST", "/helpdesk/authorize/[**:params]", function ($params) {
 $ROUTER->map("GET", "/helpdesk", function () {
   require(__DIR__ . "/src/Views/helpdesk/index.php");
 });
+$ROUTER->map("GET", "/helpdesk/create", function () {
+  require(__DIR__ . "/src/Views/helpdesk/create.php");
+});
 $ROUTER->map("GET", "/helpdesk/manage", function () {
   require(__DIR__ . "/src/Views/helpdesk/manage.php");
+});
+$ROUTER->map("GET", "/helpdesk/edit/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/helpdesk/edit.php");
+});
+$ROUTER->map("GET", "/helpdesk/approve/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/helpdesk/approve.php");
+});
+$ROUTER->map("GET", "/helpdesk/assign/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/helpdesk/assign.php");
+});
+$ROUTER->map("GET", "/helpdesk/work/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/helpdesk/work.php");
 });
 $ROUTER->map("POST", "/helpdesk/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/helpdesk/action.php");
@@ -219,6 +234,20 @@ $ROUTER->map("GET", "/service", function () {
 });
 $ROUTER->map("POST", "/service/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/service/action.php");
+});
+
+##################### LINE TOKEN #####################
+$ROUTER->map("GET", "/line-token", function () {
+  require(__DIR__ . "/src/Views/line-token/index.php");
+});
+$ROUTER->map("GET", "/line-token/create", function () {
+  require(__DIR__ . "/src/Views/line-token/create.php");
+});
+$ROUTER->map("GET", "/line-token/edit/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/line-token/edit.php");
+});
+$ROUTER->map("POST", "/line-token/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/line-token/action.php");
 });
 
 ##################### AUTHORIZE #####################

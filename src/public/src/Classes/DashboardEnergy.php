@@ -35,7 +35,8 @@ class DashboardEnergy
   {
     $sql = "SELECT DATE_FORMAT(a.date_start, '%d/%m/%Y') `date`,SUM(a.kwh_diff) total
     FROM factory.energy_data a
-    WHERE a.date_start != '' ";
+    WHERE a.date_start != ''
+    AND YEAR(a.date_start) = YEAR(NOW()) ";
     if (!empty($machine)) {
       $sql .= " AND (a.machine_number = '{$machine}') ";
     }

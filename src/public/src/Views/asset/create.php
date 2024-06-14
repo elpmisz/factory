@@ -149,7 +149,7 @@ include_once(__DIR__ . "/../layout/header.php");
                 </div>
               </div>
 
-              <div class="row mb-2 div-specific-field"></div>
+              <div class="row mb-2 specific-field-div"></div>
 
               <div class="row mb-2">
                 <label class="col-xl-2 offset-xl-2 col-form-label">หมายเหตุ</label>
@@ -227,7 +227,7 @@ include_once(__DIR__ . "/../layout/header.php");
       .then((res) => {
         let result = res.data;
         if (result.length > 0) {
-          $(".div-specific-field").show();
+          $(".specific-field-div").show();
           let div = '';
           result.forEach((v, k) => {
             let type = parseInt(v.type);
@@ -261,9 +261,9 @@ include_once(__DIR__ . "/../layout/header.php");
             div += '</div>';
             div += '</div>';
           });
-          $(".div-specific-field").empty().html(div);
+          $(".specific-field-div").empty().html(div);
         } else {
-          $(".div-specific-field").hide();
+          $(".specific-field-div").hide();
           $("input[name='item_id[]'],input[name='item_type[]'],input[name='item_value[]']").val("");
           $("input[name='item_value[]']").prop("required", false);
         }
@@ -280,6 +280,15 @@ include_once(__DIR__ . "/../layout/header.php");
           showDropdowns: true,
           locale: {
             "format": "DD/MM/YYYY",
+            "applyLabel": "ยืนยัน",
+            "cancelLabel": "ยกเลิก",
+            "daysOfWeek": [
+              "อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"
+            ],
+            "monthNames": [
+              "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+              "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+            ]
           },
           "applyButtonClasses": "btn-success",
           "cancelClass": "btn-danger"

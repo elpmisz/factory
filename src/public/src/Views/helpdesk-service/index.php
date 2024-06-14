@@ -8,18 +8,18 @@ include_once(__DIR__ . "/../layout/header.php");
   <div class="col-xl-12">
     <div class="card shadow">
       <div class="card-header">
-        <h4 class="text-center">สิทธิ์การจัดการ</h4>
+        <h4 class="text-center">หัวข้อบริการ</h4>
       </div>
       <div class="card-body">
 
         <div class="row justify-content-end mb-2">
           <div class="col-xl-3 mb-2">
-            <a href="/helpdesk/authorize/excel" class="btn btn-sm btn-success btn-block">
+            <a href="/helpdesk/service/excel" class="btn btn-sm btn-success btn-block">
               <i class="fa fa-download pr-2"></i>นำข้อมูลออก
             </a>
           </div>
           <div class="col-xl-3 mb-2">
-            <a href="/helpdesk/authorize/create" class="btn btn-sm btn-primary btn-block">
+            <a href="/helpdesk/service/create" class="btn btn-sm btn-primary btn-block">
               <i class="fa fa-plus pr-2"></i>เพิ่ม
             </a>
           </div>
@@ -32,8 +32,11 @@ include_once(__DIR__ . "/../layout/header.php");
                 <thead>
                   <tr>
                     <th width="10%">#</th>
-                    <th width="10%">สิทธิ์</th>
-                    <th width="50%">รายชื่อ</th>
+                    <th width="40%">บริการ</th>
+                    <th width="10%">ระยะเวลา (SLA)</th>
+                    <th width="10%">เลือกทรัพย์สิน</th>
+                    <th width="10%">การอนุมัติ</th>
+                    <th width="10%">การตรวจสอบ</th>
                   </tr>
                 </thead>
               </table>
@@ -65,11 +68,11 @@ include_once(__DIR__ . "/../layout/header.php");
       scrollX: true,
       order: [],
       ajax: {
-        url: "/helpdesk/authorize/data",
+        url: "/helpdesk/service/data",
         type: "POST",
       },
       columnDefs: [{
-        targets: [0, 1],
+        targets: [0, 2, 3, 4, 5],
         className: "text-center",
       }],
       "oLanguage": {
@@ -90,7 +93,7 @@ include_once(__DIR__ . "/../layout/header.php");
   };
 
   $(document).on("click", ".btn-delete", function(e) {
-    let id = $(this).prop("id");
+    let uuid = $(this).prop("id");
     e.preventDefault();
     Swal.fire({
       title: "ยืนยันที่จะทำรายการ?",
@@ -102,8 +105,8 @@ include_once(__DIR__ . "/../layout/header.php");
       cancelButtonText: "ปิด",
     }).then((result) => {
       if (result.value) {
-        axios.post("/helpdesk/authorize/delete", {
-          id: id
+        axios.post("/helpdesk/service/delete", {
+          uuid: uuid
         }).then((res) => {
           let result = parseInt(res.data);
           if (result === 200) {
