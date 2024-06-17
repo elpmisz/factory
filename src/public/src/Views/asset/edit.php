@@ -13,6 +13,7 @@ $row = $ASSET->asset_view([$uuid]);
 $asset_id = $row['id'];
 $items = $ASSET->item_view([$asset_id]);
 $files = $ASSET->file_view([$asset_id]);
+$helpdesk = $ASSET->helpdesk_view([$asset_id]);
 ?>
 
 <div class="row mb-2">
@@ -304,6 +305,39 @@ $files = $ASSET->file_view([$asset_id]);
                   </div>
                 </div>
               </div>
+
+              <?php if (COUNT($helpdesk) > 0) : ?>
+                <hr>
+                <div class="h5 text-primary">ประวัติการแจ้งปัญหาการใช้งาน</div>
+                <div class="row mb-2">
+                  <div class="table-responsive">
+                    <table class="table table-sm table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th width="10%">#</th>
+                          <th width="10%">เลขที่บริการ</th>
+                          <th width="20%">หัวข้อบริการ</th>
+                          <th width="40%">ปัญหาที่พบ</th>
+                          <th width="10%">วันที่</th>
+                        </tr>
+                      </thead>
+                      <?php
+                      foreach ($helpdesk as $hd) :
+                      ?>
+                        <tr>
+                          <td class="text-center">
+                            <a href="/helpdesk/complete/<?php echo $hd['uuid'] ?>" class="badge badge-primary font-weight-light" target="_blank">รายละเอียด</a>
+                          </td>
+                          <td class="text-center"><?php echo $hd['ticket'] ?></td>
+                          <td class="text-center"><?php echo $hd['service_name'] ?></td>
+                          <td><?php echo str_replace("\r\n", "<br>", $hd['text']) ?></td>
+                          <td><?php echo $hd['created'] ?></td>
+                        </tr>
+                      <?php endforeach; ?>
+                    </table>
+                  </div>
+                </div>
+              <?php endif; ?>
 
               <div class="row justify-content-center mb-2">
                 <div class="col-xl-3 mb-2">

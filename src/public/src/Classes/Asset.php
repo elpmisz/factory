@@ -169,6 +169,19 @@ class Asset
     return $stmt->execute($data);
   }
 
+  public function helpdesk_view($data)
+  {
+    $sql = "SELECT a.id,a.uuid,CONCAT('HD',YEAR(a.created),LPAD(a.`last`,4,'0')) ticket,b.`name` service_name,
+    a.text,DATE_FORMAT(a.created,'%d/%m/%Y, %H:%i น.') created
+    FROM factory.helpdesk_request a
+    LEFT JOIN factory.helpdesk_service b
+    ON a.service_id = b.id
+    WHERE a.asset_id = ?";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute($data);
+    return $stmt->fetchAll();
+  }
+
   public function type_select($keyword)
   {
     $sql = "SELECT a.id, a.name `text`
@@ -280,60 +293,7 @@ class Asset
     return $stmt->fetchAll();
   }
 
-  public function helpdesk_count($data)
-  {
-    $sql = "SELECT COUNT(*) 
-    FROM hd_factory.request 
-    WHERE machine_id = ?
-    AND status NOT IN (9)";
-    $stmt = $this->dbcon->prepare($sql);
-    $stmt->execute($data);
-    return $stmt->fetchColumn();
-  }
-
-  public function helpdesk_view($data)
-  {
-    $sql = "SELECT a.id,
-    CONCAT('HD',YEAR(a.created),LPAD(a.last,4,'0')) ticket,a.text,
-    DATE_FORMAT(a.created, '%d/%m/%Y, %H:%i น.') created
-    FROM hd_factory.request a
-    WHERE a.machine_id = ?
-    AND a.status NOT IN (9)";
-    $stmt = $this->dbcon->prepare($sql);
-    $stmt->execute($data);
-    return $stmt->fetchAll();
-  }
-
-  public function pm_count($data)
-  {
-    $sql = "SELECT COUNT(*) 
-    FROM factory.asset_request a
-    LEFT JOIN factory.asset_request_item b
-    ON a.id = b.request_id
-    WHERE b.machine_id = ?
-    AND a.status NOT IN (6)";
-    $stmt = $this->dbcon->prepare($sql);
-    $stmt->execute($data);
-    return $stmt->fetchColumn();
-  }
-
-  public function pm_view($data)
-  {
-    $sql = "SELECT a.id,
-    CONCAT('PM',YEAR(a.created),LPAD(a.last, GREATEST(LENGTH(a.last), 4), '0')) ticket,
-    a.text,b.`process`,b.text remark,
-    CONCAT(DATE_FORMAT(a.start, '%d/%m/%Y'),' - ',DATE_FORMAT(a.end, '%d/%m/%Y')) `date`
-    FROM factory.asset_request a
-    LEFT JOIN factory.asset_request_item b
-    ON a.id = b.request_id
-    WHERE b.machine_id = ?
-    AND a.status NOT IN (6)";
-    $stmt = $this->dbcon->prepare($sql);
-    $stmt->execute($data);
-    return $stmt->fetchAll();
-  }
-
-  public function read($type = null, $department = null, $location = null)
+  public function report($type = null, $department = null, $location = null)
   {
     $sql = "SELECT a.code,a.asset_code asset,a.serial_number serial,a.name,
     d.name `type`,b.name department,c.name location,

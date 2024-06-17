@@ -81,6 +81,12 @@ $ROUTER->map("GET", "/helpdesk/assign/[**:params]", function ($params) {
 $ROUTER->map("GET", "/helpdesk/work/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/helpdesk/work.php");
 });
+$ROUTER->map("GET", "/helpdesk/check/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/helpdesk/check.php");
+});
+$ROUTER->map("GET", "/helpdesk/complete/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/helpdesk/complete.php");
+});
 $ROUTER->map("POST", "/helpdesk/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/helpdesk/action.php");
 });

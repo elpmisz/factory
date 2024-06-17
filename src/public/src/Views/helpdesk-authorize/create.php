@@ -21,7 +21,7 @@ include_once(__DIR__ . "/../layout/header.php");
                 <div class="col-xl-4">
                   <select class="form-control form-control-sm user-select" name="user" required></select>
                   <div class="invalid-feedback">
-                    กรุณาเลือกข้อมูล!
+                    กรุณากรอกข้อมูล!
                   </div>
                 </div>
               </div>

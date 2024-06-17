@@ -77,7 +77,7 @@ $files = $HELPDESK->files_view([$uuid]);
                       <?php echo "<option value='{$row['asset_id']}'>{$row['asset_name']}</option>"; ?>
                     </select>
                     <div class="invalid-feedback">
-                      กรุณาเลือกข้อมูล!
+                      กรุณากรอกข้อมูล!
                     </div>
                   </div>
                 </div>

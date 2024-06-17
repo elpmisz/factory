@@ -193,12 +193,103 @@ if ($action === "assign") {
   }
 }
 
+if ($action === "work") {
+  try {
+    $id = (isset($_POST['id']) ? $VALIDATION->input($_POST['id']) : "");
+    $uuid = (isset($_POST['uuid']) ? $VALIDATION->input($_POST['uuid']) : "");
+    $service_id = (isset($_POST['service_id']) ? $VALIDATION->input($_POST['service_id']) : "");
+    $status = (isset($_POST['status']) ? $VALIDATION->input($_POST['status']) : "");
+    $remark = (isset($_POST['remark']) ? $VALIDATION->input($_POST['remark']) : "");
+    $date = (isset($_POST['date']) ? $VALIDATION->input($_POST['date']) : "");
+    $date = (!empty($date) ? date("Y-m-d", strtotime(str_replace("/", "-", $date))) : "");
+    $worker_id = (isset($_POST['worker_id']) ? $VALIDATION->input($_POST['worker_id']) : "");
+    $status = (isset($_POST['status']) ? $VALIDATION->input($_POST['status']) : "");
+    $checker_check = $HELPDESK->checker_check([$service_id]);
+    $status = (intval($status) !== 7 ? $status : (intval($status) === 7 && intval($checker_check) === 1 ? 7 : 8));
+
+    foreach ($_POST['item_code'] as $key => $value) {
+      $item_code = (isset($_POST['item_code'][$key]) ? $VALIDATION->input($_POST['item_code'][$key]) : "");
+      $item_quantity = (isset($_POST['item_quantity'][$key]) ? $VALIDATION->input($_POST['item_quantity'][$key]) : "");
+
+      $count = $HELPDESK->spare_count([$id, $item_code]);
+      if (intval($count) === 0 && !empty($item_code)) {
+        $HELPDESK->spare_add([$id, $item_code, $item_quantity]);
+      }
+    }
+
+    $file_name = (isset($_FILES['file']['name']) ? $_FILES['file']['name'] : "");
+    if (!empty($file_name)) {
+      $file_tmp = (isset($_FILES['file']['tmp_name']) ? $_FILES['file']['tmp_name'] : "");
+      $file_random = md5(microtime());
+      $file_image = ["png", "jpeg", "jpg"];
+      $file_document = ["pdf", "doc", "docx", "xls", "xlsx"];
+      $file_allow = array_merge($file_image, $file_document);
+      $file_extension = pathinfo(strtolower($file_name), PATHINFO_EXTENSION);
+
+      if (in_array($file_extension, $file_allow)) {
+        if (in_array($file_extension, $file_document)) {
+          $file_rename = "{$file_random}.{$file_extension}";
+          $file_path = (__DIR__ . "/../../Publics/helpdesk/{$file_rename}");
+          move_uploaded_file($file_tmp, $file_path);
+        }
+        if (in_array($file_extension, $file_image)) {
+          $file_rename = "{$file_random}.webp";
+          $file_path = (__DIR__ . "/../../Publics/helpdesk/{$file_rename}");
+          $VALIDATION->image_upload($file_tmp, $file_path);
+        }
+      }
+    }
+    $file_rename = (!empty($file_rename) ? $file_rename : "");
+
+    $HELPDESK->status_update([$status, $uuid]);
+    $HELPDESK->process_add([$id, $worker_id, $remark, $date, $file_rename, $status]);
+    $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!", "/helpdesk");
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  }
+}
+
+if ($action === "check") {
+  try {
+    $id = (isset($_POST['id']) ? $VALIDATION->input($_POST['id']) : "");
+    $uuid = (isset($_POST['uuid']) ? $VALIDATION->input($_POST['uuid']) : "");
+    $service_id = (isset($_POST['service_id']) ? $VALIDATION->input($_POST['service_id']) : "");
+    $status = (isset($_POST['status']) ? $VALIDATION->input($_POST['status']) : "");
+    $remark = (isset($_POST['remark']) ? $VALIDATION->input($_POST['remark']) : "");
+    $remark = (intval($status) === 8 ? "ผ่านการตรวจสอบ" : $remark);
+    $date = date("Y-m-d");
+
+    $HELPDESK->status_update([$status, $uuid]);
+    $HELPDESK->process_add([$id, $user['user_id'], $remark, $date, "", $status]);
+    $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!", "/helpdesk");
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  }
+}
+
 if ($action === "file-delete") {
   try {
     $data = json_decode(file_get_contents("php://input"), true);
     $id = $data['id'];
     if (!empty($id)) {
       $HELPDESK->file_delete([$id]);
+      $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!");
+      echo json_encode(200);
+    } else {
+      $VALIDATION->alert("danger", "ระบบมีปัญหา กรุณาลองใหม่อีกครั้ง!");
+      echo json_encode(500);
+    }
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  }
+}
+
+if ($action === "spare-delete") {
+  try {
+    $data = json_decode(file_get_contents("php://input"), true);
+    $id = $data['id'];
+    if (!empty($id)) {
+      $HELPDESK->spare_delete([$id]);
       $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!");
       echo json_encode(200);
     } else {

@@ -182,7 +182,8 @@ class Helpdesk
         WHEN b.status = 9 THEN 'danger'
         ELSE NULL
       END
-    ) status_color
+    ) status_color,
+    DATE_FORMAT(b.created, '%d/%m/%Y, %H:%i น.') created
     FROM factory.helpdesk_request a
     LEFT JOIN factory.helpdesk_request_process b
     ON a.id = b.request_id
@@ -195,6 +196,17 @@ class Helpdesk
     return $stmt->fetchAll();
   }
 
+  public function spare_count($data)
+  {
+    $sql = "SELECT COUNT(*) 
+    FROM factory.helpdesk_request_spare 
+    WHERE request_id = ?
+    AND itemcode = ?";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute($data);
+    return $stmt->fetchColumn();
+  }
+
   public function spare_add($data)
   {
     $sql = "INSERT INTO factory.helpdesk_request_spare(`request_id`, `itemcode`, `quantity`) VALUES(?,?,?)";
@@ -204,15 +216,27 @@ class Helpdesk
 
   public function spares_view($data)
   {
-    $sql = "SELECT b.id,b.itemcode,b.quantity 
+    $sql = "SELECT b.id,CONCAT('[',b.itemcode,'] ',c.`name`) itemcode,b.quantity 
     FROM factory.helpdesk_request a
     LEFT JOIN factory.helpdesk_request_spare b
     ON a.id = b.request_id
+    LEFT JOIN factory.spare_item c
+    ON b.itemcode = c.code
     WHERE a.uuid =  ?
-    AND b.id != ''";
+    AND b.status = 1";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute($data);
     return $stmt->fetchAll();
+  }
+
+  public function spare_delete($data)
+  {
+    $sql = "UPDATE factory.helpdesk_request_spare SET
+    status = 0,
+    updated = NOW()
+    WHERE id = ?";
+    $stmt = $this->dbcon->prepare($sql);
+    return $stmt->execute($data);
   }
 
   public function item_count($data)
@@ -323,7 +347,7 @@ class Helpdesk
 
   public function checker_check($data)
   {
-    $sql = "SELECT check FROM factory.helpdesk_service WHERE id = ?";
+    $sql = "SELECT `check` FROM factory.helpdesk_service WHERE id = ?";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute($data);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -575,7 +599,7 @@ class Helpdesk
     ON a.user_id = c.id
     LEFT JOIN factory.asset d
     ON a.asset_id = d.id
-    WHERE a.status = 1 ";
+    WHERE a.status IN (1,7) ";
     if (!empty($keyword)) {
       $sql .= " AND (a.text LIKE '%{$keyword}%' OR d.name LIKE '%{$keyword}%' OR d.asset_code LIKE '%{$keyword}%' OR d.code LIKE '%{$keyword}%' OR d.serial_number LIKE '%{$keyword}%' OR CONCAT('HD',YEAR(a.created),LPAD(a.`last`,4,'0')) LIKE '%{$keyword}%') ";
     }

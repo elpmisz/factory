@@ -35,7 +35,7 @@ include_once(__DIR__ . "/../layout/header.php");
                 <div class="col-xl-4">
                   <input type="text" class="form-control form-control-sm" name="contact" value="<?php echo $user['contact'] ?>" required>
                   <div class="invalid-feedback">
-                    กรุณาเลือกข้อมูล!
+                    กรุณากรอกข้อมูล!
                   </div>
                 </div>
               </div>
@@ -53,7 +53,7 @@ include_once(__DIR__ . "/../layout/header.php");
                 <div class="col-xl-6">
                   <select class="form-control form-control-sm asset-select" name="asset"></select>
                   <div class="invalid-feedback">
-                    กรุณาเลือกข้อมูล!
+                    กรุณากรอกข้อมูล!
                   </div>
                 </div>
               </div>

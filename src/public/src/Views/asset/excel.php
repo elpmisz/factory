@@ -1,6 +1,6 @@
 <?php
 
-use App\Classes\Machine;
+use App\Classes\Asset;
 use App\Classes\Validation;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -8,7 +8,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 require_once(__DIR__ . "/../../vendor/autoload.php");
 require_once(__DIR__ . "/../../../../vendor/autoload.php");
 
-$MACHINE = new Machine();
+$ASSET = new Asset();
 $VALIDATION = new Validation();
 $SPREADSHEET = new Spreadsheet();
 $WRITER = new Xlsx($SPREADSHEET);
@@ -18,7 +18,7 @@ $type = (!empty($param[0]) ? $param[0] : "");
 $department = (!empty($param[1]) ? $param[1] : "");
 $location = (!empty($param[2]) ? $param[2] : "");
 
-$result = $MACHINE->read($type, $department, $location);
+$result = $ASSET->report($type, $department, $location);
 
 $SPREADSHEET->setActiveSheetIndex(0);
 $ACTIVESHEET = $SPREADSHEET->getActiveSheet();

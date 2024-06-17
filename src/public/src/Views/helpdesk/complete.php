@@ -12,6 +12,7 @@ $row = $HELPDESK->helpdesk_view([$uuid]);
 $items = $HELPDESK->items_view([$uuid]);
 $files = $HELPDESK->files_view([$uuid]);
 $processes = $HELPDESK->process_view([$uuid]);
+$spares = $HELPDESK->spares_view([$uuid]);
 ?>
 
 <div class="row">
@@ -24,7 +25,7 @@ $processes = $HELPDESK->process_view([$uuid]);
 
         <div class="row justify-content-end mb-2">
           <div class="col-xl-12">
-            <form action="/helpdesk/assign" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+            <form action="/helpdesk/check" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
               <div class="row mb-2" style="display: none;">
                 <label class="col-xl-2 offset-xl-2 col-form-label">ID</label>
                 <div class="col-xl-4">
@@ -35,6 +36,12 @@ $processes = $HELPDESK->process_view([$uuid]);
                 <label class="col-xl-2 offset-xl-2 col-form-label">UUID</label>
                 <div class="col-xl-4">
                   <input type="text" class="form-control form-control-sm" name="uuid" value="<?php echo $row['uuid'] ?>" readonly>
+                </div>
+              </div>
+              <div class="row mb-2" style="display: none;">
+                <label class="col-xl-2 offset-xl-2 col-form-label">SERVICE</label>
+                <div class="col-xl-4">
+                  <input type="text" class="form-control form-control-sm" name="service_id" value="<?php echo $row['service_id'] ?>" readonly>
                 </div>
               </div>
 
@@ -180,65 +187,79 @@ $processes = $HELPDESK->process_view([$uuid]);
                 </div>
               </div>
 
-              <hr>
-              <div class="h5 text-primary">รายละเอียดการดำเนินการ</div>
-              <div class="row mb-2">
-                <div class="table-responsive">
-                  <table class="table table-sm table-bordered table-hover">
-                    <thead>
-                      <tr>
-                        <th width="10%">#</th>
-                        <th width="10%">รับเรื่อง</th>
-                        <th width="10%">กำหนดเสร็จ</th>
-                        <th width="40%">การดำเนินการ</th>
-                        <th width="20%">ผู้ดำเนินการ</th>
-                        <th width="10%">เอกสารแนบ</th>
-                      </tr>
-                    </thead>
-                    <?php
-                    foreach ($processes as $process) :
-                    ?>
-                      <tr>
-                        <td class="text-center">
-                          <span class="badge badge-<?php echo $process['status_color'] ?> font-weight-light">
-                            <?php echo $process['status_name'] ?>
-                          </span>
-                        </td>
-                        <td class="text-center"><?php echo $process['start'] ?></td>
-                        <td class="text-center"><?php echo $process['end'] ?></td>
-                        <td><?php echo str_replace("\r\n", "<br>", $process['text']) ?></td>
-                        <td class="text-center"><?php echo $process['worker'] ?></td>
-                        <td class="text-center">
-                          <?php if (!empty($process['file'])) : ?>
-                            <a href="/src/Publics/helpdesk/<?php echo $process['file'] ?>" class="text-primary" target="_blank">
-                              <span class="badge badge-primary font-weight-light">ดาวน์โหลด!</span>
-                            </a>
-                          <?php endif; ?>
-                        </td>
-                      </tr>
-                    <?php endforeach; ?>
-                  </table>
-                </div>
-              </div>
-
-              <hr>
-              <div class="h5 text-danger">กรุณาเลือกผู้รับผิดชอบ</div>
-              <div class="row mb-2">
-                <label class="col-xl-2 col-form-label">ผู้รับผิดชอบ</label>
-                <div class="col-xl-4">
-                  <select class="form-control form-control-sm user-select" name="user" required></select>
-                  <div class="invalid-feedback">
-                    กรุณากรอกข้อมูล!
+              <?php if (COUNT($processes) > 0) : ?>
+                <hr>
+                <div class="h5 text-primary">รายละเอียดการดำเนินการ</div>
+                <div class="row mb-2">
+                  <div class="table-responsive">
+                    <table class="table table-sm table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th width="10%">#</th>
+                          <th width="10%">รับเรื่อง</th>
+                          <th width="10%">กำหนดเสร็จ</th>
+                          <th width="40%">การดำเนินการ</th>
+                          <th width="20%">ผู้ดำเนินการ</th>
+                          <th width="10%">เอกสารแนบ</th>
+                          <th width="10%">วันที่</th>
+                        </tr>
+                      </thead>
+                      <?php
+                      foreach ($processes as $process) :
+                      ?>
+                        <tr>
+                          <td class="text-center">
+                            <span class="badge badge-<?php echo $process['status_color'] ?> font-weight-light">
+                              <?php echo $process['status_name'] ?>
+                            </span>
+                          </td>
+                          <td class="text-center"><?php echo $process['start'] ?></td>
+                          <td class="text-center"><?php echo $process['end'] ?></td>
+                          <td><?php echo str_replace("\r\n", "<br>", $process['text']) ?></td>
+                          <td class="text-center"><?php echo $process['worker'] ?></td>
+                          <td class="text-center">
+                            <?php if (!empty($process['file'])) : ?>
+                              <a href="/src/Publics/helpdesk/<?php echo $process['file'] ?>" class="text-primary" target="_blank">
+                                <span class="badge badge-primary font-weight-light">ดาวน์โหลด!</span>
+                              </a>
+                            <?php endif; ?>
+                          </td>
+                          <td><?php echo $process['created'] ?></td>
+                        </tr>
+                      <?php endforeach; ?>
+                    </table>
                   </div>
                 </div>
-              </div>
+              <?php endif; ?>
+
+              <?php if (COUNT($spares) > 0) : ?>
+                <hr>
+                <div class="h5 text-danger">อุปกรณ์ที่เปลี่ยน</div>
+                <div class="row mb-2">
+                  <div class="col-xl-10">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-sm spare-table">
+                        <thead>
+                          <tr>
+                            <th width="50%">อุปกรณ์ที่เปลี่ยน</th>
+                            <th width="20%">จำนวน</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php foreach ($spares as $spare) : ?>
+                            <tr>
+                              <td><?php echo $spare['itemcode'] ?></td>
+                              <td class="text-center"><?php echo $spare['quantity'] ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              <?php endif; ?>
 
               <div class="row justify-content-center mb-2">
-                <div class="col-xl-3 mb-2">
-                  <button type="submit" class="btn btn-sm btn-success btn-block">
-                    <i class="fas fa-check pr-2"></i>ยืนยัน
-                  </button>
-                </div>
                 <div class="col-xl-3 mb-2">
                   <a href="/helpdesk" class="btn btn-sm btn-danger btn-block">
                     <i class="fa fa-arrow-left pr-2"></i>กลับ
@@ -255,24 +276,4 @@ $processes = $HELPDESK->process_view([$uuid]);
   </div>
 </div>
 
-
 <?php include_once(__DIR__ . "/../layout/footer.php"); ?>
-<script>
-  $(".user-select").select2({
-    placeholder: "-- รายชื่อ --",
-    allowClear: true,
-    width: "100%",
-    ajax: {
-      url: "/helpdesk/authorize/user-select",
-      method: "POST",
-      dataType: "json",
-      delay: 100,
-      processResults: function(data) {
-        return {
-          results: data
-        };
-      },
-      cache: true
-    }
-  });
-</script>

@@ -2,13 +2,6 @@
 $menu = "dashboard";
 $page = "dashboard-counter";
 include_once(__DIR__ . "/../layout/header.php");
-
-use App\Classes\DashboardCounter;
-use App\Classes\Validation;
-
-$DASHBOARD = new DashboardCounter();
-$VALIDATION = new Validation();
-$card = $DASHBOARD->counter_card();
 ?>
 <div class="row mb-2">
   <div class="col-xl-3 mb-2">

@@ -25,7 +25,7 @@ $spares = $HELPDESK->spares_view([$uuid]);
 
         <div class="row justify-content-end mb-2">
           <div class="col-xl-12">
-            <form action="/helpdesk/assign" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+            <form action="/helpdesk/work" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
               <div class="row mb-2" style="display: none;">
                 <label class="col-xl-2 offset-xl-2 col-form-label">ID</label>
                 <div class="col-xl-4">
@@ -36,6 +36,12 @@ $spares = $HELPDESK->spares_view([$uuid]);
                 <label class="col-xl-2 offset-xl-2 col-form-label">UUID</label>
                 <div class="col-xl-4">
                   <input type="text" class="form-control form-control-sm" name="uuid" value="<?php echo $row['uuid'] ?>" readonly>
+                </div>
+              </div>
+              <div class="row mb-2" style="display: none;">
+                <label class="col-xl-2 offset-xl-2 col-form-label">SERVICE</label>
+                <div class="col-xl-4">
+                  <input type="text" class="form-control form-control-sm" name="service_id" value="<?php echo $row['service_id'] ?>" readonly>
                 </div>
               </div>
 
@@ -194,6 +200,7 @@ $spares = $HELPDESK->spares_view([$uuid]);
                         <th width="40%">การดำเนินการ</th>
                         <th width="20%">ผู้ดำเนินการ</th>
                         <th width="10%">เอกสารแนบ</th>
+                        <th width="10%">วันที่</th>
                       </tr>
                     </thead>
                     <?php
@@ -216,6 +223,7 @@ $spares = $HELPDESK->spares_view([$uuid]);
                             </a>
                           <?php endif; ?>
                         </td>
+                        <td><?php echo $process['created'] ?></td>
                       </tr>
                     <?php endforeach; ?>
                   </table>
@@ -225,45 +233,47 @@ $spares = $HELPDESK->spares_view([$uuid]);
               <hr>
               <div class="h5 text-danger">อุปกรณ์ที่เปลี่ยน</div>
               <div class="row mb-2">
-                <div class="table-responsive">
-                  <table class="table table-bordered table-sm spare-table">
-                    <thead>
-                      <tr>
-                        <th width="10%">#</th>
-                        <th width="50%">อุปกรณ์ที่เปลี่ยน</th>
-                        <th width="20%">จำนวน</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php foreach ($spares as $spare) : ?>
+                <div class="col-xl-10">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-sm spare-table">
+                      <thead>
                         <tr>
-                          <td class="text-center">
-                            <a href="javascript:void(0)" class="badge badge-danger font-weight-light item-delete" id="<?php echo $spare['id'] ?>">ลบ</a>
-                          </td>
-                          <td><?php echo $spare['itemcode'] ?></td>
-                          <td class="text-center"><?php echo $spare['quantity'] ?></td>
+                          <th width="10%">#</th>
+                          <th width="50%">อุปกรณ์ที่เปลี่ยน</th>
+                          <th width="20%">จำนวน</th>
                         </tr>
-                      <?php endforeach; ?>
-                      <tr class="item-tr">
-                        <td class="text-center">
-                          <button type="button" class="btn btn-sm btn-success increase-item">+</button>
-                          <button type="button" class="btn btn-sm btn-danger decrease-item">-</button>
-                        </td>
-                        <td class="text-left">
-                          <select class="form-control form-control-sm spare-select" name="item_code[]"></select>
-                          <div class="invalid-feedback">
-                            กรุณาเลือกข้อมูล!
-                          </div>
-                        </td>
-                        <td>
-                          <input type="number" class="form-control form-control-sm text-center spare-quantity" name="item_quantity[]" min="0">
-                          <div class="invalid-feedback">
-                            กรุณากรอกข้อมูล!
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        <?php foreach ($spares as $spare) : ?>
+                          <tr>
+                            <td class="text-center">
+                              <a href="javascript:void(0)" class="badge badge-danger font-weight-light spare-delete" id="<?php echo $spare['id'] ?>">ลบ</a>
+                            </td>
+                            <td><?php echo $spare['itemcode'] ?></td>
+                            <td class="text-center"><?php echo $spare['quantity'] ?></td>
+                          </tr>
+                        <?php endforeach; ?>
+                        <tr class="item-tr">
+                          <td class="text-center">
+                            <button type="button" class="btn btn-sm btn-success increase-item">+</button>
+                            <button type="button" class="btn btn-sm btn-danger decrease-item">-</button>
+                          </td>
+                          <td class="text-left">
+                            <select class="form-control form-control-sm spare-select" name="item_code[]"></select>
+                            <div class="invalid-feedback">
+                              กรุณากรอกข้อมูล!
+                            </div>
+                          </td>
+                          <td>
+                            <input type="number" class="form-control form-control-sm text-center spare-quantity" name="item_quantity[]" min="0">
+                            <div class="invalid-feedback">
+                              กรุณากรอกข้อมูล!
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 
@@ -274,7 +284,7 @@ $spares = $HELPDESK->spares_view([$uuid]);
                 <div class="col-xl-6">
                   <textarea class="form-control form-control-sm" name="remark" rows="4" required></textarea>
                   <div class="invalid-feedback">
-                    REQUIRED!
+                    กรุณากรอกข้อมูล!
                   </div>
                 </div>
               </div>
@@ -284,7 +294,7 @@ $spares = $HELPDESK->spares_view([$uuid]);
                 <div class="col-xl-2">
                   <input type="text" class="form-control form-control-sm text-center date-select" name="date" value="<?php echo $row['finish'] ?>" required>
                   <div class="invalid-feedback">
-                    REQUIRED!
+                    กรุณากรอกข้อมูล!
                   </div>
                 </div>
               </div>
@@ -299,10 +309,10 @@ $spares = $HELPDESK->spares_view([$uuid]);
                 <label class="col-xl-2 col-form-label">ผู้ดำเนินการ</label>
                 <div class="col-xl-4">
                   <select class="form-control form-control-sm user-select" name="worker_id" required>
-                    <?php echo '<option value="' . $user_id . '">' . $user['fullname'] . '</option>' ?>
+                    <?php echo '<option value="' . $user['user_id'] . '">' . $user['fullname'] . '</option>' ?>
                   </select>
                   <div class="invalid-feedback">
-                    REQUIRED!
+                    กรุณากรอกข้อมูล!
                   </div>
                 </div>
               </div>
@@ -310,7 +320,7 @@ $spares = $HELPDESK->spares_view([$uuid]);
                 <label class="col-xl-2 col-form-label">สถานะ</label>
                 <div class="col-xl-4">
                   <select class="form-control form-control-sm option-select" name="status" required>
-                    <option value="">-- STATUS --</option>
+                    <option value="">-- เลือก --</option>
                     <?php
                     $status = [
                       4 => 'อยู่ระหว่างดำเนินการ',
@@ -323,7 +333,7 @@ $spares = $HELPDESK->spares_view([$uuid]);
                     ?>
                   </select>
                   <div class="invalid-feedback">
-                    REQUIRED!
+                    กรุณากรอกข้อมูล!
                   </div>
                 </div>
               </div>
@@ -433,7 +443,7 @@ $spares = $HELPDESK->spares_view([$uuid]);
   });
 
   $(".option-select").select2({
-    placeholder: "-- SELECT --",
+    placeholder: "-- เลือก --",
     width: "100%",
     allowClear: true,
   });
@@ -464,5 +474,37 @@ $spares = $HELPDESK->spares_view([$uuid]);
 
   $(".date-select").on("keydown paste", function(e) {
     e.preventDefault();
+  });
+
+  $(document).on("click", ".spare-delete", function(e) {
+    let id = $(this).prop("id");
+    console.log(id)
+    e.preventDefault();
+    Swal.fire({
+      title: "ยืนยันที่จะลบ?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ปิด",
+    }).then((result) => {
+      if (result.value) {
+        axios.post("/helpdesk/spare-delete", {
+          id: id
+        }).then((res) => {
+          let result = res.data;
+          if (result === 200) {
+            location.reload()
+          } else {
+            location.reload()
+          }
+        }).catch((error) => {
+          console.log(error);
+        });
+      } else {
+        return false;
+      }
+    })
   });
 </script>
