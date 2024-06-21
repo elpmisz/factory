@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 17, 2024 at 04:54 PM
+-- Generation Time: Jun 21, 2024 at 04:48 PM
 -- Server version: 5.7.44
 -- PHP Version: 5.6.40
 
@@ -167,7 +167,8 @@ CREATE TABLE `asset_authorize` (
 --
 
 INSERT INTO `asset_authorize` (`id`, `user`, `type`, `status`, `updated`, `created`) VALUES
-(1, 1, 1, 1, '2024-06-04 10:00:44', '2024-06-04 09:31:09');
+(1, 1, 1, 1, '2024-06-04 10:00:44', '2024-06-04 09:31:09'),
+(2, 3, 2, 1, NULL, '2024-06-21 16:21:32');
 
 -- --------------------------------------------------------
 
@@ -562,19 +563,19 @@ CREATE TABLE `asset_type` (
 --
 
 INSERT INTO `asset_type` (`id`, `uuid`, `name`, `checklist`, `worker`, `weekly`, `monthly`, `month`, `status`, `updated`, `created`) VALUES
-(1, 0x32613830326530342d306664332d313165652d38, 'เครื่องตัดหัวเลื่อนอัตโนมัติ', '', '1', 2, 2, '', 1, '2024-06-04 08:55:40', '2023-06-21 08:30:12'),
-(2, 0x33313262623634382d323739322d313165652d62, 'ฉีดพื้น PU', '', '1', 2, 2, '1', 1, '2023-07-21 13:51:34', '2023-07-21 13:45:43'),
-(3, 0x33313533363935642d323832652d313165652d62, 'หล่อพื้นยาง', '96', '1', 2, 2, '8', 1, '2023-08-16 13:43:10', '2023-07-22 08:22:25'),
-(4, 0x33653563303633342d653334632d313165642d39, 'เครื่องปั๊มลม (Air Compressor)', '1', '1', 2, 1, '1,7', 1, '2023-08-24 14:27:43', '2023-04-25 16:33:31'),
-(5, 0x33656164303830382d666335642d313165642d38, 'เครื่องปั๊มแขนเหวี่ยง', '13', '1', 0, 0, '', 1, '2023-07-07 10:54:18', '2023-05-27 14:08:13'),
-(6, 0x34656330646134372d666130362d313165642d38, 'เครื่องทำความเย็น (Cooling)', '15', '1', 1, 1, '2,5,8,11', 1, '2024-06-07 13:40:36', '2023-05-24 14:40:51'),
-(7, 0x35643061323633632d666335642d313165642d38, 'เครื่องปอกหนัง', '69', '1', 2, 2, '3,9,6,12', 1, '2023-07-11 13:27:26', '2023-05-27 14:09:04'),
-(8, 0x36376162396462652d653439632d313165642d62, 'รถ (Truck)', '35', '1', 1, 2, '', 1, '2023-08-16 13:40:39', '2023-04-27 08:39:48'),
-(9, 0x37323062646339352d666335642d313165642d38, 'เครื่องผ่าหนัง', '79', '1', 0, 0, '', 1, '2023-07-07 10:56:05', '2023-05-27 14:09:39'),
-(10, 0x39613737393562302d323739332d313165652d62, 'เทพื้น PU (เทซ็อก)', '', '1', 2, 2, '1', 1, '2024-06-10 14:58:36', '2023-07-21 13:55:49'),
-(11, 0x39663137646336302d666335642d313165642d38, 'เครื่องปั๊มหัวเลื่อน', '50', '1', 0, 0, '', 1, '2023-07-07 10:56:18', '2023-05-27 14:10:54'),
-(12, 0x65343662323333392d653936302d313165642d62, 'เครื่องทำอากาศแห้ง (Air Dryer)', '1', '1', 2, 1, '', 1, '2023-08-16 13:40:45', '2023-05-03 10:16:26'),
-(13, 0x66363832353834312d313235622d313165652d38, 'จักรตั้งโปรแกรมเย็บ', '', '1', 2, 2, '', 1, '2024-06-07 14:41:48', '2023-06-24 13:54:28');
+(1, 0x32613830326530342d306664332d313165652d38, 'เครื่องตัดหัวเลื่อนอัตโนมัติ', '', '3', 2, 2, '', 1, '2024-06-04 08:55:40', '2023-06-21 08:30:12'),
+(2, 0x33313262623634382d323739322d313165652d62, 'ฉีดพื้น PU', '13', '3', 2, 2, '1', 1, '2024-06-21 13:07:33', '2023-07-21 13:45:43'),
+(3, 0x33313533363935642d323832652d313165652d62, 'หล่อพื้นยาง', '96', '3', 2, 2, '8', 1, '2023-08-16 13:43:10', '2023-07-22 08:22:25'),
+(4, 0x33653563303633342d653334632d313165642d39, 'เครื่องปั๊มลม (Air Compressor)', '1', '3', 2, 1, '1,7', 1, '2023-08-24 14:27:43', '2023-04-25 16:33:31'),
+(5, 0x33656164303830382d666335642d313165642d38, 'เครื่องปั๊มแขนเหวี่ยง', '13', '3', 0, 0, '', 1, '2023-07-07 10:54:18', '2023-05-27 14:08:13'),
+(6, 0x34656330646134372d666130362d313165642d38, 'เครื่องทำความเย็น (Cooling)', '15', '3,1', 1, 1, '2,5,8,11', 1, '2024-06-19 14:32:19', '2023-05-24 14:40:51'),
+(7, 0x35643061323633632d666335642d313165642d38, 'เครื่องปอกหนัง', '69', '3', 2, 2, '3,9,6,12', 1, '2023-07-11 13:27:26', '2023-05-27 14:09:04'),
+(8, 0x36376162396462652d653439632d313165642d62, 'รถ (Truck)', '35', '3', 1, 2, '', 1, '2023-08-16 13:40:39', '2023-04-27 08:39:48'),
+(9, 0x37323062646339352d666335642d313165642d38, 'เครื่องผ่าหนัง', '79', '3', 0, 0, '', 1, '2023-07-07 10:56:05', '2023-05-27 14:09:39'),
+(10, 0x39613737393562302d323739332d313165652d62, 'เทพื้น PU (เทซ็อก)', '', '3', 2, 2, '1', 1, '2024-06-10 14:58:36', '2023-07-21 13:55:49'),
+(11, 0x39663137646336302d666335642d313165642d38, 'เครื่องปั๊มหัวเลื่อน', '50', '3', 0, 0, '', 1, '2023-07-07 10:56:18', '2023-05-27 14:10:54'),
+(12, 0x65343662323333392d653936302d313165642d62, 'เครื่องทำอากาศแห้ง (Air Dryer)', '1', '3', 2, 1, '', 1, '2023-08-16 13:40:45', '2023-05-03 10:16:26'),
+(13, 0x66363832353834312d313235622d313165652d38, 'จักรตั้งโปรแกรมเย็บ', '', '3', 2, 2, '', 1, '2024-06-07 14:41:48', '2023-06-24 13:54:28');
 
 -- --------------------------------------------------------
 
@@ -641,7 +642,7 @@ CREATE TABLE `helpdesk_request` (
 --
 
 INSERT INTO `helpdesk_request` (`id`, `uuid`, `last`, `user_id`, `service_id`, `asset_id`, `contact`, `text`, `status`, `updated`, `created`) VALUES
-(1, 0x32343762363636612d323734362d313165662d62, 1, 2, 2, 0, '1212312121', 'TESTETSTTESTETST\r\nTESTETSTTESTETST\r\nTESTETSTTESTETST', 8, '2024-06-13 11:42:00', '2024-06-12 14:39:15'),
+(1, 0x32343762363636612d323734362d313165662d62, 1, 2, 2, 0, '1212312121', 'TESTETSTTESTETST\r\nTESTETSTTESTETST\r\nTESTETSTTESTETST', 9, '2024-06-13 11:42:00', '2024-06-12 14:39:15'),
 (2, 0x63356130323332662d323734662d313165662d62, 2, 2, 1, 64, '1212312121', 'TTTTTTTTTAAAAAAAAAA\r\nTTTTTTTTTAAAAAAAAAA\r\nTTTTTTTTTAAAAAAAAAA', 8, '2024-06-13 11:46:09', '2024-06-12 15:48:10');
 
 -- --------------------------------------------------------
@@ -707,6 +708,7 @@ CREATE TABLE `helpdesk_request_process` (
   `user_id` int(11) NOT NULL,
   `text` text NOT NULL,
   `end` date NOT NULL,
+  `cost` decimal(20,2) DEFAULT NULL,
   `file` varchar(200) NOT NULL,
   `status` int(1) NOT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -716,18 +718,19 @@ CREATE TABLE `helpdesk_request_process` (
 -- Dumping data for table `helpdesk_request_process`
 --
 
-INSERT INTO `helpdesk_request_process` (`id`, `request_id`, `user_id`, `text`, `end`, `file`, `status`, `created`) VALUES
-(1, 2, 1, 'ผ่านการอนุมัติ', '2024-06-13', '', 2, '2024-06-13 14:55:17'),
-(2, 2, 3, 'รอดำเนินการ', '2024-06-20', '', 3, '2024-06-13 15:21:42'),
-(3, 1, 1, 'รอดำเนินการ', '2024-06-16', '', 3, '2024-06-13 15:21:59'),
-(4, 1, 1, 'TESTSETT\r\nTESTSETT\r\nTESTSETT', '2024-06-16', 'a157b3027df30f94f3a6969dd68b3781.pdf', 4, '2024-06-17 15:27:27'),
-(5, 1, 1, 'Fixed!\r\nFixed!\r\nFixed!', '2024-06-16', '', 7, '2024-06-17 15:39:09'),
-(7, 1, 1, 'Edit!!\r\nEdit!!\r\nEdit!!', '2024-06-17', '', 6, '2024-06-17 16:06:49'),
-(8, 1, 1, 'Edited!!\r\nEdited!!\r\nEdited!!', '2024-06-17', '638cec129323410564e7542d629744dd.pdf', 7, '2024-06-17 16:07:51'),
-(9, 1, 1, 'ผ่านการตรวจสอบ', '2024-06-17', '', 8, '2024-06-17 16:11:01'),
-(10, 2, 3, 'Changed!!\r\nChanged!!\r\nChanged!!', '2024-06-17', '', 4, '2024-06-17 16:22:47'),
-(11, 2, 3, 'Tested!!\r\nTested!!\r\nTested!!', '2024-06-17', '', 7, '2024-06-17 16:23:16'),
-(12, 2, 1, 'ผ่านการตรวจสอบ', '2024-06-17', '', 8, '2024-06-17 16:23:40');
+INSERT INTO `helpdesk_request_process` (`id`, `request_id`, `user_id`, `text`, `end`, `cost`, `file`, `status`, `created`) VALUES
+(1, 2, 1, 'ผ่านการอนุมัติ', '2024-06-13', NULL, '', 2, '2024-06-13 14:55:17'),
+(2, 2, 3, 'รอดำเนินการ', '2024-06-20', NULL, '', 3, '2024-06-13 15:21:42'),
+(3, 1, 1, 'รอดำเนินการ', '2024-06-16', NULL, '', 3, '2024-06-13 15:21:59'),
+(4, 1, 1, 'TESTSETT\r\nTESTSETT\r\nTESTSETT', '2024-06-16', NULL, 'a157b3027df30f94f3a6969dd68b3781.pdf', 4, '2024-06-17 15:27:27'),
+(5, 1, 1, 'Fixed!\r\nFixed!\r\nFixed!', '2024-06-16', NULL, '', 7, '2024-06-17 15:39:09'),
+(7, 1, 1, 'Edit!!\r\nEdit!!\r\nEdit!!', '2024-06-17', NULL, '', 6, '2024-06-17 16:06:49'),
+(8, 1, 1, 'Edited!!\r\nEdited!!\r\nEdited!!', '2024-06-17', NULL, '638cec129323410564e7542d629744dd.pdf', 7, '2024-06-17 16:07:51'),
+(9, 1, 1, 'ผ่านการตรวจสอบ', '2024-06-17', NULL, '', 8, '2024-06-17 16:11:01'),
+(10, 2, 3, 'Changed!!\r\nChanged!!\r\nChanged!!', '2024-06-17', NULL, '', 4, '2024-06-17 16:22:47'),
+(11, 2, 3, 'Tested!!\r\nTested!!\r\nTested!!', '2024-06-17', NULL, '', 7, '2024-06-17 16:23:16'),
+(12, 2, 1, 'ผ่านการตรวจสอบ', '2024-06-17', NULL, '', 8, '2024-06-17 16:23:40'),
+(13, 1, 1, 'Canceled!!\r\nCanceled!!', '2024-06-19', NULL, '', 9, '2024-06-19 10:39:43');
 
 -- --------------------------------------------------------
 
@@ -862,6 +865,143 @@ INSERT INTO `login` (`id`, `uuid`, `email`, `password`, `level`, `auth`, `status
 (1, 0x30323133653763342d383961612d313165652d62, 'admin@test.com', '$2y$10$zgN7Tu3Yxcj/w0KCbhEBy.5EuYiJRPaDMd50CJ4L0D5a7pcVh/dgC', 9, '1,1,1', 1, '2024-06-13 08:58:08', '2023-11-23 09:42:54'),
 (2, 0x35633638616166622d323932382d313165662d61, 'user@test.com', '$2y$10$bXVcQtD8LolwB0tZrFTrvetO.Ox35ckx6B4KlCEuBlEH.ZIjWRwNS', 1, '1,1,1', 1, '2024-06-13 08:58:14', '2024-06-13 08:57:59'),
 (3, 0x36663238346630342d323932382d313165662d61, 'worker@test.com', '$2y$10$ucOoJC03ifhQSd5oJ1rai.MRVQvbUPaRZQmyRtSEmOiovWDXjkZme', 1, '1,1,1', 1, NULL, '2024-06-13 08:58:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `preventive_authorize`
+--
+
+CREATE TABLE `preventive_authorize` (
+  `id` int(11) NOT NULL,
+  `user` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `updated` datetime DEFAULT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `preventive_authorize`
+--
+
+INSERT INTO `preventive_authorize` (`id`, `user`, `type`, `status`, `updated`, `created`) VALUES
+(1, 1, 1, 1, NULL, '2024-06-20 14:31:44'),
+(2, 3, 2, 1, '2024-06-20 14:39:38', '2024-06-20 14:32:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `preventive_request`
+--
+
+CREATE TABLE `preventive_request` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(20) NOT NULL,
+  `last` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `start` date NOT NULL,
+  `end` date NOT NULL,
+  `worker` varchar(50) NOT NULL,
+  `text` text NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `updated` datetime DEFAULT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `preventive_request`
+--
+
+INSERT INTO `preventive_request` (`id`, `uuid`, `last`, `user_id`, `type_id`, `start`, `end`, `worker`, `text`, `status`, `updated`, `created`) VALUES
+(1, 0x30663065383036632d326563652d313165662d39, 1, 2, 2, '2024-07-01', '2024-07-26', '3', 'TESTESTSETSETESTESTSETSE\r\nTESTESTSETSETESTESTSETSE\r\nTESTESTSETSETESTESTSETSE', 6, '2024-06-21 16:14:37', '2024-06-20 13:26:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `preventive_request_checklist`
+--
+
+CREATE TABLE `preventive_request_checklist` (
+  `id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `checklist_id` int(11) NOT NULL,
+  `result` int(1) DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `preventive_request_checklist`
+--
+
+INSERT INTO `preventive_request_checklist` (`id`, `item_id`, `checklist_id`, `result`, `updated`, `created`) VALUES
+(1, 2, 20, 1, '2024-06-21 14:30:00', '2024-06-21 13:49:42'),
+(2, 2, 19, 1, '2024-06-21 14:30:00', '2024-06-21 13:49:42'),
+(3, 2, 21, 1, '2024-06-21 14:30:00', '2024-06-21 13:49:42'),
+(4, 2, 23, 1, '2024-06-21 14:30:00', '2024-06-21 13:49:42'),
+(5, 2, 22, 1, '2024-06-21 14:30:00', '2024-06-21 13:49:42'),
+(6, 2, 25, 1, '2024-06-21 14:30:00', '2024-06-21 13:49:42'),
+(7, 2, 24, 1, '2024-06-21 14:30:00', '2024-06-21 13:49:42'),
+(8, 1, 20, 1, '2024-06-21 14:30:10', '2024-06-21 14:30:07'),
+(9, 1, 19, 1, '2024-06-21 14:30:10', '2024-06-21 14:30:07'),
+(10, 1, 21, 1, '2024-06-21 14:30:10', '2024-06-21 14:30:07'),
+(11, 1, 23, 1, '2024-06-21 14:30:10', '2024-06-21 14:30:07'),
+(12, 1, 22, 1, '2024-06-21 14:30:10', '2024-06-21 14:30:07'),
+(13, 1, 25, 1, '2024-06-21 14:30:10', '2024-06-21 14:30:07'),
+(14, 1, 24, 1, '2024-06-21 14:30:10', '2024-06-21 14:30:07');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `preventive_request_item`
+--
+
+CREATE TABLE `preventive_request_item` (
+  `id` int(11) NOT NULL,
+  `request_id` int(11) NOT NULL,
+  `machine_id` int(11) NOT NULL,
+  `process` text NOT NULL,
+  `text` text NOT NULL,
+  `file` varchar(100) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `updated` datetime DEFAULT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `preventive_request_item`
+--
+
+INSERT INTO `preventive_request_item` (`id`, `request_id`, `machine_id`, `process`, `text`, `file`, `status`, `updated`, `created`) VALUES
+(1, 1, 64, 'TESTSET111111\r\nTESTSET111111\r\nTESTSET111111', 'RERERE1111', 'a16ac68f2139472efa5d434ff7f04e94.webp', 1, '2024-06-21 15:00:42', '2024-06-20 13:26:42'),
+(2, 1, 63, 'TESTSSF222222', 'REERSE2222', 'b7d47fb068c79d3ff173469803dd079f.webp', 1, '2024-06-21 15:00:42', '2024-06-21 08:47:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `preventive_request_process`
+--
+
+CREATE TABLE `preventive_request_process` (
+  `id` int(11) NOT NULL,
+  `request_id` int(11) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `text` text NOT NULL,
+  `status` int(1) NOT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `preventive_request_process`
+--
+
+INSERT INTO `preventive_request_process` (`id`, `request_id`, `user_id`, `text`, `status`, `created`) VALUES
+(1, 1, 1, 'ผ่านการอนุมัติ', 2, '2024-06-21 10:26:10'),
+(2, 1, 1, 'เพิ่มรูป เครื่องฉีด PU2003 !!!\r\nเพิ่มรูป เครื่องฉีด PU2003 !!!\r\nเพิ่มรูป เครื่องฉีด PU2003 !!!', 4, '2024-06-21 14:59:06'),
+(3, 1, 1, 'ผ่านการตรวจสอบ', 5, '2024-06-21 15:01:06'),
+(4, 1, 2, 'ทดสอบระบบบบบ!!\r\nทดสอบระบบบบบ!!\r\nทดสอบระบบบบบ!!', 6, '2024-06-21 16:14:37');
 
 -- --------------------------------------------------------
 
@@ -10127,6 +10267,44 @@ ALTER TABLE `login`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `preventive_authorize`
+--
+ALTER TABLE `preventive_authorize`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `preventive_request`
+--
+ALTER TABLE `preventive_request`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `type_id` (`type_id`);
+
+--
+-- Indexes for table `preventive_request_checklist`
+--
+ALTER TABLE `preventive_request_checklist`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `request_id` (`item_id`),
+  ADD KEY `checklist_id` (`checklist_id`);
+
+--
+-- Indexes for table `preventive_request_item`
+--
+ALTER TABLE `preventive_request_item`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `request_id` (`request_id`),
+  ADD KEY `machine_id` (`machine_id`);
+
+--
+-- Indexes for table `preventive_request_process`
+--
+ALTER TABLE `preventive_request_process`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `request_id` (`request_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `service`
 --
 ALTER TABLE `service`
@@ -10165,7 +10343,7 @@ ALTER TABLE `asset`
 -- AUTO_INCREMENT for table `asset_authorize`
 --
 ALTER TABLE `asset_authorize`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `asset_brand`
@@ -10243,7 +10421,7 @@ ALTER TABLE `helpdesk_request_item`
 -- AUTO_INCREMENT for table `helpdesk_request_process`
 --
 ALTER TABLE `helpdesk_request_process`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `helpdesk_request_spare`
@@ -10274,6 +10452,36 @@ ALTER TABLE `line_token`
 --
 ALTER TABLE `login`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `preventive_authorize`
+--
+ALTER TABLE `preventive_authorize`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `preventive_request`
+--
+ALTER TABLE `preventive_request`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `preventive_request_checklist`
+--
+ALTER TABLE `preventive_request_checklist`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `preventive_request_item`
+--
+ALTER TABLE `preventive_request_item`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `preventive_request_process`
+--
+ALTER TABLE `preventive_request_process`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `service`

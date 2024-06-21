@@ -20,7 +20,7 @@ class Helpdesk
     (SELECT COUNT(*) FROM factory.helpdesk_request WHERE status = 2) helpdesk_assign,
     (SELECT COUNT(*) FROM factory.helpdesk_request WHERE status IN (3,4,5,6)) helpdesk_work,
     (SELECT COUNT(*) FROM factory.helpdesk_request WHERE status IN (1,7)) helpdesk_approve,
-    (SELECT COUNT(*) FROM factory.helpdesk_request WHERE status = 8) helpdesk_complete
+    (SELECT COUNT(*) FROM factory.helpdesk_request WHERE status IN (8,9)) helpdesk_complete
     FROM factory.helpdesk_request a";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute();
@@ -101,6 +101,34 @@ class Helpdesk
       AND request_id = a.id
       ORDER BY status DESC LIMIT 1
     ) finish,
+    (
+      CASE
+        WHEN a.status = 1 THEN 'รออนุมัติ'
+        WHEN a.status = 2 THEN 'รอรับเรื่อง'
+        WHEN a.status = 3 THEN 'รับเรื่อง'
+        WHEN a.status = 4 THEN 'อยู่ระหว่างดำเนินการ'
+        WHEN a.status = 5 THEN 'รออะไหล่ / อุปกรณ์'
+        WHEN a.status = 6 THEN 'รอแก้ไข'
+        WHEN a.status = 7 THEN 'รอตรวจสอบ'
+        WHEN a.status = 8 THEN 'ดำเนินการเรียบร้อย'
+        WHEN a.status = 9 THEN 'รายการถูกยกเลิก'
+        ELSE NULL
+      END
+    ) status_name,
+    (
+      CASE
+        WHEN a.status = 1 THEN 'danger'
+        WHEN a.status = 2 THEN 'primary'
+        WHEN a.status = 3 THEN 'warning'
+        WHEN a.status = 4 THEN 'primary'
+        WHEN a.status = 5 THEN 'warning'
+        WHEN a.status = 6 THEN 'info'
+        WHEN a.status = 7 THEN 'danger'
+        WHEN a.status = 8 THEN 'success'
+        WHEN a.status = 9 THEN 'danger'
+        ELSE NULL
+      END
+    ) status_color,
     DATE_FORMAT(a.created,'%d/%m/%Y, %H:%i น.') created
     FROM factory.helpdesk_request a
     LEFT JOIN factory.user b
@@ -146,7 +174,7 @@ class Helpdesk
 
   public function process_add($data)
   {
-    $sql = "INSERT INTO factory.helpdesk_request_process(`request_id`, `user_id`, `text`, `end`, `file`, `status`) VALUES(?,?,?,?,?,?)";
+    $sql = "INSERT INTO factory.helpdesk_request_process(`request_id`, `user_id`, `text`, `end`, `cost`, `file`, `status`) VALUES(?,?,?,?,?,?,?)";
     $stmt = $this->dbcon->prepare($sql);
     return $stmt->execute($data);
   }
@@ -154,7 +182,7 @@ class Helpdesk
   public function process_view($data)
   {
     $sql = "SELECT DATE_FORMAT(b.created,'%d/%m/%Y') `start`,DATE_FORMAT(b.`end`,'%d/%m/%Y') `end`,
-    b.text,CONCAT(c.firstname,' ',c.lastname) worker,b.`file`,
+    b.text,CONCAT(c.firstname,' ',c.lastname) worker,b.`file`,b.cost,
     (
       CASE
         WHEN b.status = 1 THEN 'รออนุมัติ'
@@ -165,7 +193,7 @@ class Helpdesk
         WHEN b.status = 6 THEN 'รอแก้ไข'
         WHEN b.status = 7 THEN 'แก้ไขปัญหาเรียบร้อย'
         WHEN b.status = 8 THEN 'ดำเนินการเรียบร้อย'
-        WHEN b.status = 9 THEN 'ยกเลิก'
+        WHEN b.status = 9 THEN 'รายการถูกยกเลิก'
         ELSE NULL
       END
     ) status_name,
@@ -454,7 +482,7 @@ class Helpdesk
         WHEN a.status = 6 THEN 'รอแก้ไข'
         WHEN a.status = 7 THEN 'รอตรวจสอบ'
         WHEN a.status = 8 THEN 'ดำเนินการเรียบร้อย'
-        WHEN a.status = 9 THEN 'ยกเลิก'
+        WHEN a.status = 9 THEN 'รายการถูกยกเลิก'
         ELSE NULL
       END
     ) status_name,
@@ -474,7 +502,7 @@ class Helpdesk
     ) status_color,
     (
       CASE
-        WHEN a.status = 1 THEN 'edit'
+        WHEN a.status = 1 THEN 'view'
         ELSE 'complete'
       END
     ) status_page,
@@ -566,7 +594,7 @@ class Helpdesk
         WHEN a.status = 6 THEN 'รอแก้ไข'
         WHEN a.status = 7 THEN 'รอตรวจสอบ'
         WHEN a.status = 8 THEN 'ดำเนินการเรียบร้อย'
-        WHEN a.status = 9 THEN 'ยกเลิก'
+        WHEN a.status = 9 THEN 'รายการถูกยกเลิก'
         ELSE NULL
       END
     ) status_name,
@@ -676,7 +704,7 @@ class Helpdesk
         WHEN a.status = 6 THEN 'รอแก้ไข'
         WHEN a.status = 7 THEN 'รอตรวจสอบ'
         WHEN a.status = 8 THEN 'ดำเนินการเรียบร้อย'
-        WHEN a.status = 9 THEN 'ยกเลิก'
+        WHEN a.status = 9 THEN 'รายการถูกยกเลิก'
         ELSE NULL
       END
     ) status_name,
@@ -795,7 +823,7 @@ class Helpdesk
         WHEN a.status = 6 THEN 'รอแก้ไข'
         WHEN a.status = 7 THEN 'รอตรวจสอบ'
         WHEN a.status = 8 THEN 'ดำเนินการเรียบร้อย'
-        WHEN a.status = 9 THEN 'ยกเลิก'
+        WHEN a.status = 9 THEN 'รายการถูกยกเลิก'
         ELSE NULL
       END
     ) status_name,
@@ -898,6 +926,22 @@ class Helpdesk
     b.`name` service_name,a.text,
     CONCAT(c.firstname,' ',c.lastname) username,
     (
+      SELECT CONCAT(y.firstname,' ',y.lastname)
+      FROM factory.helpdesk_request_process x
+      LEFT JOIN factory.user y
+      ON x.user_id = y.id
+      WHERE x.status IN (3,4,5,7) 
+      AND x.request_id = a.id
+      ORDER BY x.status DESC LIMIT 1
+    ) worker,
+    (
+      SELECT DATE_FORMAT(end,'%d/%m/%Y')
+      FROM factory.helpdesk_request_process
+      WHERE status IN (3,4,5,7) 
+      AND request_id = a.id
+      ORDER BY status DESC LIMIT 1
+    ) finish,
+    (
       CASE
         WHEN a.status = 1 THEN 'รออนุมัติ'
         WHEN a.status = 2 THEN 'รอรับเรื่อง'
@@ -907,7 +951,7 @@ class Helpdesk
         WHEN a.status = 6 THEN 'รอแก้ไข'
         WHEN a.status = 7 THEN 'รอตรวจสอบ'
         WHEN a.status = 8 THEN 'ดำเนินการเรียบร้อย'
-        WHEN a.status = 9 THEN 'ยกเลิก'
+        WHEN a.status = 9 THEN 'รายการถูกยกเลิก'
         ELSE NULL
       END
     ) status_name,
@@ -965,8 +1009,8 @@ class Helpdesk
         $row['service_name'],
         str_replace("\n", "<br>", $row['text']),
         $row['username'],
-        "",
-        "",
+        $row['worker'],
+        $row['finish'],
         $row['created']
       ];
     }
@@ -1020,7 +1064,6 @@ class Helpdesk
     $stmt->execute();
     return $stmt->fetchAll();
   }
-
 
   public function last_insert_id()
   {

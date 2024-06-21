@@ -170,7 +170,7 @@ if ($action === "approve") {
     $date = date("Y-m-d");
 
     $HELPDESK->status_update([$status, $uuid]);
-    $HELPDESK->process_add([$id, $user['user_id'], $remark, $date, "", $status]);
+    $HELPDESK->process_add([$id, $user['user_id'], $remark, $date, "", "", $status]);
     $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!", "/helpdesk");
   } catch (PDOException $e) {
     die($e->getMessage());
@@ -186,7 +186,7 @@ if ($action === "assign") {
     $date = date("Y-m-d", strtotime("+{$service_date} days"));
 
     $HELPDESK->status_update([3, $uuid]);
-    $HELPDESK->process_add([$id, $worker, "รอดำเนินการ", $date, "", 3]);
+    $HELPDESK->process_add([$id, $worker, "รอดำเนินการ", $date, "", "", 3]);
     $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!", "/helpdesk");
   } catch (PDOException $e) {
     die($e->getMessage());
@@ -202,6 +202,7 @@ if ($action === "work") {
     $remark = (isset($_POST['remark']) ? $VALIDATION->input($_POST['remark']) : "");
     $date = (isset($_POST['date']) ? $VALIDATION->input($_POST['date']) : "");
     $date = (!empty($date) ? date("Y-m-d", strtotime(str_replace("/", "-", $date))) : "");
+    $cost = (isset($_POST['cost']) ? $VALIDATION->input($_POST['cost']) : "");
     $worker_id = (isset($_POST['worker_id']) ? $VALIDATION->input($_POST['worker_id']) : "");
     $status = (isset($_POST['status']) ? $VALIDATION->input($_POST['status']) : "");
     $checker_check = $HELPDESK->checker_check([$service_id]);
@@ -242,7 +243,7 @@ if ($action === "work") {
     $file_rename = (!empty($file_rename) ? $file_rename : "");
 
     $HELPDESK->status_update([$status, $uuid]);
-    $HELPDESK->process_add([$id, $worker_id, $remark, $date, $file_rename, $status]);
+    $HELPDESK->process_add([$id, $worker_id, $remark, $date, $cost, $file_rename, $status]);
     $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!", "/helpdesk");
   } catch (PDOException $e) {
     die($e->getMessage());
@@ -260,8 +261,24 @@ if ($action === "check") {
     $date = date("Y-m-d");
 
     $HELPDESK->status_update([$status, $uuid]);
-    $HELPDESK->process_add([$id, $user['user_id'], $remark, $date, "", $status]);
+    $HELPDESK->process_add([$id, $user['user_id'], $remark, $date, "", "", $status]);
     $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!", "/helpdesk");
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  }
+}
+
+if ($action === "edit") {
+  try {
+    $id = (isset($_POST['id']) ? $VALIDATION->input($_POST['id']) : "");
+    $uuid = (isset($_POST['uuid']) ? $VALIDATION->input($_POST['uuid']) : "");
+    $status = (isset($_POST['status']) ? $VALIDATION->input($_POST['status']) : "");
+    $remark = (isset($_POST['remark']) ? $VALIDATION->input($_POST['remark']) : "");
+    $date = date("Y-m-d");
+
+    $HELPDESK->status_update([$status, $uuid]);
+    $HELPDESK->process_add([$id, $user['user_id'], $remark, $date, NULL, "", $status]);
+    $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!", "/helpdesk/manage");
   } catch (PDOException $e) {
     die($e->getMessage());
   }

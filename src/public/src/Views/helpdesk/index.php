@@ -8,8 +8,8 @@ use App\Classes\Helpdesk;
 $HELPDESK = new Helpdesk();
 $approver = $HELPDESK->helpdesk_authorize($user['user_id'], 1);
 $worker = $HELPDESK->helpdesk_authorize($user['user_id'], 2);
-$count = $HELPDESK->helpdesk_card();
 $worker_authorize = $HELPDESK->worker_authorize([$user['user_id']]);
+$count = $HELPDESK->helpdesk_card();
 ?>
 
 <div class="row mb-2">
@@ -21,17 +21,20 @@ $worker_authorize = $HELPDESK->worker_authorize([$user['user_id']]);
       <div class="card-body">
 
         <div class="row justify-content-end mb-2">
-          <div class="col-xl-3 mb-2">
-            <a href="/helpdesk/manage" class="btn btn-sm btn-info btn-block">
-              <i class="fa fa-file-lines pr-2"></i>จัดการระบบ
-            </a>
-          </div>
+          <?php if (intval($worker) > 0 || intval($approver) > 0) : ?>
+            <div class="col-xl-3 mb-2">
+              <a href="/helpdesk/manage" class="btn btn-sm btn-info btn-block">
+                <i class="fa fa-file-lines pr-2"></i>จัดการระบบ
+              </a>
+            </div>
+          <?php endif; ?>
           <div class="col-xl-3 mb-2">
             <a href="/helpdesk/create" class="btn btn-sm btn-primary btn-block">
               <i class="fa fa-plus pr-2"></i>เพิ่ม
             </a>
           </div>
         </div>
+
       </div>
     </div>
   </div>

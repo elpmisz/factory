@@ -78,13 +78,8 @@ $card = $ASSET->asset_card();
               <i class="fa fa-file-lines pr-2"></i>ประเภท
             </a>
           </div>
-          <div class="col-xl-3 mb-2">
-            <a href="/asset/authorize" class="btn btn-sm btn-info btn-block">
-              <i class="fa fa-file-lines pr-2"></i>สิทธิ์การจัดการ
-            </a>
-          </div>
 
-          <div class="col-xl-3"></div>
+          <div class="col-xl-6"></div>
 
           <div class="col-xl-3 mb-2">
             <a href="javascript:void(0)" class="btn btn-sm btn-success btn-block machine-report">

@@ -3,32 +3,50 @@ require_once(__DIR__ . "/vendor/autoload.php");
 
 $ROUTER = new AltoRouter();
 
+##################### DASHBOARD-PREVENTIVE #####################
+$ROUTER->map("GET", "/dashboard-preventive", function () {
+  require(__DIR__ . "/src/Views/dashboard/preventive.php");
+});
+$ROUTER->map("POST", "/dashboard-preventive/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/dashboard/preventive-action.php");
+});
+
+##################### DASHBOARD-HELPDESK #####################
+$ROUTER->map("GET", "/dashboard-helpdesk", function () {
+  require(__DIR__ . "/src/Views/dashboard/helpdesk.php");
+});
+$ROUTER->map("POST", "/dashboard-helpdesk/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/dashboard/helpdesk-action.php");
+});
+
+
+##################### DASHBOARD-ASSET #####################
+$ROUTER->map("GET", "/dashboard-asset", function () {
+  require(__DIR__ . "/src/Views/dashboard/asset.php");
+});
+$ROUTER->map("POST", "/dashboard-asset/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/dashboard/asset-action.php");
+});
+
 ##################### DASHBOARD-MACHINE #####################
 $ROUTER->map("GET", "/dashboard-machine", function () {
   require(__DIR__ . "/src/Views/dashboard/machine.php");
 });
 $ROUTER->map("POST", "/dashboard-machine/[**:params]", function ($params) {
-  require(__DIR__ . "/src/Views/helpdesk/machine-action.php");
+  require(__DIR__ . "/src/Views/dashboard/machine-action.php");
 });
 
 ##################### DASHBOARD-COUNT #####################
 $ROUTER->map("GET", "/dashboard-counter", function () {
   require(__DIR__ . "/src/Views/dashboard/counter.php");
 });
-$ROUTER->map("GET", "/dashboard-counter/update", function () {
-  require(__DIR__ . "/src/Views/dashboard/counter-update.php");
-});
 $ROUTER->map("POST", "/dashboard-counter/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/dashboard/counter-data.php");
 });
 
-
 ##################### DASHBOARD-ENERGY #####################
 $ROUTER->map("GET", "/dashboard-energy", function () {
   require(__DIR__ . "/src/Views/dashboard/energy.php");
-});
-$ROUTER->map("GET", "/dashboard-energy/update", function () {
-  require(__DIR__ . "/src/Views/dashboard/energy-update.php");
 });
 $ROUTER->map("POST", "/dashboard-energy/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/dashboard/energy-data.php");
@@ -69,6 +87,9 @@ $ROUTER->map("GET", "/helpdesk/create", function () {
 $ROUTER->map("GET", "/helpdesk/manage", function () {
   require(__DIR__ . "/src/Views/helpdesk/manage.php");
 });
+$ROUTER->map("GET", "/helpdesk/view/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/helpdesk/view.php");
+});
 $ROUTER->map("GET", "/helpdesk/edit/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/helpdesk/edit.php");
 });
@@ -91,9 +112,44 @@ $ROUTER->map("POST", "/helpdesk/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/helpdesk/action.php");
 });
 
+##################### PREVENTIVE-AUTHORIZE #####################
+$ROUTER->map("GET", "/preventive/authorize", function () {
+  require(__DIR__ . "/src/Views/preventive-authorize/index.php");
+});
+$ROUTER->map("GET", "/preventive/authorize/create", function () {
+  require(__DIR__ . "/src/Views/preventive-authorize/create.php");
+});
+$ROUTER->map("POST", "/preventive/authorize/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/preventive-authorize/action.php");
+});
+
 ##################### SERVICE-PREVENTIVE #####################
 $ROUTER->map("GET", "/preventive", function () {
   require(__DIR__ . "/src/Views/preventive/index.php");
+});
+$ROUTER->map("GET", "/preventive/create", function () {
+  require(__DIR__ . "/src/Views/preventive/create.php");
+});
+$ROUTER->map("GET", "/preventive/manage", function () {
+  require(__DIR__ . "/src/Views/preventive/manage.php");
+});
+$ROUTER->map("GET", "/preventive/view/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/preventive/view.php");
+});
+$ROUTER->map("GET", "/preventive/edit/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/preventive/edit.php");
+});
+$ROUTER->map("GET", "/preventive/approve/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/preventive/approve.php");
+});
+$ROUTER->map("GET", "/preventive/work/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/preventive/work.php");
+});
+$ROUTER->map("GET", "/preventive/check/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/preventive/check.php");
+});
+$ROUTER->map("GET", "/preventive/complete/[**:params]", function ($params) {
+  require(__DIR__ . "/src/Views/preventive/complete.php");
 });
 $ROUTER->map("POST", "/preventive/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/preventive/action.php");

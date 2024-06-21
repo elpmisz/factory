@@ -182,6 +182,19 @@ class Asset
     return $stmt->fetchAll();
   }
 
+  public function preventive_view($data)
+  {
+    $sql = "SELECT a.id,a.uuid,CONCAT('PM',YEAR(a.`start`),LPAD(a.`last`,4,'0')) ticket,b.`process`,b.text,
+    DATE_FORMAT(a.created,'%d/%m/%Y, %H:%i น.') created
+    FROM factory.preventive_request a
+    LEFT JOIN factory.preventive_request_item b
+    ON a.id = b.request_id
+    WHERE b.machine_id = ?";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute($data);
+    return $stmt->fetchAll();
+  }
+
   public function type_select($keyword)
   {
     $sql = "SELECT a.id, a.name `text`

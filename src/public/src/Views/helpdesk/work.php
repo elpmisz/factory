@@ -77,7 +77,6 @@ $spares = $HELPDESK->spares_view([$uuid]);
                 </div>
               </div>
 
-
               <div class="row mb-2">
                 <label class="col-xl-2 col-form-label">หัวข้อบริการ</label>
                 <div class="col-xl-4 text-underline">
@@ -197,7 +196,8 @@ $spares = $HELPDESK->spares_view([$uuid]);
                         <th width="10%">#</th>
                         <th width="10%">รับเรื่อง</th>
                         <th width="10%">กำหนดเสร็จ</th>
-                        <th width="40%">การดำเนินการ</th>
+                        <th width="30%">การดำเนินการ</th>
+                        <th width="10%">ค่าใช้จ่าย</th>
                         <th width="20%">ผู้ดำเนินการ</th>
                         <th width="10%">เอกสารแนบ</th>
                         <th width="10%">วันที่</th>
@@ -215,6 +215,7 @@ $spares = $HELPDESK->spares_view([$uuid]);
                         <td class="text-center"><?php echo $process['start'] ?></td>
                         <td class="text-center"><?php echo $process['end'] ?></td>
                         <td><?php echo str_replace("\r\n", "<br>", $process['text']) ?></td>
+                        <td class="text-right"><?php echo $process['cost'] ?></td>
                         <td class="text-center"><?php echo $process['worker'] ?></td>
                         <td class="text-center">
                           <?php if (!empty($process['file'])) : ?>
@@ -293,6 +294,15 @@ $spares = $HELPDESK->spares_view([$uuid]);
                 <label class="col-xl-2 col-form-label">กำหนดเสร็จ</label>
                 <div class="col-xl-2">
                   <input type="text" class="form-control form-control-sm text-center date-select" name="date" value="<?php echo $row['finish'] ?>" required>
+                  <div class="invalid-feedback">
+                    กรุณากรอกข้อมูล!
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label class="col-xl-2 col-form-label">ค่าใช้จ่าย</label>
+                <div class="col-xl-2">
+                  <input type="number" class="form-control form-control-sm text-center" name="cost" min="1" max="100000">
                   <div class="invalid-feedback">
                     กรุณากรอกข้อมูล!
                   </div>
@@ -506,5 +516,27 @@ $spares = $HELPDESK->spares_view([$uuid]);
         return false;
       }
     })
+  });
+
+  $(document).on("change", "input[name='file']", function() {
+    let file = ($(this).val() ? $(this).val() : "");
+    let size = ($(this)[0].files[0].size / (1024 * 1024)).toFixed(2);
+    let extension = file.split(".").pop().toLowerCase();
+    let allow = ["png", "jpeg", "jpg", "pdf", "doc", "docx", "xls", "xlsx"];
+    if (size > 1) {
+      Swal.fire({
+        icon: "error",
+        title: "ไฟล์เอกสารไม่เกิน 5 Mb!",
+      })
+      $(this).val("");
+    }
+
+    if ($.inArray(extension, allow) === -1) {
+      Swal.fire({
+        icon: "error",
+        title: "เฉพาะไฟล์นามสกุล JPG, PNG, WORD และ EXCEL เท่านั้น",
+      })
+      $(this).val("");
+    }
   });
 </script>

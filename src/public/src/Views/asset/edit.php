@@ -14,6 +14,7 @@ $asset_id = $row['id'];
 $items = $ASSET->item_view([$asset_id]);
 $files = $ASSET->file_view([$asset_id]);
 $helpdesk = $ASSET->helpdesk_view([$asset_id]);
+$preventive = $ASSET->preventive_view([$asset_id]);
 ?>
 
 <div class="row mb-2">
@@ -332,6 +333,39 @@ $helpdesk = $ASSET->helpdesk_view([$asset_id]);
                           <td class="text-center"><?php echo $hd['service_name'] ?></td>
                           <td><?php echo str_replace("\r\n", "<br>", $hd['text']) ?></td>
                           <td><?php echo $hd['created'] ?></td>
+                        </tr>
+                      <?php endforeach; ?>
+                    </table>
+                  </div>
+                </div>
+              <?php endif; ?>
+
+              <?php if (COUNT($preventive) > 0) : ?>
+                <hr>
+                <div class="h5 text-primary">ประวัติการบำรุงรักษาเครื่องจักร</div>
+                <div class="row mb-2">
+                  <div class="table-responsive">
+                    <table class="table table-sm table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th width="10%">#</th>
+                          <th width="10%">เลขที่บริการ</th>
+                          <th width="20%">การดำเนินการ</th>
+                          <th width="40%">หมายเหตุ</th>
+                          <th width="10%">วันที่</th>
+                        </tr>
+                      </thead>
+                      <?php
+                      foreach ($preventive as $pm) :
+                      ?>
+                        <tr>
+                          <td class="text-center">
+                            <a href="/preventive/complete/<?php echo $pm['uuid'] ?>" class="badge badge-primary font-weight-light" target="_blank">รายละเอียด</a>
+                          </td>
+                          <td class="text-center"><?php echo $pm['ticket'] ?></td>
+                          <td><?php echo str_replace("\r\n", "<br>", $pm['process']) ?></td>
+                          <td><?php echo str_replace("\r\n", "<br>", $pm['text']) ?></td>
+                          <td><?php echo $pm['created'] ?></td>
                         </tr>
                       <?php endforeach; ?>
                     </table>
