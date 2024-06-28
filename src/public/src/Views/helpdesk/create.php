@@ -193,15 +193,15 @@ include_once(__DIR__ . "/../layout/header.php");
             div += '<input type="hidden" name="item_id[]" value="' + v.id + '" readonly>';
             div += '<input type="hidden" name="item_type[]" value="' + v.type + '" readonly>';
             if (type === 1) {
-              div += '<input type="text" class="form-control form-control-sm" name="item_value[]" required>';
+              div += '<input type="text" class="form-control form-control-sm item-value" name="item_value[]" ' + v.required_name + '>';
             }
             if (type === 2) {
-              div += '<input type="number" class="form-control form-control-sm" step="0.01" name="item_value[]" required>';
+              div += '<input type="number" class="form-control form-control-sm item-value" step="0.01" name="item_value[]" ' + v.required_name + '>';
             }
             if (type === 3) {
               let text = v.text;
               let option = text.split(",");
-              div += '<select class="form-control form-control-sm option-select" name="item_value[]" required>';
+              div += '<select class="form-control form-control-sm item-value option-select" name="item_value[]" ' + v.required_name + '>';
               div += '<option value="">-- เลือก --</option>';
               option.forEach((value, index) => {
                 div += '<option value="' + index + '">' + value + '</option>';
@@ -209,7 +209,7 @@ include_once(__DIR__ . "/../layout/header.php");
               div += '</select>';
             }
             if (type === 4) {
-              div += '<input type="text" class="form-control form-control-sm date-select" name="item_value[]" required>';
+              div += '<input type="text" class="form-control form-control-sm item-value date-select" name="item_value[]" ' + v.required_name + '>';
             }
             div += '<div class="invalid-feedback">กรุณากรอกข้อมูล!</div>';
             div += '</div>';
@@ -218,8 +218,8 @@ include_once(__DIR__ . "/../layout/header.php");
           $(".specific-field-div").empty().html(div);
         } else {
           $(".specific-field-div").hide();
-          $("input[name='item_id[]'],input[name='item_type[]'],input[name='item_value[]']").val("");
-          $("input[name='item_value[]']").prop("required", false);
+          $(".item-value").val("");
+          $(".item-value").prop("required", false);
         }
 
         $(".option-select").select2({

@@ -27,8 +27,9 @@ $services = $SERVICE->service_read();
                     <tr>
                       <th width="10%">#</th>
                       <th width="10%">ลำดับ</th>
-                      <th width="50%">บริการ</th>
-                      <th width="30%">ลิงค์</th>
+                      <th width="40%">บริการ</th>
+                      <th width="20%">ลิงค์</th>
+                      <th width="20%">ตาราง</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -46,6 +47,9 @@ $services = $SERVICE->service_read();
                         </td>
                         <td>
                           <input type="text" class="form-control form-control-sm text-left item-link" name="item__link[]" value="<?php echo $service['link'] ?>">
+                        </td>
+                        <td>
+                          <input type="text" class="form-control form-control-sm text-left item-link" name="item__table[]" value="<?php echo $service['table_name'] ?>">
                         </td>
                       </tr>
                     <?php endforeach; ?>
@@ -68,6 +72,12 @@ $services = $SERVICE->service_read();
                       </td>
                       <td>
                         <input type="text" class="form-control form-control-sm text-left item-link" name="item_link[]">
+                        <div class="invalid-feedback">
+                          กรุณากรอกข้อมูล!
+                        </div>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control form-control-sm text-left item-link" name="item_table[]">
                         <div class="invalid-feedback">
                           กรุณากรอกข้อมูล!
                         </div>

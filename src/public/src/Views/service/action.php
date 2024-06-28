@@ -22,10 +22,11 @@ if ($action === "create") {
       $item_sequence = (isset($_POST['item_sequence'][$key]) ? $VALIDATION->input($_POST['item_sequence'][$key]) : "");
       $item_name = (isset($_POST['item_name'][$key]) ? $VALIDATION->input($_POST['item_name'][$key]) : "");
       $item_link = (isset($_POST['item_link'][$key]) ? $VALIDATION->input($_POST['item_link'][$key]) : "");
+      $item_table = (isset($_POST['item_table'][$key]) ? $VALIDATION->input($_POST['item_table'][$key]) : "");
 
       $count = $SERVICE->service_count([$item_name]);
       if (intval($count) === 0 && !empty($item_name)) {
-        $SERVICE->service_add([$item_sequence, $item_name, $item_link]);
+        $SERVICE->service_add([$item_sequence, $item_name, $item_link, $item_table]);
       }
     }
 
@@ -34,8 +35,9 @@ if ($action === "create") {
       $item__sequence = (isset($_POST['item__sequence'][$key]) ? $VALIDATION->input($_POST['item__sequence'][$key]) : "");
       $item__name = (isset($_POST['item__name'][$key]) ? $VALIDATION->input($_POST['item__name'][$key]) : "");
       $item__link = (isset($_POST['item__link'][$key]) ? $VALIDATION->input($_POST['item__link'][$key]) : "");
+      $item__table = (isset($_POST['item__table'][$key]) ? $VALIDATION->input($_POST['item__table'][$key]) : "");
 
-      $SERVICE->service_update([$item__sequence, $item__name, $item__link, $item__uuid]);
+      $SERVICE->service_update([$item__sequence, $item__name, $item__link, $item__table, $item__uuid]);
     }
 
     $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!", "/service");

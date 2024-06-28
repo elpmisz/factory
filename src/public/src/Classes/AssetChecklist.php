@@ -72,6 +72,18 @@ class AssetChecklist
     return $stmt->execute($data);
   }
 
+  public function checklist_export()
+  {
+    $sql = "SELECT a.id,a.uuid,a.`name`,IF(a.type_id = 1,'หัวข้อ','รายการตรวจสอบ') type_name,b.`name` subject,
+    IF(a.`status` = 1,'ใช้งาน','ระงับการใช้งาน') status
+    FROM factory.asset_checklist a
+    LEFT JOIN factory.asset_checklist b
+    ON a.reference_id = b.id";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_NUM);
+  }
+
   public function checklist_data($checklist = null)
   {
     $sql = "SELECT COUNT(*) FROM factory.asset_checklist WHERE status IN (1,2)";

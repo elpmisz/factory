@@ -14,7 +14,12 @@ include_once(__DIR__ . "/../layout/header.php");
 
         <div class="row justify-content-end mb-2">
           <div class="col-xl-3 mb-2">
-            <a href="/asset/location/excel" class="btn btn-sm btn-success btn-block">
+            <button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#import-modal">
+              <i class="fas fa-upload pr-2"></i>นำข้อมูลเข้า
+            </button>
+          </div>
+          <div class="col-xl-3 mb-2">
+            <a href="/asset/location/export" class="btn btn-sm btn-success btn-block">
               <i class="fa fa-download pr-2"></i>นำข้อมูลออก
             </a>
           </div>
@@ -48,6 +53,48 @@ include_once(__DIR__ . "/../layout/header.php");
           </div>
         </div>
 
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="import-modal" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form action="/asset/location/import" method="POST" class="needs-validation import" novalidate enctype="multipart/form-data">
+          <div class="row mb-2">
+            <label class="col-xl-4 col-form-label text-right">เอกสาร</label>
+            <div class="col-xl-8">
+              <input type="file" class="form-control form-control-sm" name="file" required>
+              <div class="invalid-feedback">
+                กรุณาเลือกเอกสาร!
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center mb-2">
+            <div class="col-xl-4 mb-2">
+              <button type="submit" class="btn btn-success btn-sm btn-block btn-submit">
+                <i class="fas fa-check pr-2"></i>ยืนยัน
+              </button>
+            </div>
+            <div class="col-xl-4 mb-2">
+              <button class="btn btn-danger btn-sm btn-block" data-dismiss="modal">
+                <i class="fa fa-times mr-2"></i>ปิด
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="process-modal" data-backdrop="static">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 class="text-center"><span class="pr-5">Processing...</span><i class="fas fa-spinner fa-pulse"></i></h1>
       </div>
     </div>
   </div>
@@ -119,5 +166,36 @@ include_once(__DIR__ . "/../layout/header.php");
         return false;
       }
     })
+  });
+
+  $("#import-modal").on("hidden.bs.modal", function() {
+    $(this).find("form")[0].reset();
+  })
+
+  $(document).on("change", "input[name='file']", function() {
+    let fileSize = ($(this)[0].files[0].size) / (1024 * 1024);
+    let fileExt = $(this).val().split(".").pop().toLowerCase();
+    let fileAllow = ["xls", "xlsx", "csv"];
+    let convFileSize = fileSize.toFixed(2);
+    if (convFileSize > 10) {
+      Swal.fire({
+        icon: "error",
+        title: "ไฟล์ขนาดไม่เกิน 10MB!",
+      })
+      $(this).val("");
+    }
+
+    if ($.inArray(fileExt, fileAllow) == -1) {
+      Swal.fire({
+        icon: "error",
+        title: "เฉพาะไฟล์ XLS XLSX CSV!",
+      })
+      $(this).val("");
+    }
+  });
+
+  $(document).on("submit", ".import", function() {
+    $("#import-modal").modal("hide");
+    $("#process-modal").modal("show");
   });
 </script>

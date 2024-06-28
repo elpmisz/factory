@@ -47,6 +47,7 @@ if ($action === "create") {
     $text = (isset($_POST['text']) ? $VALIDATION->input($_POST['text']) : "");
     $approve_check = $HELPDESK->approve_check([$service_id]);
     $status = (intval($approve_check) === 1 ? 1 : 2);
+    $line_token = $HELPDESK->line_token([$service_id]);
 
     $count = $HELPDESK->helpdesk_count([$user_id, $service, $text]);
     if (intval($count) > 0) {
@@ -64,7 +65,7 @@ if ($action === "create") {
         date("Y-m-d", strtotime(str_replace("/", "-", $item_value))) : $item_value);
 
       $count = $HELPDESK->item_count([$request_id, $item_id]);
-      if (intval($count) === 0 && !empty($item_id)) {
+      if (intval($count) === 0 && !empty($item_value)) {
         $HELPDESK->item_add([$request_id, $item_id, $item_type, $item_value]);
       }
     }
@@ -97,6 +98,25 @@ if ($action === "create") {
       }
     }
 
+    $uuid = $HELPDESK->helpdesk_uuid([$request_id]);
+    $row = $HELPDESK->helpdesk_view([$uuid]);
+
+    $texts = "
+ผู้ใช้บริการ:
+{$row['username']}
+เบอร์ติดต่อ:
+{$row['contact']}
+บริการ:
+{$row['service_name']}
+เครื่องจักร:
+{$row['asset_name']}
+รายละเอียด:
+{$row['text']}
+วันที่:
+{$row['created']}
+";
+
+    $VALIDATION->line_notify($line_token, $texts);
     $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!", "/helpdesk");
   } catch (PDOException $e) {
     die($e->getMessage());

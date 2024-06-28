@@ -17,10 +17,11 @@ class Asset
   public function asset_card()
   {
     $sql = "SELECT COUNT(*) asset_total,
-    (SELECT COUNT(*) FROM factory.asset_type) asset_type,
-    (SELECT COUNT(*) FROM factory.asset_department) asset_department,
-    (SELECT COUNT(*) FROM factory.asset_location) asset_location
-    FROM factory.asset a";
+    (SELECT COUNT(*) FROM factory.asset_type WHERE status = 1) asset_type,
+    (SELECT COUNT(*) FROM factory.asset_department WHERE status = 1) asset_department,
+    (SELECT COUNT(*) FROM factory.asset_location WHERE status = 1) asset_location
+    FROM factory.asset a
+    WHERE a.status = 1";
     $stmt = $this->dbcon->prepare($sql);
     $stmt->execute();
     return $stmt->fetch();

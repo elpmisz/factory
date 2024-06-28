@@ -148,6 +148,26 @@ class AssetType
     return $stmt->fetchAll();
   }
 
+  public function type_export()
+  {
+    $sql = "SELECT a.id,a.uuid,a.`name`,
+    GROUP_CONCAT(b.`name`) checklist,
+    GROUP_CONCAT(c.firstname,' ',c.lastname) worker,
+    IF(a.weekly = 1,'ใช่','ไม่ใช่') weekly,
+    IF(a.monthly = 1,'ใช่','ไม่ใช่') monthly,
+    a.`month`,
+    IF(a.`status` = 1,'ใช้งาน','ระงับการใช้งาน') status
+    FROM factory.asset_type a
+    LEFT JOIN factory.asset_checklist b
+    ON a.checklist = b.id
+    LEFT JOIN factory.user c
+    ON a.worker = c.id
+    GROUP BY a.id";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_NUM);
+  }
+
   public function type_data($type = null)
   {
     $sql = "SELECT COUNT(*) FROM factory.asset_type WHERE status IN (1,2)";

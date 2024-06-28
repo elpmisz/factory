@@ -17,7 +17,7 @@ include_once(__DIR__ . "/../layout/header.php");
             <select class="form-control form-control-sm checklist-select" name="reference"></select>
           </div>
           <div class="col-xl-3 mb-2">
-            <a href="/asset/location/excel" class="btn btn-sm btn-success btn-block">
+            <a href="/asset/checklist/export" class="btn btn-sm btn-success btn-block">
               <i class="fa fa-download pr-2"></i>นำข้อมูลออก
             </a>
           </div>

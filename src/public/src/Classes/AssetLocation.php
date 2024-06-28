@@ -26,6 +26,13 @@ class AssetLocation
     return $stmt->execute($data);
   }
 
+  public function location_import($data)
+  {
+    $sql = "INSERT INTO factory.asset_location(uuid,name,status) VALUES(?,?,?)";
+    $stmt = $this->dbcon->prepare($sql);
+    return $stmt->execute($data);
+  }
+
   public function location_count($data)
   {
     $sql = "SELECT COUNT(*) 
@@ -64,6 +71,15 @@ class AssetLocation
     WHERE uuid = ?";
     $stmt = $this->dbcon->prepare($sql);
     return $stmt->execute($data);
+  }
+
+  public function location_export()
+  {
+    $sql = "SELECT a.id, a.uuid,a.`name`,IF(a.`status` = 1,'ใช้งาน','ระงับการใช้งาน') status
+    FROM factory.asset_location a";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_NUM);
   }
 
   public function location_data()

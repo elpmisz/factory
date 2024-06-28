@@ -191,11 +191,6 @@ $processes = $PREVENTIVE->process_view([$uuid]);
 
               <div class="row justify-content-center mb-2">
                 <div class="col-xl-3 mb-2">
-                  <button type="submit" class="btn btn-sm btn-success btn-block">
-                    <i class="fas fa-check pr-2"></i>ยืนยัน
-                  </button>
-                </div>
-                <div class="col-xl-3 mb-2">
                   <a href="/preventive" class="btn btn-sm btn-danger btn-block">
                     <i class="fa fa-arrow-left pr-2"></i>กลับ
                   </a>

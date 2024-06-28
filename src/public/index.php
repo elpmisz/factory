@@ -176,6 +176,9 @@ $ROUTER->map("GET", "/asset/type", function () {
 $ROUTER->map("GET", "/asset/type/create", function () {
   require(__DIR__ . "/src/Views/asset-type/create.php");
 });
+$ROUTER->map("GET", "/asset/type/export", function () {
+  require(__DIR__ . "/src/Views/asset-type/export.php");
+});
 $ROUTER->map("GET", "/asset/type/edit/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/asset-type/edit.php");
 });
@@ -189,6 +192,9 @@ $ROUTER->map("GET", "/asset/checklist", function () {
 });
 $ROUTER->map("GET", "/asset/checklist/create", function () {
   require(__DIR__ . "/src/Views/asset-checklist/create.php");
+});
+$ROUTER->map("GET", "/asset/checklist/export", function () {
+  require(__DIR__ . "/src/Views/asset-checklist/export.php");
 });
 $ROUTER->map("GET", "/asset/checklist/edit/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/asset-checklist/edit.php");
@@ -204,6 +210,9 @@ $ROUTER->map("GET", "/asset/brand", function () {
 $ROUTER->map("GET", "/asset/brand/create", function () {
   require(__DIR__ . "/src/Views/asset-brand/create.php");
 });
+$ROUTER->map("GET", "/asset/brand/export", function () {
+  require(__DIR__ . "/src/Views/asset-brand/export.php");
+});
 $ROUTER->map("GET", "/asset/brand/edit/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/asset-brand/edit.php");
 });
@@ -218,6 +227,9 @@ $ROUTER->map("GET", "/asset/location", function () {
 $ROUTER->map("GET", "/asset/location/create", function () {
   require(__DIR__ . "/src/Views/asset-location/create.php");
 });
+$ROUTER->map("GET", "/asset/location/export", function () {
+  require(__DIR__ . "/src/Views/asset-location/export.php");
+});
 $ROUTER->map("GET", "/asset/location/edit/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/asset-location/edit.php");
 });
@@ -231,6 +243,9 @@ $ROUTER->map("GET", "/asset/department", function () {
 });
 $ROUTER->map("GET", "/asset/department/create", function () {
   require(__DIR__ . "/src/Views/asset-department/create.php");
+});
+$ROUTER->map("GET", "/asset/department/export", function () {
+  require(__DIR__ . "/src/Views/asset-department/export.php");
 });
 $ROUTER->map("GET", "/asset/department/edit/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/asset-department/edit.php");
@@ -318,6 +333,17 @@ $ROUTER->map("GET", "/auth", function () {
 });
 $ROUTER->map("POST", "/auth/[**:params]", function ($params) {
   require(__DIR__ . "/src/Views/authorize/action.php");
+});
+
+##################### AUTHORIZE #####################
+$ROUTER->map("GET", "/api/asset", function () {
+  require(__DIR__ . "/src/Views/api/asset.php");
+});
+$ROUTER->map("GET", "/api/preventive", function () {
+  require(__DIR__ . "/src/Views/api/preventive.php");
+});
+$ROUTER->map("GET", "/api/helpdesk", function () {
+  require(__DIR__ . "/src/Views/api/helpdesk.php");
 });
 
 ##################### HOME #####################

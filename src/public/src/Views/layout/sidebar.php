@@ -88,7 +88,7 @@ $setting_auth = ($page === "setting-auth" ? 'class="active"' : "");
             <li <?php echo ($page === "service-{$service['link']}" ? 'class="active"' : "") ?>>
               <a href="/<?php echo $service['link']  ?>">
                 <i class="fa fa-bars pr-2"></i>
-                <?php echo $service['name'] ?>
+                <?php echo $service['name'] ?><span class="badge badge-danger ml-2"></span>
               </a>
             </li>
           <?php endif; ?>

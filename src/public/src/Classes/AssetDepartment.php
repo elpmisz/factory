@@ -26,6 +26,13 @@ class AssetDepartment
     return $stmt->execute($data);
   }
 
+  public function department_import($data)
+  {
+    $sql = "INSERT INTO factory.asset_department(uuid,name,status) VALUES(?,?,?)";
+    $stmt = $this->dbcon->prepare($sql);
+    return $stmt->execute($data);
+  }
+
   public function department_count($data)
   {
     $sql = "SELECT COUNT(*) 
@@ -64,6 +71,15 @@ class AssetDepartment
     WHERE uuid = ?";
     $stmt = $this->dbcon->prepare($sql);
     return $stmt->execute($data);
+  }
+
+  public function department_export()
+  {
+    $sql = "SELECT a.id, a.uuid,a.`name`,IF(a.`status` = 1,'ใช้งาน','ระงับการใช้งาน') status
+    FROM factory.asset_department a";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_NUM);
   }
 
   public function department_data()

@@ -31,7 +31,7 @@ class Service
 
   public function service_add($data)
   {
-    $sql = "INSERT INTO factory.service(`uuid`, `sequence`, `name`, `link`) VALUES(uuid(),?,?,?)";
+    $sql = "INSERT INTO factory.service(`uuid`, `sequence`, `name`, `link`, `table_name`) VALUES(uuid(),?,?,?,?)";
     $stmt = $this->dbcon->prepare($sql);
     return $stmt->execute($data);
   }
@@ -42,6 +42,7 @@ class Service
     sequence = ?,
     name = ?,
     link = ?,
+    table_name = ?,
     updated = NOW()
     WHERE uuid = ?";
     $stmt = $this->dbcon->prepare($sql);

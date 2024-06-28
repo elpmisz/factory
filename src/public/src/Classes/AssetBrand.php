@@ -72,6 +72,18 @@ class AssetBrand
     return $stmt->execute($data);
   }
 
+  public function brand_export()
+  {
+    $sql = "SELECT a.id,a.uuid,a.`name`,IF(a.type_id = 1,'ยี่ห้อ','รุ่น') type_name,b.`name` brand,
+    IF(a.`status` = 1,'ใช้งาน','ระงับการใช้งาน') status
+    FROM factory.asset_brand a
+    LEFT JOIN factory.asset_brand b
+    ON a.reference_id = b.id";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_NUM);
+  }
+
   public function brand_data($brand = null)
   {
     $sql = "SELECT COUNT(*) FROM factory.asset_brand WHERE status IN (1,2)";
@@ -120,7 +132,7 @@ class AssetBrand
     if ($filter_order) {
       $sql .= " ORDER BY {$column[$order_column]} {$order_dir} ";
     } else {
-      $sql .= " ORDER BY a.status ASC, a.type_id ASC, a.name ASC ";
+      $sql .= " ORDER BY a.status ASC, a.type_id ASC, b.name ASC ";
     }
 
     $sql2 = '';

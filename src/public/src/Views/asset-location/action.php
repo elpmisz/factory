@@ -71,3 +71,52 @@ if ($action === "data") {
     die($e->getMessage());
   }
 }
+
+if ($action === "import") {
+  try {
+    $start = microtime(true);
+    $file_name = (isset($_FILES['file']['name']) ? $_FILES['file']['name'] : '');
+    $file_tmp = (isset($_FILES['file']['tmp_name']) ? $_FILES['file']['tmp_name'] : '');
+    $file_allow = ["xls", "xlsx", "csv"];
+    $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
+
+    if (!in_array($file_extension, $file_allow)) :
+      $VALIDATION->alert("danger", "เฉพาะไฟล์ XLS XLSX CSV!", "/asset/location");
+    endif;
+
+    if ($file_extension === "xls") {
+      $READER = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+    } elseif ($file_extension === "xlsx") {
+      $READER = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+    } else {
+      $READER = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+    }
+
+    $READ = $READER->load($file_tmp);
+    $result = $READ->getActiveSheet()->toArray();
+    $columns = $READ->getActiveSheet()->getHighestColumn();
+    $columnsIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($columns);
+
+    $data = [];
+    foreach ($result as $value) {
+      $data[] = array_map("trim", $value);
+    }
+
+    foreach ($data as $key => $value) {
+      if (!in_array($key, [0])) {
+        $uuid = (isset($value[0]) ? $value[0] : "");
+        $name = (isset($value[1]) ? $value[1] : "");
+        $status = (isset($value[2]) ? $value[2] : "");
+
+        $count = $LOCATION->location_count([$name]);
+        if (intval($count) === 0 && !empty($name)) {
+          $LOCATION->location_create([$name]);
+        }
+      }
+    }
+
+    $VALIDATION->alert("success", "ดำเนินการเรียบร้อย!", "/asset/location");
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  }
+}

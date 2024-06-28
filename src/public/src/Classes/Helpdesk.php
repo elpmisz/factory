@@ -81,6 +81,30 @@ class Helpdesk
     return $stmt->fetchColumn();
   }
 
+  public function helpdesk_uuid($data)
+  {
+    $sql = "SELECT uuid 
+    FROM factory.helpdesk_request 
+    WHERE id = ?";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute($data);
+    $row = $stmt->fetch();
+    return (isset($row['uuid']) ? $row['uuid'] : "");
+  }
+
+  public function line_token($data)
+  {
+    $sql = "SELECT b.token
+    FROM factory.helpdesk_service a
+    LEFT JOIN factory.line_token b
+    ON a.line_token_id = b.id
+    WHERE a.id = ?";
+    $stmt = $this->dbcon->prepare($sql);
+    $stmt->execute($data);
+    $row = $stmt->fetch();
+    return (isset($row['token']) ? $row['token'] : "");
+  }
+
   public function helpdesk_add($data)
   {
     $sql = "INSERT INTO factory.helpdesk_request(`uuid`, `last`, `user_id`, `service_id`, `asset_id`, `contact`, `text`, `status`) VALUES(uuid(),?,?,?,?,?,?,?)";

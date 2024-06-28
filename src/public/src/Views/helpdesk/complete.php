@@ -198,7 +198,8 @@ $spares = $HELPDESK->spares_view([$uuid]);
                           <th width="10%">#</th>
                           <th width="10%">รับเรื่อง</th>
                           <th width="10%">กำหนดเสร็จ</th>
-                          <th width="40%">การดำเนินการ</th>
+                          <th width="30%">การดำเนินการ</th>
+                          <th width="10%">ค่าใช้จ่าย</th>
                           <th width="20%">ผู้ดำเนินการ</th>
                           <th width="10%">เอกสารแนบ</th>
                           <th width="10%">วันที่</th>
@@ -216,6 +217,7 @@ $spares = $HELPDESK->spares_view([$uuid]);
                           <td class="text-center"><?php echo $process['start'] ?></td>
                           <td class="text-center"><?php echo $process['end'] ?></td>
                           <td><?php echo str_replace("\r\n", "<br>", $process['text']) ?></td>
+                          <td class="text-right"><?php echo $process['cost'] ?></td>
                           <td class="text-center"><?php echo $process['worker'] ?></td>
                           <td class="text-center">
                             <?php if (!empty($process['file'])) : ?>
